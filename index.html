@@ -1,27 +1,47 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Padel Club Ireland Investment Planner</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <div class="container">
-    <img src="club_logo.png" alt="Club Logo" class="logo">
-    <h1>Padel Club Ireland Investment Planner</h1>
-    <div id="tabs">
-      <button onclick="showTab('padel')">Padel</button>
-      <button onclick="showTab('gym')">Gym</button>
-      <button onclick="showTab('pnl')">P&L</button>
-      <button onclick="showTab('roi')">ROI</button>
-    </div>
-    <div id="padel" class="tab">Padel content and calculator...</div>
-    <div id="gym" class="tab" style="display:none;">Gym content and calculator...</div>
-    <div id="pnl" class="tab" style="display:none;">P&L Output...</div>
-    <div id="roi" class="tab" style="display:none;">ROI Output...</div>
+  <img src="club_logo.png" alt="Club Logo" width="100" />
+  <h1>Padel Club Ireland Investment Planner</h1>
+
+  <div class="tabs">
+    <button onclick="showTab('padel')">Padel</button>
+    <button onclick="showTab('gym')">Gym</button>
+    <button onclick="showTab('pnl')">P&L</button>
+    <button onclick="showTab('roi')">ROI</button>
   </div>
+
+  <div id="padel" class="tab-content">
+    <h2>Padel Investment & Revenue</h2>
+    <!-- Your padel input fields go here -->
+    <button onclick="calculatePadel()">Calculate Padel Summary</button>
+    <div id="padelSummary"></div>
+  </div>
+
+  <div id="gym" class="tab-content" style="display:none;">
+    <h2>Gym Investment & Revenue</h2>
+    <!-- Your gym input fields go here -->
+    <button onclick="calculateGym()">Calculate Gym Summary</button>
+    <div id="gymSummary"></div>
+  </div>
+
+  <div id="pnl" class="tab-content" style="display:none;">
+    <h2>Profit & Loss Forecast</h2>
+    <canvas id="pnlChart"></canvas>
+  </div>
+
+  <div id="roi" class="tab-content" style="display:none;">
+    <h2>ROI Breakdown</h2>
+    <canvas id="roiChart"></canvas>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
