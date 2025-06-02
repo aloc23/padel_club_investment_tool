@@ -12,98 +12,138 @@
     <h1>Padel Club Investment Planner</h1>
   </header>
 
-  <div class="tabs">
+  <nav class="tabs">
     <button onclick="showTab('padel')">Padel</button>
     <button onclick="showTab('gym')">Gym</button>
     <button onclick="showTab('pnl')">P&L</button>
     <button onclick="showTab('roi')">ROI</button>
-  </div>
+  </nav>
 
   <!-- Padel Tab -->
-  <div id="padel" class="tab-content">
+  <section id="padel" class="tab-content">
     <h2>Padel Investment + Revenue</h2>
+    <fieldset>
+      <legend>Investment</legend>
+      <label>Groundworks: <input type="number" id="padelGround" /></label>
+      <label>Structure: <input type="number" id="padelStructure" /></label>
+      <label>Number of Courts: <input type="number" id="padelCourts" /></label>
+      <label>Cost per Court: <input type="number" id="padelCourtCost" /></label>
+    </fieldset>
 
-    <label>Groundworks: <input type="number" id="padelGround" /></label>
-    <label>Structure: <input type="number" id="padelStructure" /></label>
-    <label>Courts: <input type="number" id="padelCourts" /></label>
-    <label>Cost per Court: <input type="number" id="padelCourtCost" /></label>
+    <fieldset>
+      <legend>Revenue</legend>
+      <label>Peak Hours/Day: <input type="number" id="padelPeakHours" /></label>
+      <label>Off-Peak Hours/Day: <input type="number" id="padelOffHours" /></label>
+      <label>Peak Rate: <input type="number" id="padelPeakRate" /></label>
+      <label>Off-Peak Rate: <input type="number" id="padelOffRate" /></label>
+      <label>Peak Utilization (%): <input type="number" id="padelPeakUtil" /></label>
+      <label>Off-Peak Utilization (%): <input type="number" id="padelOffUtil" /></label>
+      <label>Days per Week: <input type="number" id="padelDays" /></label>
+      <label>Weeks per Year: <input type="number" id="padelWeeks" /></label>
+    </fieldset>
 
-    <h3>Revenue Inputs</h3>
-    <label>Peak Hours/Day: <input type="number" id="padelPeakHours" /></label>
-    <label>Off-Peak Hours/Day: <input type="number" id="padelOffHours" /></label>
-    <label>Peak Rate: <input type="number" id="padelPeakRate" /></label>
-    <label>Off-Peak Rate: <input type="number" id="padelOffRate" /></label>
-    <label>Peak Utilization (%): <input type="number" id="padelPeakUtil" /></label>
-    <label>Off-Peak Utilization (%): <input type="number" id="padelOffUtil" /></label>
-    <label>Days per Week: <input type="number" id="padelDays" /></label>
-    <label>Weeks per Year: <input type="number" id="padelWeeks" /></label>
+    <fieldset>
+      <legend>Operational Overheads</legend>
+      <label>Utilities: <input type="number" id="padelUtil" /></label>
+      <label>Insurance: <input type="number" id="padelInsure" /></label>
+      <label>Maintenance: <input type="number" id="padelMaint" /></label>
+      <label>Marketing: <input type="number" id="padelMarket" /></label>
+      <label>Admin: <input type="number" id="padelAdmin" /></label>
+      <label>Cleaning: <input type="number" id="padelClean" /></label>
+      <label>Misc: <input type="number" id="padelMisc" /></label>
+    </fieldset>
 
-    <h3>Operational Costs (Overheads)</h3>
-    <label>Utilities: <input type="number" id="padelUtil" /></label>
-    <label>Insurance: <input type="number" id="padelInsure" /></label>
-    <label>Maintenance: <input type="number" id="padelMaint" /></label>
-    <label>Marketing: <input type="number" id="padelMarket" /></label>
+    <fieldset>
+      <legend>Staff Breakdown</legend>
+      <h4>Full-Time</h4>
+      <label>Manager: <input type="number" id="padelFtMgr" /> × <input type="number" id="padelFtMgrSal" /></label>
+      <label>Reception: <input type="number" id="padelFtRec" /> × <input type="number" id="padelFtRecSal" /></label>
+      <label>Coaches: <input type="number" id="padelFtCoach" /> × <input type="number" id="padelFtCoachSal" /></label>
+      <label>Maintenance: <input type="number" id="padelFtMaint" /> × <input type="number" id="padelFtMaintSal" /></label>
+      <label>Cleaner: <input type="number" id="padelFtClean" /> × <input type="number" id="padelFtCleanSal" /></label>
 
-    <h3>Staff Costs (Full-Time + Part-Time)</h3>
-    <div class="staff-table">
-      <label>FT Coaches: <input type="number" id="padelFtCoach" /> × <input type="number" id="padelFtCoachSalary" /></label>
-      <label>PT Reception: <input type="number" id="padelPtReception" /> × <input type="number" id="padelPtReceptionSalary" /></label>
-    </div>
+      <h4>Part-Time</h4>
+      <label>Manager: <input type="number" id="padelPtMgr" /> × <input type="number" id="padelPtMgrSal" /></label>
+      <label>Reception: <input type="number" id="padelPtRec" /> × <input type="number" id="padelPtRecSal" /></label>
+      <label>Coaches: <input type="number" id="padelPtCoach" /> × <input type="number" id="padelPtCoachSal" /></label>
+      <label>Maintenance: <input type="number" id="padelPtMaint" /> × <input type="number" id="padelPtMaintSal" /></label>
+      <label>Cleaner: <input type="number" id="padelPtClean" /> × <input type="number" id="padelPtCleanSal" /></label>
+    </fieldset>
 
     <button onclick="calculatePadel()">Calculate Padel</button>
     <div class="summary" id="padelSummary"></div>
-  </div>
+  </section>
 
   <!-- Gym Tab -->
-  <div id="gym" class="tab-content" style="display:none">
+  <section id="gym" class="tab-content" style="display:none">
     <h2>Gym Investment + Revenue</h2>
+    <fieldset>
+      <legend>Investment</legend>
+      <label>Equipment: <input type="number" id="gymEquip" /></label>
+      <label>Flooring: <input type="number" id="gymFloor" /></label>
+      <label>Amenities: <input type="number" id="gymAmen" /></label>
+    </fieldset>
 
-    <label>Equipment: <input type="number" id="gymEquip" /></label>
-    <label>Flooring: <input type="number" id="gymFloor" /></label>
-    <label>Amenities: <input type="number" id="gymAmen" /></label>
+    <fieldset>
+      <legend>Revenue</legend>
+      <label>Weekly Members: <input type="number" id="gymWeekMembers" /></label>
+      <label>Weekly Fee: <input type="number" id="gymWeekFee" /></label>
+      <label>Monthly Members: <input type="number" id="gymMonthMembers" /></label>
+      <label>Monthly Fee: <input type="number" id="gymMonthFee" /></label>
+      <label>Annual Members: <input type="number" id="gymAnnualMembers" /></label>
+      <label>Annual Fee: <input type="number" id="gymAnnualFee" /></label>
+      <label><input type="checkbox" id="gymRamp" /> Apply Ramp-Up (Year 1)</label>
+    </fieldset>
 
-    <h3>Revenue Inputs</h3>
-    <label>Weekly Members: <input type="number" id="gymWeekMembers" /></label>
-    <label>Weekly Fee: <input type="number" id="gymWeekFee" /></label>
-    <label>Monthly Members: <input type="number" id="gymMonthMembers" /></label>
-    <label>Monthly Fee: <input type="number" id="gymMonthFee" /></label>
-    <label>Annual Members: <input type="number" id="gymAnnualMembers" /></label>
-    <label>Annual Fee: <input type="number" id="gymAnnualFee" /></label>
-    <label><input type="checkbox" id="gymRamp"> Apply Ramp-Up Year 1</label>
+    <fieldset>
+      <legend>Operational Overheads</legend>
+      <label>Utilities: <input type="number" id="gymUtil" /></label>
+      <label>Insurance: <input type="number" id="gymInsure" /></label>
+      <label>Maintenance: <input type="number" id="gymMaint" /></label>
+      <label>Marketing: <input type="number" id="gymMarket" /></label>
+      <label>Admin: <input type="number" id="gymAdmin" /></label>
+      <label>Cleaning: <input type="number" id="gymClean" /></label>
+      <label>Misc: <input type="number" id="gymMisc" /></label>
+    </fieldset>
 
-    <h3>Operational Costs (Overheads)</h3>
-    <label>Utilities: <input type="number" id="gymUtil" /></label>
-    <label>Insurance: <input type="number" id="gymInsure" /></label>
-    <label>Maintenance: <input type="number" id="gymMaint" /></label>
-    <label>Marketing: <input type="number" id="gymMarket" /></label>
+    <fieldset>
+      <legend>Staff Breakdown</legend>
+      <h4>Full-Time</h4>
+      <label>Manager: <input type="number" id="gymFtMgr" /> × <input type="number" id="gymFtMgrSal" /></label>
+      <label>Reception: <input type="number" id="gymFtRec" /> × <input type="number" id="gymFtRecSal" /></label>
+      <label>Trainers: <input type="number" id="gymFtTrainer" /> × <input type="number" id="gymFtTrainerSal" /></label>
+      <label>Maintenance: <input type="number" id="gymFtMaint" /> × <input type="number" id="gymFtMaintSal" /></label>
+      <label>Cleaner: <input type="number" id="gymFtClean" /> × <input type="number" id="gymFtCleanSal" /></label>
 
-    <h3>Staff Costs (Full-Time + Part-Time)</h3>
-    <div class="staff-table">
-      <label>FT Trainers: <input type="number" id="gymFtTrainer" /> × <input type="number" id="gymFtTrainerSalary" /></label>
-      <label>PT Reception: <input type="number" id="gymPtReception" /> × <input type="number" id="gymPtReceptionSalary" /></label>
-    </div>
+      <h4>Part-Time</h4>
+      <label>Manager: <input type="number" id="gymPtMgr" /> × <input type="number" id="gymPtMgrSal" /></label>
+      <label>Reception: <input type="number" id="gymPtRec" /> × <input type="number" id="gymPtRecSal" /></label>
+      <label>Trainers: <input type="number" id="gymPtTrainer" /> × <input type="number" id="gymPtTrainerSal" /></label>
+      <label>Maintenance: <input type="number" id="gymPtMaint" /> × <input type="number" id="gymPtMaintSal" /></label>
+      <label>Cleaner: <input type="number" id="gymPtClean" /> × <input type="number" id="gymPtCleanSal" /></label>
+    </fieldset>
 
     <button onclick="calculateGym()">Calculate Gym</button>
     <div class="summary" id="gymSummary"></div>
-  </div>
+  </section>
 
-  <!-- P&L Tab -->
-  <div id="pnl" class="tab-content" style="display:none">
+  <!-- P&L -->
+  <section id="pnl" class="tab-content" style="display:none">
     <h2>Profit & Loss</h2>
     <label><input type="radio" name="pl_toggle" value="monthly" checked> Monthly</label>
     <label><input type="radio" name="pl_toggle" value="annual"> Annual</label>
     <canvas id="pnlChart"></canvas>
     <canvas id="profitTrendChart"></canvas>
     <canvas id="costPieChart"></canvas>
-  </div>
+  </section>
 
-  <!-- ROI Tab -->
-  <div id="roi" class="tab-content" style="display:none">
+  <!-- ROI -->
+  <section id="roi" class="tab-content" style="display:none">
     <h2>Return on Investment</h2>
     <canvas id="roiLineChart"></canvas>
     <canvas id="roiBarChart"></canvas>
     <canvas id="roiPieChart"></canvas>
-  </div>
+  </section>
 
   <script src="script.js"></script>
 </body>
