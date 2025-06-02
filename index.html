@@ -1,1 +1,27 @@
-<!DOCTYPE html><html><head><title>Padel Planner</title></head><body>Loading...</body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Padel Club Ireland Investment Planner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <img src="club_logo.png" alt="Club Logo" class="logo">
+    <h1>Padel Club Ireland Investment Planner</h1>
+    <div id="tabs">
+      <button onclick="showTab('padel')">Padel</button>
+      <button onclick="showTab('gym')">Gym</button>
+      <button onclick="showTab('pnl')">P&L</button>
+      <button onclick="showTab('roi')">ROI</button>
+    </div>
+    <div id="padel" class="tab">Padel content and calculator...</div>
+    <div id="gym" class="tab" style="display:none;">Gym content and calculator...</div>
+    <div id="pnl" class="tab" style="display:none;">P&L Output...</div>
+    <div id="roi" class="tab" style="display:none;">ROI Output...</div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
