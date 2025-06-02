@@ -4,7 +4,10 @@ function showTab(tabId) {
 }
 
 let pnlChart, roiChart;
-let totalRevenue = 0, totalCosts = 0, totalInvestment = 0;
+
+let totalRevenue = 0;
+let totalCosts = 0;
+let totalInvestment = 0;
 
 function calculatePadel() {
   const structure = +document.getElementById("padelStructure").value;
@@ -22,22 +25,21 @@ function calculatePadel() {
   const days = +document.getElementById("padelDays").value;
   const weeks = +document.getElementById("padelWeeks").value;
 
-  const overheads =
+  const overheads = 
     +document.getElementById("padelUtil").value +
     +document.getElementById("padelInsure").value +
     +document.getElementById("padelMaint").value +
     +document.getElementById("padelMarket").value;
 
-  const staff =
+  const staff = 
     +document.getElementById("padelManager").value +
     +document.getElementById("padelCoach").value +
     +document.getElementById("padelReception").value;
 
-  const totalSessions = weeks * days;
-  const peakSessions = courts * peakHours * totalSessions * peakUtil;
-  const offSessions = courts * offHours * totalSessions * offUtil;
+  const peakSessions = courts * peakHours * days * weeks * peakUtil;
+  const offSessions = courts * offHours * days * weeks * offUtil;
   const revenue = (peakSessions * peakRate) + (offSessions * offRate);
-  const investment = structure + ground + courtCost * courts + amenities;
+  const investment = structure + ground + (courtCost * courts) + amenities;
   const cost = overheads + staff;
   const profit = revenue - cost;
 
@@ -46,7 +48,7 @@ function calculatePadel() {
   totalInvestment = investment;
 
   document.getElementById("padelSummary").innerHTML = `
-    <p><strong>Total Investment:</strong> €${investment.toLocaleString()}</p>
+    <p><strong>Padel Investment:</strong> €${investment.toLocaleString()}</p>
     <p><strong>Annual Revenue:</strong> €${Math.round(revenue).toLocaleString()}</p>
     <p><strong>Annual Costs:</strong> €${cost.toLocaleString()}</p>
     <p><strong>Annual Profit:</strong> €${Math.round(profit).toLocaleString()}</p>
@@ -68,13 +70,13 @@ function calculateGym() {
   const annualFee = +document.getElementById("gymAnnualFee").value;
   const ramp = document.getElementById("gymRamp").checked;
 
-  const overheads =
+  const overheads = 
     +document.getElementById("gymUtil").value +
     +document.getElementById("gymInsure").value +
     +document.getElementById("gymMaint").value +
     +document.getElementById("gymMarket").value;
 
-  const staff =
+  const staff = 
     +document.getElementById("gymTrainer").value +
     +document.getElementById("gymReception").value +
     +document.getElementById("gymManager").value;
@@ -95,7 +97,7 @@ function calculateGym() {
   totalInvestment = investment;
 
   document.getElementById("gymSummary").innerHTML = `
-    <p><strong>Total Investment:</strong> €${investment.toLocaleString()}</p>
+    <p><strong>Gym Investment:</strong> €${investment.toLocaleString()}</p>
     <p><strong>Annual Revenue:</strong> €${Math.round(revenue).toLocaleString()}</p>
     <p><strong>Annual Costs:</strong> €${cost.toLocaleString()}</p>
     <p><strong>Annual Profit:</strong> €${Math.round(profit).toLocaleString()}</p>
@@ -110,43 +112,31 @@ function drawCharts() {
   const monthlyCosts = totalCosts / 12;
   const monthlyProfit = monthlyRevenue - monthlyCosts;
 
-  // Destroy previous charts
+  const revenueData = Array(12).fill(monthlyRevenue);
+  const costData = Array(12).fill(monthlyCosts);
+  const profitData = Array(12).fill(monthlyProfit);
+  const roiData = Array.from({ length: 12 }, (_, i) =>
+    ((monthlyProfit * (i + 1)) / totalInvestment).toFixed(2)
+  );
+
   if (pnlChart) pnlChart.destroy();
   if (roiChart) roiChart.destroy();
 
-  // P&L Chart
   pnlChart = new Chart(document.getElementById("pnlChart"), {
     type: "bar",
     data: {
       labels: months,
       datasets: [
-        {
-          label: "Revenue",
-          data: Array(12).fill(monthlyRevenue),
-          backgroundColor: "#2ecc71"
-        },
-        {
-          label: "Costs",
-          data: Array(12).fill(monthlyCosts),
-          backgroundColor: "#e74c3c"
-        },
-        {
-          label: "Profit",
-          data: Array(12).fill(monthlyProfit),
-          backgroundColor: "#3498db"
-        }
+        { label: "Revenue", data: revenueData, backgroundColor: "#2ecc71" },
+        { label: "Costs", data: costData, backgroundColor: "#e74c3c" },
+        { label: "Profit", data: profitData, backgroundColor: "#3498db" }
       ]
     },
     options: {
       responsive: true,
-      plugins: { legend: { position: 'top' } }
+      plugins: { legend: { position: "top" } }
     }
   });
-
-  // ROI Chart
-  const roiSeries = Array.from({ length: 12 }, (_, i) =>
-    ((monthlyProfit * (i + 1)) / totalInvestment).toFixed(2)
-  );
 
   roiChart = new Chart(document.getElementById("roiChart"), {
     type: "line",
@@ -154,8 +144,8 @@ function drawCharts() {
       labels: months,
       datasets: [
         {
-          label: "ROI Over Time",
-          data: roiSeries,
+          label: "ROI",
+          data: roiData,
           borderColor: "#f39c12",
           fill: false,
           tension: 0.4
@@ -164,7 +154,9 @@ function drawCharts() {
     },
     options: {
       responsive: true,
-      scales: { y: { beginAtZero: true } }
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: "Return on Investment (Ratio)" } }
+      }
     }
   });
 }
