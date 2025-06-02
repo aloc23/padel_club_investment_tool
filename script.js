@@ -1,97 +1,123 @@
-function showTab(id) {
-  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
-  document.getElementById(id).style.display = 'block';
-}
-
-function calculatePadel() {
-  const courts = +document.getElementById('courts').value;
-  const structure = +document.getElementById('structure').value;
-  const ground = +document.getElementById('ground').value;
-  const court = +document.getElementById('court').value;
-  const amenities = +document.getElementById('amenities').value;
-  const peak = +document.getElementById('peak').value;
-  const offpeak = +document.getElementById('offpeak').value;
-  const peakUtil = +document.getElementById('peakUtil').value / 100;
-  const offUtil = +document.getElementById('offUtil').value / 100;
-  const hours = +document.getElementById('hours').value;
-  const days = +document.getElementById('days').value;
-  const weeks = +document.getElementById('weeks').value;
-  const padelStaff = +document.getElementById('padelStaff').value;
-  const padelOver = +document.getElementById('padelOverheads').value;
-
-  const totalCost = structure + ground + (court * courts) + amenities;
-  const sessionsPerCourt = hours * days * weeks;
-  const peakSessions = sessionsPerCourt * 0.5 * peakUtil;
-  const offSessions = sessionsPerCourt * 0.5 * offUtil;
-  const revenue = courts * ((peakSessions * peak) + (offSessions * offpeak));
-  const annualCost = padelStaff + padelOver;
-  const profit = revenue - annualCost;
-
-  document.getElementById('padelSummary').innerHTML = `
-    <p>Total Investment: €${totalCost.toLocaleString()}</p>
-    <p>Annual Revenue: €${Math.round(revenue).toLocaleString()}</p>
-    <p>Annual Costs: €${annualCost.toLocaleString()}</p>
-    <p><strong>Profit: €${Math.round(profit).toLocaleString()}</strong></p>
-  `;
-  drawCharts(revenue, annualCost, totalCost);
-}
-
-function calculateGym() {
-  const equip = +document.getElementById('equip').value;
-  const gymAmenities = +document.getElementById('gymAmenities').value;
-  const floor = +document.getElementById('floor').value;
-  const members = +document.getElementById('members').value;
-  const fee = +document.getElementById('fee').value;
-  const gymStaff = +document.getElementById('gymStaff').value;
-  const gymOver = +document.getElementById('gymOverheads').value;
-  const ramp = document.getElementById('ramp').checked;
-
-  const investment = equip + gymAmenities + floor;
-  const rampFactor = ramp ? 0.6 : 1;
-  const revenue = members * fee * rampFactor;
-  const cost = gymStaff + gymOver;
-  const profit = revenue - cost;
-
-  document.getElementById('gymSummary').innerHTML = `
-    <p>Total Investment: €${investment.toLocaleString()}</p>
-    <p>Annual Revenue: €${Math.round(revenue).toLocaleString()}</p>
-    <p>Annual Costs: €${cost.toLocaleString()}</p>
-    <p><strong>Profit: €${Math.round(profit).toLocaleString()}</strong></p>
-  `;
-  drawCharts(revenue, cost, investment);
+function showTab(tabId) {
+  document.querySelectorAll(".tab-content").forEach((tab) => {
+    tab.style.display = "none";
+  });
+  document.getElementById(tabId).style.display = "block";
 }
 
 let pnlChart, roiChart;
-function drawCharts(revenue, costs, investment) {
-  const months = [...Array(12).keys()].map(m => `Month ${m + 1}`);
-  const monthlyRevenue = revenue / 12;
-  const monthlyCost = costs / 12;
-  const profit = monthlyRevenue - monthlyCost;
 
+function calculatePadel() {
+  const structure = +document.getElementById("padelStructure").value;
+  const ground = +document.getElementById("padelGroundworks").value;
+  const courtCost = +document.getElementById("padelCourtCost").value;
+  const courts = +document.getElementById("padelCourts").value;
+  const amenities = +document.getElementById("padelAmenities").value;
+
+  const peakRate = +document.getElementById("padelPeakRate").value;
+  const offRate = +document.getElementById("padelOffPeakRate").value;
+  const peakUtil = +document.getElementById("padelPeakUtil").value / 100;
+  const offUtil = +document.getElementById("padelOffUtil").value / 100;
+  const hours = +document.getElementById("padelHours").value;
+  const days = +document.getElementById("padelDays").value;
+  const weeks = +document.getElementById("padelWeeks").value;
+
+  const staff = +document.getElementById("padelStaff").value;
+  const overheads = +document.getElementById("padelOverheads").value;
+
+  const investment = structure + ground + courtCost * courts + amenities;
+  const sessions = hours * days * weeks;
+  const totalRevenue =
+    courts *
+    ((sessions / 2) * peakUtil * peakRate + (sessions / 2) * offUtil * offRate);
+  const totalCosts = staff + overheads;
+  const profit = totalRevenue - totalCosts;
+
+  document.getElementById("padelSummary").innerHTML = `
+    <p><strong>Investment:</strong> €${investment.toLocaleString()}</p>
+    <p><strong>Annual Revenue:</strong> €${Math.round(totalRevenue).toLocaleString()}</p>
+    <p><strong>Annual Costs:</strong> €${totalCosts.toLocaleString()}</p>
+    <p><strong>Annual Profit:</strong> €${Math.round(profit).toLocaleString()}</p>
+  `;
+
+  drawCharts(totalRevenue, totalCosts, investment);
+}
+
+function calculateGym() {
+  const equip = +document.getElementById("gymEquip").value;
+  const amenities = +document.getElementById("gymAmenities").value;
+  const floor = +document.getElementById("gymFlooring").value;
+  const members = +document.getElementById("gymMembers").value;
+  const fee = +document.getElementById("gymFee").value;
+  const ramp = document.getElementById("gymRamp").checked;
+  const overheads = +document.getElementById("gymOverheads").value;
+  const staff = +document.getElementById("gymStaff").value;
+
+  const investment = equip + amenities + floor;
+  const revenue = ramp ? members * fee * 0.6 : members * fee;
+  const totalCosts = overheads + staff;
+  const profit = revenue - totalCosts;
+
+  document.getElementById("gymSummary").innerHTML = `
+    <p><strong>Investment:</strong> €${investment.toLocaleString()}</p>
+    <p><strong>Annual Revenue:</strong> €${Math.round(revenue).toLocaleString()}</p>
+    <p><strong>Annual Costs:</strong> €${totalCosts.toLocaleString()}</p>
+    <p><strong>Annual Profit:</strong> €${Math.round(profit).toLocaleString()}</p>
+  `;
+
+  drawCharts(revenue, totalCosts, investment);
+}
+
+function drawCharts(revenue, costs, investment) {
+  const months = Array.from({ length: 12 }, (_, i) => `Month ${i + 1}`);
+  const monthlyRevenue = revenue / 12;
+  const monthlyCosts = costs / 12;
+  const monthlyProfit = monthlyRevenue - monthlyCosts;
+
+  // P&L Chart
   if (pnlChart) pnlChart.destroy();
-  pnlChart = new Chart(document.getElementById('pnlChart'), {
-    type: 'bar',
+  pnlChart = new Chart(document.getElementById("pnlChart"), {
+    type: "bar",
     data: {
       labels: months,
       datasets: [
-        { label: 'Revenue', data: Array(12).fill(monthlyRevenue), backgroundColor: 'green' },
-        { label: 'Costs', data: Array(12).fill(monthlyCost), backgroundColor: 'red' },
-        { label: 'Profit', data: Array(12).fill(profit), backgroundColor: 'blue' }
+        {
+          label: "Revenue",
+          data: Array(12).fill(monthlyRevenue),
+          backgroundColor: "#2ecc71"
+        },
+        {
+          label: "Costs",
+          data: Array(12).fill(monthlyCosts),
+          backgroundColor: "#e74c3c"
+        },
+        {
+          label: "Profit",
+          data: Array(12).fill(monthlyProfit),
+          backgroundColor: "#3498db"
+        }
       ]
     }
   });
 
-  const roi = revenue / investment;
+  // ROI Chart
+  const roiProgress = months.map((_, i) =>
+    ((monthlyProfit * (i + 1)) / investment).toFixed(2)
+  );
+
   if (roiChart) roiChart.destroy();
-  roiChart = new Chart(document.getElementById('roiChart'), {
-    type: 'line',
+  roiChart = new Chart(document.getElementById("roiChart"), {
+    type: "line",
     data: {
       labels: months,
-      datasets: [{
-        label: 'ROI Progression',
-        data: months.map((_, i) => (profit * (i + 1)) / investment),
-        borderColor: 'orange'
-      }]
+      datasets: [
+        {
+          label: "ROI",
+          data: roiProgress,
+          borderColor: "#f39c12",
+          tension: 0.4
+        }
+      ]
     }
   });
 }
