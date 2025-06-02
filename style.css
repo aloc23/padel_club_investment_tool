@@ -1,23 +1,19 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
   margin: 0;
   padding: 1rem;
+  background-color: #f0f0f0;
 }
-h1, h2, h3, h4 {
+h1 {
   color: #2c3e50;
-}
-.tabs {
-  margin-bottom: 1rem;
 }
 .tabs button {
   padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
+  margin: 0.2rem;
   border: none;
   background-color: #3498db;
   color: white;
   cursor: pointer;
-  border-radius: 5px;
 }
 .tabs button:hover {
   background-color: #2980b9;
@@ -27,24 +23,16 @@ label {
   margin: 0.5rem 0;
 }
 input[type="number"] {
-  width: 120px;
-  padding: 0.3rem;
+  width: 100px;
   margin-left: 0.5rem;
 }
 .tab-content {
   background: white;
   padding: 1rem;
+  margin-top: 1rem;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-@media (max-width: 768px) {
-  input[type="number"] {
-    width: 100%;
-    margin: 0.2rem 0 0.5rem;
-  }
-  .tabs button {
-    display: block;
-    width: 100%;
-    margin: 0.3rem 0;
-  }
+canvas {
+  max-width: 100%;
+  margin-top: 1rem;
 }
