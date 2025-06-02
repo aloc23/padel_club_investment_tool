@@ -1,85 +1,108 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  font-family: "Segoe UI", sans-serif;
+  background: #f5f7fa;
   color: #333;
+  margin: 0 auto;
   padding: 20px;
   max-width: 1000px;
-  margin: auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+header img {
+  margin-bottom: 10px;
 }
 
 h1 {
-  text-align: center;
-  margin-bottom: 20px;
+  font-size: 26px;
+  color: #2c3e50;
+}
+
+h2 {
+  margin-top: 30px;
+  font-size: 22px;
+  color: #34495e;
+}
+
+h3 {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #2c3e50;
 }
 
 .tabs {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 20px;
   flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 .tabs button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background: #3498db;
+  background: #2980b9;
   color: white;
+  padding: 10px 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 14px;
   cursor: pointer;
 }
 
 .tabs button:hover {
-  background: #2980b9;
+  background: #1c6690;
 }
 
 .tab-content {
   background: white;
-  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
 }
 
 label {
   display: block;
   margin: 10px 0 5px;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 input[type="number"] {
-  width: 100%;
-  padding: 8px;
-  font-size: 14px;
-  margin-bottom: 10px;
+  padding: 6px;
+  width: 130px;
+  margin-left: 5px;
+  margin-right: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-button {
-  margin-top: 20px;
-  background: #27ae60;
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  font-size: 16px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #1e8449;
-}
-
-.summary {
-  margin-top: 20px;
-  background: #ecf0f1;
-  padding: 15px;
-  border-left: 5px solid #3498db;
-  border-radius: 5px;
+.staff-table label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
 }
 
 canvas {
   width: 100% !important;
   max-height: 400px;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 600px) {
+  .tabs {
+    flex-direction: column;
+  }
+
+  input[type="number"] {
+    width: 100%;
+  }
+
+  .staff-table label {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
