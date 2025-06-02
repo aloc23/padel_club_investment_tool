@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Padel Club Ireland Investment Planner</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <img src="club_logo.png" alt="Club Logo" width="100" />
+  <h1>Padel Club Ireland Investment Planner</h1>
+  <div class="tabs">
+    <button onclick="showTab('padel')">Padel</button>
+    <button onclick="showTab('gym')">Gym</button>
+    <button onclick="showTab('pnl')">P&L</button>
+    <button onclick="showTab('roi')">ROI</button>
+  </div>
+
+  <div id="padel" class="tab-content">
+    <h2>Padel Investment & Revenue</h2>
+    <!-- INPUT FIELDS... (as before, including revenue, overheads, staff) -->
+    <button onclick="calculatePadel()">Calculate Padel Summary</button>
+    <div id="padelSummary"></div>
+  </div>
+
+  <div id="gym" class="tab-content" style="display:none;">
+    <h2>Gym Investment & Revenue</h2>
+    <!-- INPUT FIELDS... (similar structure to padel) -->
+    <button onclick="calculateGym()">Calculate Gym Summary</button>
+    <div id="gymSummary"></div>
+  </div>
+
+  <div id="pnl" class="tab-content" style="display:none;">
+    <h2>Profit & Loss Forecast</h2>
+    <canvas id="pnlChart"></canvas>
+  </div>
+
+  <div id="roi" class="tab-content" style="display:none;">
+    <h2>ROI Breakdown</h2>
+    <canvas id="roiChart"></canvas>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 1rem;
+}
+h1, h2, h3, h4 {
+  color: #2c3e50;
+}
+.tabs {
+  margin-bottom: 1rem;
+}
+.tabs button {
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.tabs button:hover {
+  background-color: #2980b9;
+}
+label {
+  display: block;
+  margin: 0.5rem 0;
+}
+input[type="number"] {
+  width: 120px;
+  padding: 0.3rem;
+  margin-left: 0.5rem;
+}
+.tab-content {
+  background: white;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 768px) {
+  input[type="number"] {
+    width: 100%;
+    margin: 0.2rem 0 0.5rem;
+  }
+  .tabs button {
+    display: block;
+    width: 100%;
+    margin: 0.3rem 0;
+  }
+}
+function showTab(id) {
+  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  document.getElementById(id).style.display = 'block';
+}
+let pnlChartInstance, roiChartInstance;
+function calculatePadel() {
+  // ... Get values from DOM
+  // ... Calculate investment, revenue, costs, profit
+  // ... Update summary div
+  calculateCharts('padel', investment, annualRevenue, totalCosts);
+}
+function calculateGym() {
+  // ... Get values from DOM
+  // ... Calculate investment, revenue, costs, profit
+  // ... Update summary div
+  calculateCharts('gym', investment, revenue, totalCosts);
+}
+function calculateCharts(type, investment, revenue, costs) {
+  const months = ["Jan","Feb",...];
+  const monthlyRevenue = revenue / 12;
+  const monthlyCosts = costs / 12;
+  const profitSeries = months.map(() => monthlyRevenue - monthlyCosts);
+  if (pnlChartInstance) pnlChartInstance.destroy();
+  pnlChartInstance = new Chart(document.getElementById('pnlChart'), { /* ... */ });
+  if (roiChartInstance) roiChartInstance.destroy();
+  roiChartInstance = new Chart(document.getElementById('roiChart'), { /* ... */ });
+}
