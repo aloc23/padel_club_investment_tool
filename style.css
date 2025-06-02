@@ -1,108 +1,109 @@
 body {
-  font-family: "Segoe UI", sans-serif;
-  background: #f5f7fa;
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
   color: #333;
-  margin: 0 auto;
-  padding: 20px;
-  max-width: 1000px;
+  margin: 0;
+  padding: 0;
 }
 
 header {
+  background: #005a87;
+  color: #fff;
+  padding: 20px;
   text-align: center;
-  margin-bottom: 30px;
-}
-
-header img {
-  margin-bottom: 10px;
-}
-
-h1 {
-  font-size: 26px;
-  color: #2c3e50;
-}
-
-h2 {
-  margin-top: 30px;
-  font-size: 22px;
-  color: #34495e;
-}
-
-h3 {
-  margin-top: 20px;
-  font-size: 18px;
-  color: #2c3e50;
 }
 
 .tabs {
   display: flex;
   justify-content: center;
+  background: #e2e2e2;
+  padding: 10px;
   gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
 }
 
 .tabs button {
-  background: #2980b9;
-  color: white;
-  padding: 10px 16px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
+  background: #ccc;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .tabs button:hover {
-  background: #1c6690;
+  background: #bbb;
 }
 
 .tab-content {
-  background: white;
-  border-radius: 8px;
+  display: none;
   padding: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  margin-bottom: 30px;
+}
+
+.tab-content h2, h3, h4 {
+  margin-top: 1em;
+  color: #005a87;
+}
+
+fieldset {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 15px 0;
+  background: #fff;
 }
 
 label {
-  display: block;
-  margin: 10px 0 5px;
-  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  gap: 10px;
 }
 
 input[type="number"] {
-  padding: 6px;
-  width: 130px;
-  margin-left: 5px;
-  margin-right: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  width: 120px;
+  padding: 5px;
 }
 
-.staff-table label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #005a87;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #004a73;
+}
+
+.summary {
+  margin-top: 20px;
+  background: #eef;
+  padding: 15px;
+  border: 1px solid #99c;
 }
 
 canvas {
-  width: 100% !important;
-  max-height: 400px;
   margin-top: 20px;
+  width: 100% !important;
+  max-width: 800px;
+  height: auto !important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-@media screen and (max-width: 600px) {
-  .tabs {
+@media (max-width: 768px) {
+  label {
     flex-direction: column;
+    align-items: flex-start;
   }
 
   input[type="number"] {
     width: 100%;
   }
 
-  .staff-table label {
-    flex-direction: column;
-    align-items: flex-start;
+  .tabs {
+    flex-wrap: wrap;
   }
 }
