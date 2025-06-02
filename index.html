@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Padel Club Ireland Investment Planner</title>
+  <title>Padel Club Ireland Planner</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/png" href="club_logo.png" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -15,40 +15,64 @@
     <nav>
       <button onclick="showTab('padel')">Padel</button>
       <button onclick="showTab('gym')">Gym</button>
-      <button onclick="showTab('combined')">Combined</button>
+      <button onclick="showTab('pl')">P&L</button>
+      <button onclick="showTab('roi')">ROI & Forecast</button>
     </nav>
   </header>
 
   <main>
     <section id="padel" class="tab">
-      <h2>Padel Inputs</h2>
-      <label>Number of Courts: <input type="number" id="courts" value="4" /></label>
-      <label>Hours Open Per Day: <input type="number" id="hours_day" value="16" /></label>
-      <label>Peak Hours Per Day: <input type="number" id="peak_hours_day" value="6" /></label>
-      <label>Peak Hour Rate (€): <input type="number" id="peak_rate" value="40" /></label>
-      <label>Peak Utilization (%): <input type="number" id="peak_util" value="80" /></label>
-      <label>Off-Peak Hour Rate (€): <input type="number" id="offpeak_rate" value="25" /></label>
-      <label>Off-Peak Utilization (%): <input type="number" id="offpeak_util" value="40" /></label>
-      <label>Padel Staff (€ Monthly): <input type="number" id="padel_staff" value="6000" /></label>
-      <label>Padel Overheads (€ Monthly): <input type="number" id="padel_oh" value="3000" /></label>
-      <label>Padel Setup Cost (€): <input type="number" id="padel_setup" value="250000" /></label>
+      <h2>Padel</h2>
+      <h3>🏗️ Investment</h3>
+      <label>Structure (€): <input type="number" id="padel_structure" value="100000" /></label>
+      <label>Ground Works (€): <input type="number" id="padel_ground" value="30000" /></label>
+      <label>Courts (€): <input type="number" id="padel_courts" value="120000" /></label>
+      <label>Amenities (€): <input type="number" id="padel_amenities" value="20000" /></label>
+
+      <h3>📈 Revenue</h3>
+      <label>Courts: <input type="number" id="padel_court_count" value="4" /></label>
+      <label>Open Hours/Day: <input type="number" id="padel_hours" value="16" /></label>
+      <label>Peak Hours: <input type="number" id="padel_peak" value="6" /></label>
+      <label>Peak Rate (€): <input type="number" id="padel_peak_rate" value="40" /></label>
+      <label>Peak Utilization (%): <input type="number" id="padel_peak_util" value="80" /></label>
+      <label>Off-Peak Rate (€): <input type="number" id="padel_off_rate" value="25" /></label>
+      <label>Off-Peak Utilization (%): <input type="number" id="padel_off_util" value="40" /></label>
+
+      <h3>⚙️ Operational Costs</h3>
+      <label>Overheads (€ Monthly): <input type="number" id="padel_oh" value="3000" /></label>
+      <label>Maintenance (€ Monthly): <input type="number" id="padel_maint" value="1000" /></label>
+      <label>Staff (€ Monthly): <input type="number" id="padel_staff" value="6000" /></label>
     </section>
 
     <section id="gym" class="tab" style="display:none;">
-      <h2>Gym Inputs</h2>
+      <h2>Gym</h2>
+      <h3>🏗️ Investment</h3>
+      <label>Equipment (€): <input type="number" id="gym_equip" value="70000" /></label>
+      <label>Flooring (€): <input type="number" id="gym_floor" value="15000" /></label>
+      <label>Amenities (€): <input type="number" id="gym_amen" value="10000" /></label>
+      <label>Fit-Out (€): <input type="number" id="gym_fit" value="15000" /></label>
+
+      <h3>📈 Revenue</h3>
       <label>Target Members: <input type="number" id="gym_members" value="500" /></label>
-      <label>Ramp-Up Period (Months): <input type="number" id="ramp_months" value="6" /></label>
-      <label>Monthly Membership Fee (€): <input type="number" id="gym_fee" value="50" /></label>
-      <label>Extra Revenue (PT, Classes, etc.) (€ Monthly): <input type="number" id="gym_extra" value="3000" /></label>
-      <label>Gym Staff (€ Monthly): <input type="number" id="gym_staff" value="8000" /></label>
-      <label>Gym Overheads (€ Monthly): <input type="number" id="gym_oh" value="4000" /></label>
-      <label>Gym Setup Cost (€): <input type="number" id="gym_setup" value="150000" /></label>
+      <label>Ramp-Up Period (Months): <input type="number" id="gym_ramp" value="6" /></label>
+      <label>Membership Fee (€): <input type="number" id="gym_fee" value="50" /></label>
+      <label>Extra Income (€ Monthly): <input type="number" id="gym_extra" value="3000" /></label>
+
+      <h3>⚙️ Operational Costs</h3>
+      <label>Overheads (€ Monthly): <input type="number" id="gym_oh" value="4000" /></label>
+      <label>Maintenance (€ Monthly): <input type="number" id="gym_maint" value="1200" /></label>
+      <label>Staff (€ Monthly): <input type="number" id="gym_staff" value="8000" /></label>
     </section>
 
-    <section id="combined" class="tab" style="display:none;">
-      <h2>Combined Analysis</h2>
+    <section id="pl" class="tab" style="display:none;">
+      <h2>📊 Profit & Loss</h2>
+      <div id="pl_output"></div>
+    </section>
+
+    <section id="roi" class="tab" style="display:none;">
+      <h2>📈 ROI & Forecast</h2>
       <button onclick="calculate()">Calculate</button>
-      <div id="results"></div>
+      <div id="roi_output"></div>
       <canvas id="investmentChart" width="400" height="200"></canvas>
     </section>
   </main>

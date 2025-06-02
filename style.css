@@ -1,17 +1,18 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #f5f7fa;
+  background: #f7f9fc;
   margin: 0;
   padding: 0;
 }
 header {
   text-align: center;
+  background: #ffffff;
   padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 .logo {
-  max-width: 120px;
-  margin-bottom: 10px;
+  max-width: 100px;
 }
 nav button {
   margin: 5px;
@@ -19,15 +20,12 @@ nav button {
   font-size: 16px;
 }
 main {
-  max-width: 700px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 20px;
 }
 .tab {
   display: none;
-}
-.tab.active {
-  display: block;
 }
 label {
   display: block;
@@ -35,13 +33,13 @@ label {
 }
 input[type='number'] {
   width: 150px;
-  padding: 5px;
   margin-left: 10px;
+  padding: 4px;
 }
-#results {
+#roi_output, #pl_output {
   margin-top: 20px;
-  padding: 15px;
   background: #ffffff;
+  padding: 15px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
