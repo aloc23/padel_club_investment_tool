@@ -1,94 +1,85 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  margin: 0;
-  padding: 2rem;
+  background: #f4f4f4;
+  color: #333;
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
 }
 
-h1, h2, h3 {
-  color: #2c3e50;
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .tabs {
-  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .tabs button {
-  padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
-  border: none;
-  background-color: #3498db;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #3498db;
   color: white;
-  cursor: pointer;
+  border: none;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .tabs button:hover {
-  background-color: #2980b9;
+  background: #2980b9;
 }
 
 .tab-content {
-  background-color: white;
-  padding: 1.5rem;
+  background: white;
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  margin-bottom: 2rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
 label {
   display: block;
-  margin: 0.6rem 0;
-  font-weight: 500;
+  margin: 10px 0 5px;
+  font-weight: bold;
 }
 
 input[type="number"] {
-  padding: 0.4rem;
-  margin-left: 0.5rem;
-  width: 120px;
-  font-size: 1rem;
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 button {
-  margin-top: 1rem;
-  padding: 0.5rem 1.2rem;
-  font-size: 1rem;
-  background-color: #27ae60;
+  margin-top: 20px;
+  background: #27ae60;
   color: white;
   border: none;
+  padding: 12px 25px;
+  font-size: 16px;
   border-radius: 6px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #219150;
+  background: #1e8449;
 }
 
 .summary {
-  margin-top: 1.2rem;
-  background-color: #ecf0f1;
-  padding: 1rem;
-  border-radius: 6px;
+  margin-top: 20px;
+  background: #ecf0f1;
+  padding: 15px;
+  border-left: 5px solid #3498db;
+  border-radius: 5px;
 }
 
 canvas {
   width: 100% !important;
-  height: 400px !important;
-  margin-top: 1rem;
-}
-
-@media (max-width: 600px) {
-  input[type="number"] {
-    width: 100%;
-    margin-top: 0.4rem;
-  }
-
-  label {
-    margin-bottom: 0.8rem;
-  }
-
-  .tabs button {
-    display: block;
-    width: 100%;
-    margin: 0.3rem 0;
-  }
+  max-height: 400px;
 }
