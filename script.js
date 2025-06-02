@@ -55,6 +55,8 @@ function calculatePadel() {
     <p><strong>Staff Costs:</strong> €${staff.toLocaleString()}</p>
     <p><strong>Profit:</strong> €${profit.toLocaleString()}</p>
   `;
+  updatePNL();
+  updateROI();
 }
 
 function calculateGym() {
@@ -71,6 +73,96 @@ function calculateGym() {
     <p><strong>Staff Costs:</strong> €${staff.toLocaleString()}</p>
     <p><strong>Profit:</strong> €${profit.toLocaleString()}</p>
   `;
+  updatePNL();
+  updateROI();
+}
+
+function updatePNL() {
+  let revenue = calcPadelRevenue() + calcGymRevenue();
+  let costs = calcOpCosts('padel') + calcOpCosts('gym') + calcStaffCost('padel') + calcStaffCost('gym');
+  let profit = revenue - costs;
+  let monthly = (val) => document.querySelector('input[name="pl_toggle"]:checked').value === 'monthly' ? val / 12 : val;
+
+  new Chart(document.getElementById('pnlChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Revenue', 'Costs', 'Profit'],
+      datasets: [{
+        label: 'P&L Summary',
+        data: [monthly(revenue), monthly(costs), monthly(profit)],
+        backgroundColor: ['green', 'orange', 'blue']
+      }]
+    },
+    options: { responsive: true }
+  });
+
+  new Chart(document.getElementById('profitTrendChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: Array.from({ length: 12 }, (_, i) => `Month ${i + 1}`),
+      datasets: [{
+        label: 'Monthly Profit Trend',
+        data: Array.from({ length: 12 }, () => monthly(profit)),
+        borderColor: 'blue',
+        fill: false
+      }]
+    }
+  });
+
+  new Chart(document.getElementById('costPieChart').getContext('2d'), {
+    type: 'pie',
+    data: {
+      labels: ['Operational Costs', 'Staff Costs'],
+      datasets: [{
+        data: [calcOpCosts('padel') + calcOpCosts('gym'), calcStaffCost('padel') + calcStaffCost('gym')],
+        backgroundColor: ['#FFA500', '#FF6347']
+      }]
+    }
+  });
+}
+
+function updateROI() {
+  let invest = getVal('padelGround') + getVal('padelStructure') + (getVal('padelCourts') * getVal('padelCourtCost')) + getVal('gymEquip') + getVal('gymFloor') + getVal('gymAmen');
+  let revenue = calcPadelRevenue() + calcGymRevenue();
+  let costs = calcOpCosts('padel') + calcOpCosts('gym') + calcStaffCost('padel') + calcStaffCost('gym');
+  let profit = revenue - costs;
+  let roi = (profit / invest) * 100;
+
+  new Chart(document.getElementById('roiLineChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: ['Year 1', 'Year 2', 'Year 3'],
+      datasets: [{
+        label: 'ROI Over Time',
+        data: [roi, roi * 1.5, roi * 2],
+        borderColor: 'green',
+        fill: false
+      }]
+    }
+  });
+
+  new Chart(document.getElementById('roiBarChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Year 1 ROI'],
+      datasets: [{
+        label: 'ROI (%)',
+        data: [roi],
+        backgroundColor: ['#00BFFF']
+      }]
+    }
+  });
+
+  new Chart(document.getElementById('roiPieChart').getContext('2d'), {
+    type: 'pie',
+    data: {
+      labels: ['Investment Return', 'Remaining Investment'],
+      datasets: [{
+        data: [profit, invest - profit],
+        backgroundColor: ['#90EE90', '#d3d3d3']
+      }]
+    }
+  });
 }
 
 window.onload = () => showTab('padel');
