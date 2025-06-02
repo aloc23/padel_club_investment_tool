@@ -1,11 +1,10 @@
 function showTab(tabId) {
-  document.querySelectorAll(".tab-content").forEach((tab) => {
-    tab.style.display = "none";
-  });
+  document.querySelectorAll(".tab-content").forEach(tab => tab.style.display = "none");
   document.getElementById(tabId).style.display = "block";
 }
 
 let pnlChart, roiChart;
+let totalRevenue = 0, totalCosts = 0, totalInvestment = 0;
 
 function calculatePadel() {
   const structure = +document.getElementById("padelStructure").value;
@@ -14,68 +13,108 @@ function calculatePadel() {
   const courts = +document.getElementById("padelCourts").value;
   const amenities = +document.getElementById("padelAmenities").value;
 
+  const peakHours = +document.getElementById("padelPeakHours").value;
+  const offHours = +document.getElementById("padelOffHours").value;
   const peakRate = +document.getElementById("padelPeakRate").value;
-  const offRate = +document.getElementById("padelOffPeakRate").value;
+  const offRate = +document.getElementById("padelOffRate").value;
   const peakUtil = +document.getElementById("padelPeakUtil").value / 100;
   const offUtil = +document.getElementById("padelOffUtil").value / 100;
-  const hours = +document.getElementById("padelHours").value;
   const days = +document.getElementById("padelDays").value;
   const weeks = +document.getElementById("padelWeeks").value;
 
-  const staff = +document.getElementById("padelStaff").value;
-  const overheads = +document.getElementById("padelOverheads").value;
+  const overheads =
+    +document.getElementById("padelUtil").value +
+    +document.getElementById("padelInsure").value +
+    +document.getElementById("padelMaint").value +
+    +document.getElementById("padelMarket").value;
 
+  const staff =
+    +document.getElementById("padelManager").value +
+    +document.getElementById("padelCoach").value +
+    +document.getElementById("padelReception").value;
+
+  const totalSessions = weeks * days;
+  const peakSessions = courts * peakHours * totalSessions * peakUtil;
+  const offSessions = courts * offHours * totalSessions * offUtil;
+  const revenue = (peakSessions * peakRate) + (offSessions * offRate);
   const investment = structure + ground + courtCost * courts + amenities;
-  const sessions = hours * days * weeks;
-  const totalRevenue =
-    courts *
-    ((sessions / 2) * peakUtil * peakRate + (sessions / 2) * offUtil * offRate);
-  const totalCosts = staff + overheads;
-  const profit = totalRevenue - totalCosts;
+  const cost = overheads + staff;
+  const profit = revenue - cost;
+
+  totalRevenue = revenue;
+  totalCosts = cost;
+  totalInvestment = investment;
 
   document.getElementById("padelSummary").innerHTML = `
-    <p><strong>Investment:</strong> €${investment.toLocaleString()}</p>
-    <p><strong>Annual Revenue:</strong> €${Math.round(totalRevenue).toLocaleString()}</p>
-    <p><strong>Annual Costs:</strong> €${totalCosts.toLocaleString()}</p>
+    <p><strong>Total Investment:</strong> €${investment.toLocaleString()}</p>
+    <p><strong>Annual Revenue:</strong> €${Math.round(revenue).toLocaleString()}</p>
+    <p><strong>Annual Costs:</strong> €${cost.toLocaleString()}</p>
     <p><strong>Annual Profit:</strong> €${Math.round(profit).toLocaleString()}</p>
   `;
 
-  drawCharts(totalRevenue, totalCosts, investment);
+  drawCharts();
 }
 
 function calculateGym() {
   const equip = +document.getElementById("gymEquip").value;
   const amenities = +document.getElementById("gymAmenities").value;
   const floor = +document.getElementById("gymFlooring").value;
-  const members = +document.getElementById("gymMembers").value;
-  const fee = +document.getElementById("gymFee").value;
+
+  const weeklyMembers = +document.getElementById("gymWeekly").value;
+  const weeklyFee = +document.getElementById("gymWeekFee").value;
+  const monthlyMembers = +document.getElementById("gymMonthly").value;
+  const monthlyFee = +document.getElementById("gymMonthFee").value;
+  const annualMembers = +document.getElementById("gymAnnual").value;
+  const annualFee = +document.getElementById("gymAnnualFee").value;
   const ramp = document.getElementById("gymRamp").checked;
-  const overheads = +document.getElementById("gymOverheads").value;
-  const staff = +document.getElementById("gymStaff").value;
+
+  const overheads =
+    +document.getElementById("gymUtil").value +
+    +document.getElementById("gymInsure").value +
+    +document.getElementById("gymMaint").value +
+    +document.getElementById("gymMarket").value;
+
+  const staff =
+    +document.getElementById("gymTrainer").value +
+    +document.getElementById("gymReception").value +
+    +document.getElementById("gymManager").value;
+
+  let revenue =
+    (weeklyMembers * weeklyFee * 52) +
+    (monthlyMembers * monthlyFee * 12) +
+    (annualMembers * annualFee);
+
+  if (ramp) revenue *= 0.6;
 
   const investment = equip + amenities + floor;
-  const revenue = ramp ? members * fee * 0.6 : members * fee;
-  const totalCosts = overheads + staff;
-  const profit = revenue - totalCosts;
+  const cost = overheads + staff;
+  const profit = revenue - cost;
+
+  totalRevenue = revenue;
+  totalCosts = cost;
+  totalInvestment = investment;
 
   document.getElementById("gymSummary").innerHTML = `
-    <p><strong>Investment:</strong> €${investment.toLocaleString()}</p>
+    <p><strong>Total Investment:</strong> €${investment.toLocaleString()}</p>
     <p><strong>Annual Revenue:</strong> €${Math.round(revenue).toLocaleString()}</p>
-    <p><strong>Annual Costs:</strong> €${totalCosts.toLocaleString()}</p>
+    <p><strong>Annual Costs:</strong> €${cost.toLocaleString()}</p>
     <p><strong>Annual Profit:</strong> €${Math.round(profit).toLocaleString()}</p>
   `;
 
-  drawCharts(revenue, totalCosts, investment);
+  drawCharts();
 }
 
-function drawCharts(revenue, costs, investment) {
+function drawCharts() {
   const months = Array.from({ length: 12 }, (_, i) => `Month ${i + 1}`);
-  const monthlyRevenue = revenue / 12;
-  const monthlyCosts = costs / 12;
+  const monthlyRevenue = totalRevenue / 12;
+  const monthlyCosts = totalCosts / 12;
   const monthlyProfit = monthlyRevenue - monthlyCosts;
 
-  // P&L Chart
+  // Destroy previous charts
   if (pnlChart) pnlChart.destroy();
+  if (roiChart) roiChart.destroy();
+
+  // P&L Chart
   pnlChart = new Chart(document.getElementById("pnlChart"), {
     type: "bar",
     data: {
@@ -97,27 +136,35 @@ function drawCharts(revenue, costs, investment) {
           backgroundColor: "#3498db"
         }
       ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'top' } }
     }
   });
 
   // ROI Chart
-  const roiProgress = months.map((_, i) =>
-    ((monthlyProfit * (i + 1)) / investment).toFixed(2)
+  const roiSeries = Array.from({ length: 12 }, (_, i) =>
+    ((monthlyProfit * (i + 1)) / totalInvestment).toFixed(2)
   );
 
-  if (roiChart) roiChart.destroy();
   roiChart = new Chart(document.getElementById("roiChart"), {
     type: "line",
     data: {
       labels: months,
       datasets: [
         {
-          label: "ROI",
-          data: roiProgress,
+          label: "ROI Over Time",
+          data: roiSeries,
           borderColor: "#f39c12",
+          fill: false,
           tension: 0.4
         }
       ]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { beginAtZero: true } }
     }
   });
 }
