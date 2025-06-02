@@ -36,58 +36,57 @@ header {
 .tab-content {
   display: none;
   padding: 20px;
+  max-width: 900px;
+  margin: auto;
 }
 
-.tab-content h2, h3, h4 {
-  margin-top: 1em;
+.tab-content h2 {
   color: #005a87;
-}
-
-fieldset {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin: 15px 0;
-  background: #fff;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
 }
 
 label {
   display: flex;
   justify-content: space-between;
-  margin: 8px 0;
+  margin: 10px 0;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 input[type="number"] {
-  width: 120px;
+  width: 150px;
   padding: 5px;
+  flex-shrink: 0;
+}
+
+.summary {
+  background: #eef;
+  padding: 15px;
+  margin-top: 20px;
+  border: 1px solid #ccd;
 }
 
 button {
   margin-top: 20px;
   padding: 10px 20px;
-  background: #005a87;
-  color: #fff;
+  font-size: 16px;
+  background: #0072b1;
+  color: white;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  border-radius: 4px;
 }
 
 button:hover {
-  background: #004a73;
-}
-
-.summary {
-  margin-top: 20px;
-  background: #eef;
-  padding: 15px;
-  border: 1px solid #99c;
+  background: #005a87;
 }
 
 canvas {
   margin-top: 20px;
-  width: 100% !important;
+  width: 100%;
   max-width: 800px;
-  height: auto !important;
+  height: auto;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -98,11 +97,9 @@ canvas {
     flex-direction: column;
     align-items: flex-start;
   }
-
   input[type="number"] {
     width: 100%;
   }
-
   .tabs {
     flex-wrap: wrap;
   }
