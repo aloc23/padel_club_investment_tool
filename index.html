@@ -67,81 +67,81 @@
     <div id="padelSummary" class="summary"></div>
   </section>
 
- <!-- Gym Tab -->
-<section id="gym" class="tab-content hidden">
-  <h2>Gym Investment & Revenue</h2>
-  <div class="input-group">
-    <label>Equipment (€): <input type="number" id="gymEquip" value="90989" /></label>
-    <label>Flooring (€): <input type="number" id="gymFloor" value="20000" /></label>
-    <label>Amenities (€): <input type="number" id="gymAmen" value="25000" /></label>
-  </div>
-  <h3>Revenue</h3>
-  <div class="input-group">
-    <label>Weekly Members: <input type="number" id="gymWeekMembers" value="0" min="0" /></label>
-    <label>Fee (€): <input type="number" id="gymWeekFee" value="0" /></label>
-    <label>Monthly Members: <input type="number" id="gymMonthMembers" value="0" min="0" /></label>
-    <label>Fee (€): <input type="number" id="gymMonthFee" value="0" /></label>
-    <label>Annual Members: <input type="number" id="gymAnnualMembers" value="0" min="0" /></label>
-    <label>Fee (€): <input type="number" id="gymAnnualFee" value="0" /></label>
-    <label><input type="checkbox" id="gymRamp" onchange="toggleRampUp()"> Apply Ramp-Up</label>
-  </div>
-  <div id="rampUpSettings" class="input-group hidden">
-    <label>Ramp-Up Duration (Months):
-      <input type="range" id="rampDuration" min="1" max="12" value="6" oninput="updateRampLabels()"/>
-      <span id="rampDurationVal">6</span>
+  <!-- Gym Tab -->
+  <section id="gym" class="tab-content hidden">
+    <h2>Gym Investment & Revenue</h2>
+    <div class="input-group">
+      <label>Equipment (€): <input type="number" id="gymEquip" value="90989" /></label>
+      <label>Flooring (€): <input type="number" id="gymFloor" value="20000" /></label>
+      <label>Amenities (€): <input type="number" id="gymAmen" value="25000" /></label>
+    </div>
+    <h3>Revenue</h3>
+    <div class="input-group">
+      <label>Weekly Members: <input type="number" id="gymWeekMembers" value="0" min="0" /></label>
+      <label>Fee (€): <input type="number" id="gymWeekFee" value="0" /></label>
+      <label>Monthly Members: <input type="number" id="gymMonthMembers" value="0" min="0" /></label>
+      <label>Fee (€): <input type="number" id="gymMonthFee" value="0" /></label>
+      <label>Annual Members: <input type="number" id="gymAnnualMembers" value="0" min="0" /></label>
+      <label>Fee (€): <input type="number" id="gymAnnualFee" value="0" /></label>
+      <label><input type="checkbox" id="gymRamp" onchange="toggleRampUp()"> Apply Ramp-Up</label>
+    </div>
+    <div id="rampUpSettings" class="input-group hidden">
+      <label>Ramp-Up Duration (Months):
+        <input type="range" id="rampDuration" min="1" max="12" value="6" oninput="updateRampLabels()"/>
+        <span id="rampDurationVal">6</span>
+      </label>
+      <label>Ramp-Up Effectiveness (%):
+        <input type="range" id="rampEffect" min="50" max="100" value="70" oninput="updateRampLabels()"/>
+        <span id="rampEffectVal">70</span>%
+      </label>
+    </div>
+    <h3>Operational Costs</h3>
+    <div class="input-group">
+      <label>Utilities (€): <input type="number" id="gymUtil" value="30000" /></label>
+      <label>Insurance (€): <input type="number" id="gymInsure" value="3000" /></label>
+      <label>Maintenance (€): <input type="number" id="gymMaint" value="21600" /></label>
+      <label>Marketing (€): <input type="number" id="gymMarket" value="5000" /></label>
+      <label>Admin (€): <input type="number" id="gymAdmin" value="2000" /></label>
+      <label>Cleaning (€): <input type="number" id="gymClean" value="15000" /></label>
+      <label>Misc (€): <input type="number" id="gymMisc" value="1000" /></label>
+    </div>
+    <h3>Staff</h3>
+    <div class="input-group">
+      <label>Trainers FT: <input type="number" id="gymFtTrainer" value="1" min="0" /></label>
+      <label>Salary (€): <input type="number" id="gymFtTrainerSal" value="32000" /></label>
+      <label>Trainers PT: <input type="number" id="gymPtTrainer" value="1" min="0" /></label>
+      <label>Salary (€): <input type="number" id="gymPtTrainerSal" value="11691" /></label>
+      <label>Additional Staff: <input type="number" id="gymAddStaff" value="0" min="0" /></label>
+      <label>Salary (€): <input type="number" id="gymAddStaffSal" value="25000" /></label>
+    </div>
+    <button onclick="calculateGym(); updateROI(); updatePnL();">Calculate Gym</button>
+    <div id="gymSummary" class="summary"></div>
+  </section>
+
+  <!-- Profit & Loss Tab -->
+  <section id="pnl" class="tab-content hidden">
+    <h2>Profit & Loss</h2>
+    <label>
+      <input type="radio" name="pl_toggle" value="annual" checked onchange="updatePnL()"> Annual
+      <input type="radio" name="pl_toggle" value="monthly" onchange="updatePnL()"> Monthly
     </label>
-    <label>Ramp-Up Effectiveness (%):
-      <input type="range" id="rampEffect" min="50" max="100" value="70" oninput="updateRampLabels()"/>
-      <span id="rampEffectVal">70</span>%
-    </label>
-  </div>
-  <h3>Operational Costs</h3>
-  <div class="input-group">
-    <label>Utilities (€): <input type="number" id="gymUtil" value="30000" /></label>
-    <label>Insurance (€): <input type="number" id="gymInsure" value="3000" /></label>
-    <label>Maintenance (€): <input type="number" id="gymMaint" value="21600" /></label>
-    <label>Marketing (€): <input type="number" id="gymMarket" value="5000" /></label>
-    <label>Admin (€): <input type="number" id="gymAdmin" value="2000" /></label>
-    <label>Cleaning (€): <input type="number" id="gymClean" value="15000" /></label>
-    <label>Misc (€): <input type="number" id="gymMisc" value="1000" /></label>
-  </div>
-  <h3>Staff</h3>
-  <div class="input-group">
-    <label>Trainers FT: <input type="number" id="gymFtTrainer" value="1" min="0" /></label>
-    <label>Salary (€): <input type="number" id="gymFtTrainerSal" value="32000" /></label>
-    <label>Trainers PT: <input type="number" id="gymPtTrainer" value="1" min="0" /></label>
-    <label>Salary (€): <input type="number" id="gymPtTrainerSal" value="11691" /></label>
-    <label>Additional Staff: <input type="number" id="gymAddStaff" value="0" min="0" /></label>
-    <label>Salary (€): <input type="number" id="gymAddStaffSal" value="25000" /></label>
-  </div>
-  <button onclick="calculateGym(); updateROI(); updatePnL();">Calculate Gym</button>
-  <div id="gymSummary" class="summary"></div>
-</section>
 
-<!-- Profit & Loss Tab -->
-<section id="pnl" class="tab-content hidden">
-  <h2>Profit & Loss</h2>
-  <label>
-    <input type="radio" name="pl_toggle" value="annual" checked onchange="updatePnL()"> Annual
-    <input type="radio" name="pl_toggle" value="monthly" onchange="updatePnL()"> Monthly
-  </label>
+    <canvas id="pnlChart" style="max-height: 300px;"></canvas>
+    <canvas id="profitTrendChart" style="max-height: 250px; margin-top: 2rem;"></canvas>
+    <canvas id="costPieChart" style="max-height: 250px; margin-top: 2rem;"></canvas>
 
-  <canvas id="pnlChart" style="max-height: 300px;"></canvas>
-  <canvas id="profitTrendChart" style="max-height: 250px; margin-top: 2rem;"></canvas>
-  <canvas id="costPieChart" style="max-height: 250px; margin-top: 2rem;"></canvas>
+    <div id="pnlSummary" class="summary"></div>
 
-  <div id="pnlSummary" class="summary"></div>
-
-  <details style="margin-top: 1rem;">
-    <summary>Monthly Breakdown</summary>
-    <table id="monthlyBreakdown" class="breakdown-table">
-      <thead>
-        <tr><th>Month</th><th>Revenue</th><th>Costs</th><th>Profit</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </details>
-</section>
+    <details style="margin-top: 1rem;">
+      <summary>Monthly Breakdown</summary>
+      <table id="monthlyBreakdown" class="breakdown-table">
+        <thead>
+          <tr><th>Month</th><th>Revenue</th><th>Costs</th><th>Profit</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </details>
+  </section>
 
   <!-- ROI Tab -->
   <section id="roi" class="tab-content hidden">
