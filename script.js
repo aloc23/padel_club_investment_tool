@@ -129,6 +129,46 @@ function updateROI() {
   let roi = (profit / invest) * 100;
   let yearsToROI = invest > 0 && profit > 0 ? (invest / profit).toFixed(1) : 'N/A';
 document.getElementById('yearsToROIText').innerHTML = `<strong>💡 Estimated Years to Break Even:</strong> ${yearsToROI} years`;
+  // Cumulative ROI over 5 years
+let cumulativeROIs = Array.from({ length: 5 }, (_, i) => ((profit * (i + 1)) / invest) * 100);
+let breakevenLine = Array(5).fill(100);
+
+new Chart(document.getElementById('roiBreakEvenChart').getContext('2d'), {
+  type: 'line',
+  data: {
+    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+    datasets: [
+      {
+        label: 'Cumulative ROI (%)',
+        data: cumulativeROIs,
+        borderColor: 'green',
+        fill: false,
+        tension: 0.3
+      },
+      {
+        label: 'Break-even (100%)',
+        data: breakevenLine,
+        borderColor: 'red',
+        borderDash: [5, 5],
+        fill: false,
+        pointRadius: 0
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: { mode: 'index' }
+    },
+    scales: {
+      y: {
+        title: { display: true, text: 'ROI (%)' },
+        beginAtZero: true
+      }
+    }
+  }
+});
 
   new Chart(document.getElementById('roiLineChart').getContext('2d'), {
     type: 'line',
