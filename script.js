@@ -97,16 +97,11 @@ function calculateGym() {
   const annualMembers = +document.getElementById('gymAnnualMembers').value;
   const annualFee = +document.getElementById('gymAnnualFee').value;
 
-  // Annual revenues from each membership type
   const weeklyRevenueAnnual = weekMembers * weekFee * 52;
   const monthlyRevenueAnnual = monthMembers * monthFee * 12;
   const annualRevenueAnnual = annualMembers * annualFee;
 
-  // Total annual revenue
   const totalAnnualRevenue = weeklyRevenueAnnual + monthlyRevenueAnnual + annualRevenueAnnual;
-
-  // Monthly revenue for internal calculations (e.g. monthly P&L)
-  const totalMonthlyRevenue = totalAnnualRevenue / 12;
 
   // Operational costs
   const utilCost = +document.getElementById('gymUtil').value;
@@ -132,7 +127,7 @@ function calculateGym() {
     ptTrainer * ptTrainerSal +
     addStaff * addStaffSal;
 
-  // Adjust total revenue if ramp-up enabled
+  // Ramp-up adjustment
   let adjustedAnnualRevenue = totalAnnualRevenue;
   if (document.getElementById('gymRamp').checked) {
     const rampDuration = +document.getElementById('rampDuration').value;
@@ -150,7 +145,6 @@ function calculateGym() {
 
   const netProfit = adjustedAnnualRevenue - totalOpCosts - totalStaffCost;
 
-  // Update summary with annual revenue
   const summaryDiv = document.getElementById('gymSummary');
   summaryDiv.innerHTML = `
     <h3>Summary</h3>
@@ -160,7 +154,6 @@ function calculateGym() {
     <p><b>Net Profit:</b> €${netProfit.toFixed(2)}</p>
   `;
 
-  // Save monthly values for P&L and ROI
   window.gymData = {
     revenue: adjustedAnnualRevenue,
     costs: totalOpCosts + totalStaffCost,
