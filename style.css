@@ -1,61 +1,68 @@
 body {
   font-family: Arial, sans-serif;
+  background-color: #f7f9fb;
   margin: 0;
-  padding: 1rem;
-  background-color: #f9f9f9;
+  padding: 0;
 }
 
 header {
-  background-color: #006699;
+  background-color: #0077aa;
   color: white;
-  padding: 1rem;
+  padding: 1.5rem;
   text-align: center;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+  font-size: 1.8rem;
 }
 
 .tabs {
   text-align: center;
-  margin-bottom: 1rem;
+  background-color: #e0e0e0;
+  padding: 0.5rem;
 }
 
 .tabs button {
-  padding: 0.5rem 1rem;
   margin: 0.3rem;
-  background-color: #ddd;
-  border: none;
-  border-radius: 5px;
+  padding: 0.6rem 1.2rem;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .tabs button:hover {
-  background-color: #bbb;
+  background-color: #d0e6f7;
 }
 
 .tab-content {
   display: none;
-  background-color: white;
-  padding: 1rem;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #ccc;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
 }
 
 label {
   display: block;
-  margin: 0.5rem 0;
+  margin: 0.6rem 0;
+  font-size: 0.95rem;
 }
 
 input[type="number"],
-input[type="text"] {
-  margin-left: 0.5rem;
+input[type="text"],
+input[type="range"] {
+  margin-left: 0.4rem;
   padding: 0.3rem;
-  width: 8rem;
+  width: 120px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="checkbox"] {
+  margin-right: 0.5rem;
 }
 
 button {
   margin-top: 1rem;
-  padding: 0.7rem 1.5rem;
-  background-color: #006699;
+  padding: 0.6rem 1.5rem;
+  background-color: #0077aa;
   color: white;
   border: none;
   border-radius: 5px;
@@ -63,17 +70,22 @@ button {
 }
 
 button:hover {
-  background-color: #004466;
+  background-color: #005e88;
 }
 
 .summary {
-  background-color: #f1f1f1;
+  background-color: #eef6f9;
+  border-left: 5px solid #0077aa;
   padding: 1rem;
-  margin-top: 1rem;
-  border-left: 4px solid #006699;
+  margin-top: 1.5rem;
+  font-size: 1rem;
 }
 
 canvas {
   max-width: 100%;
   margin-top: 1rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  border-radius: 4px;
 }
