@@ -1,115 +1,132 @@
-/* style.css - Padel Club Investment Planner */
-
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f9f9f9;
+  background: #f4f4f4;
   color: #333;
 }
 
 header {
-  background: #005a8d;
+  background-color: #222;
   color: white;
   padding: 1rem;
   text-align: center;
 }
 
+header::before {
+  content: '';
+  background: url('logo.png') no-repeat left center;
+  background-size: 50px;
+  display: inline-block;
+  width: 60px;
+  height: 50px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
 .tabs {
   display: flex;
   justify-content: center;
-  background: #eee;
+  background: #ddd;
   padding: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .tabs button {
-  margin: 0 10px;
+  margin: 5px;
   padding: 10px 20px;
-  background: #ddd;
   border: none;
-  border-radius: 5px;
+  background: #333;
+  color: white;
   cursor: pointer;
-  font-weight: bold;
+  border-radius: 4px;
 }
 
 .tabs button:hover {
-  background: #ccc;
+  background: #555;
 }
 
 .tab-content {
   display: none;
-  padding: 1.5rem;
-  background: #fff;
-  margin: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
-}
-
-.tab-content.active {
-  display: block;
+  padding: 2rem;
+  max-width: 900px;
+  margin: auto;
+  background: white;
+  border-radius: 6px;
+  margin-top: 1rem;
 }
 
 label {
   display: block;
   margin: 10px 0;
+  font-weight: 500;
 }
 
-input[type="number"], input[type="text"], input[type="range"] {
-  padding: 5px;
+input[type="number"],
+input[type="text"],
+input[type="range"] {
+  padding: 6px;
   margin-left: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  width: 100px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  margin-right: 5px;
 }
 
 button {
   margin-top: 20px;
   padding: 10px 20px;
-  background: #005a8d;
+  background: #2196F3;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
 }
 
 button:hover {
-  background: #00466f;
-}
-
-canvas {
-  max-width: 100%;
-  margin-top: 20px;
+  background: #0b7dda;
 }
 
 .summary {
-  background: #f0f8ff;
+  margin-top: 20px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  background: #eaf4fd;
   padding: 1rem;
-  border-left: 4px solid #005a8d;
-  margin-top: 1rem;
+  border-left: 5px solid #2196F3;
   border-radius: 5px;
-  font-size: 1rem;
 }
 
-#pnl table, #roi table {
-  width: 100%;
-  margin-top: 1rem;
-  border-collapse: collapse;
+canvas {
+  margin-top: 20px;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 100% !important;
+  max-width: 800px;
 }
 
-#pnl table th, #pnl table td,
-#roi table th, #roi table td {
-  padding: 8px;
-  border: 1px solid #ccc;
-  text-align: right;
-}
+@media (max-width: 600px) {
+  input[type="number"],
+  input[type="text"],
+  input[type="range"] {
+    width: 80%;
+    display: block;
+    margin-top: 5px;
+  }
 
-#pnl table th, #roi table th {
-  background-color: #e0e0e0;
-  font-weight: bold;
-}
+  label {
+    font-size: 0.95rem;
+  }
 
-img.logo {
-  height: 50px;
-  margin-top: -10px;
-  float: right;
+  .tabs {
+    flex-direction: column;
+  }
+
+  .tabs button {
+    width: 100%;
+  }
 }
