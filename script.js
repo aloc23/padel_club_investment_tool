@@ -127,6 +127,8 @@ function updateROI() {
   let costs = calcOpCosts('padel') + calcOpCosts('gym') + calcStaffCost('padel') + calcStaffCost('gym');
   let profit = revenue - costs;
   let roi = (profit / invest) * 100;
+  let yearsToROI = invest > 0 && profit > 0 ? (invest / profit).toFixed(1) : 'N/A';
+document.getElementById('yearsToROIText').innerHTML = `<strong>💡 Estimated Years to Break Even:</strong> ${yearsToROI} years`;
 
   new Chart(document.getElementById('roiLineChart').getContext('2d'), {
     type: 'line',
