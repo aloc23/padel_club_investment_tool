@@ -54,7 +54,7 @@ function calculatePadel() {
     +document.getElementById("padelCoachPT").value * +document.getElementById("padelCoachPTSal").value +
     +document.getElementById("padelAddStaff").value * +document.getElementById("padelAddStaffSal").value;
 
-  const investment = ground + structure + courts * courtCost;
+  const investment = padelAmenities + ground + structure + courts * courtCost;
 
   financials.padelRevenue = utilTotal;
   financials.padelCost = opCosts + staffCosts;
