@@ -186,4 +186,31 @@ function drawChart(canvasId, labels, data, type) {
   const ctx = document.getElementById(canvasId).getContext("2d");
   if (window[canvasId]) window[canvasId].destroy();
 
-  window[canvasId] = new
+  window[canvasId] = new Chart(ctx, {
+    type,
+    data: {
+      labels,
+      datasets: [{
+        label: canvasId,
+        data,
+        backgroundColor: ['#4CAF50', '#FF9800', '#2196F3', '#f44336', '#9C27B0', '#00BCD4'],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: type === "pie" },
+        tooltip: { enabled: true }
+      }
+    }
+  });
+}
+
+// Update all summaries and charts
+function updateAll() {
+  calculatePadel();
+  calculateGym();
+  updatePnl();
+  updateROI();
+}
