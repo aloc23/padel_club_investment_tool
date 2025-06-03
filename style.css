@@ -43,6 +43,10 @@ header img.logo {
   background: #555;
 }
 
+.tabs button.active {
+  background-color: #0b7dda;
+}
+
 .tab-content {
   display: none;
   padding: 2rem;
