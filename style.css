@@ -2,60 +2,56 @@ body {
   font-family: Arial, sans-serif;
   margin: 0; padding: 0;
   background: #f9f9f9;
-  color: #222;
+  color: #333;
 }
 
 header {
-  background: #004d40;
+  background-color: #004d99;
   color: white;
   padding: 1rem;
   text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  position: relative;
 }
 
 .logo {
-  height: 40px;
-  vertical-align: middle;
-  margin-right: 1rem;
+  max-height: 50px;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 h1 {
-  display: inline-block;
-  vertical-align: middle;
-  font-weight: 700;
+  margin: 0;
+  font-size: 1.8rem;
 }
 
 .tabs {
   display: flex;
   justify-content: center;
-  background: #00796b;
+  background-color: #007acc;
+  margin-bottom: 1rem;
 }
 
 .tabs button {
-  background: none;
+  background: transparent;
   border: none;
   color: white;
-  padding: 1rem 1.5rem;
-  cursor: pointer;
-  font-weight: 600;
   font-size: 1rem;
-  transition: background 0.3s;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .tabs button:hover,
 .tabs button.active {
-  background: #004d40;
+  background-color: #005fa3;
 }
 
 .tab-content {
   max-width: 900px;
-  margin: 2rem auto;
-  padding: 1rem 2rem;
-  background: white;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  margin: 0 auto 2rem;
+  padding: 0 1rem;
 }
 
 .hidden {
@@ -64,77 +60,40 @@ h1 {
 
 fieldset {
   border: 1px solid #ccc;
-  margin-bottom: 1.5rem;
   padding: 1rem;
+  margin-bottom: 1rem;
   border-radius: 5px;
+  background: white;
 }
 
 legend {
-  font-weight: 700;
+  font-weight: bold;
   padding: 0 0.5rem;
-  color: #00796b;
 }
 
 label {
-  display: block;
-  margin: 0.5rem 0;
-  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
 }
 
 input[type="number"],
 input[type="range"] {
-  width: 100px;
-  margin-left: 0.5rem;
-  padding: 0.2rem 0.4rem;
-  border: 1px solid #aaa;
-  border-radius: 3px;
+  width: 90px;
+  padding: 0.3rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 input[type="checkbox"] {
-  margin-left: 0.5rem;
   transform: scale(1.2);
-  vertical-align: middle;
+  margin-right: 0.5rem;
+  align-self: center;
 }
 
-.summary {
-  background: #e0f2f1;
-  border: 1px solid #00796b;
-  border-radius: 4px;
-  padding: 1rem;
-  margin-top: 1rem;
-  font-weight: 700;
-}
-
-.breakdown-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-
-.breakdown-table th,
-.breakdown-table td {
-  border: 1px solid #ccc;
-  padding: 0.5rem 0.75rem;
-  text-align: center;
-}
-
-.breakdown-table th {
-  background: #004d40;
-  color: white;
-}
-
-@media (max-width: 600px) {
-  .tabs {
-    flex-direction: column;
-  }
-  .tabs button {
-    padding: 0.75rem 1rem;
-  }
-  input[type="number"],
-  input[type="range"] {
-    width: 80px;
-#btnCalculatePadel, #btnCalculateGym {
-  display: inline-block !important;
+button {
   padding: 0.6em 1.2em;
   font-size: 1rem;
   cursor: pointer;
@@ -143,7 +102,41 @@ input[type="checkbox"] {
   border-radius: 4px;
   color: white;
   margin-top: 1rem;
+  display: inline-block;
 }
-#btnCalculatePadel:hover, #btnCalculateGym:hover {
+
+button:hover {
   background-color: #0056b3;
+}
+
+.summary {
+  background-color: #eef6ff;
+  border: 1px solid #007bff;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.breakdown-table th,
+.breakdown-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: right;
+}
+
+.breakdown-table th {
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+}
+
+.breakdown-table td:first-child {
+  text-align: left;
 }
