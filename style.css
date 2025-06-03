@@ -1,49 +1,49 @@
 /* style.css */
-
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
-  color: #333;
+  background: #f7f9fb;
+  color: #222;
 }
 
 header {
-  background-color: #002f6c;
+  background: #0f62fe;
   color: white;
-  padding: 20px;
-  text-align: center;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .logo {
   height: 60px;
-  display: block;
-  margin: 0 auto 10px;
+}
+
+h1 {
+  font-size: 1.5rem;
 }
 
 .tabs {
   display: flex;
   justify-content: center;
-  background-color: #ddd;
-  padding: 10px;
+  background: #e1e4e8;
+  padding: 0.5rem;
 }
 
 .tabs button {
-  margin: 0 5px;
-  padding: 10px 20px;
-  border: none;
-  background-color: #004a99;
-  color: white;
+  background: white;
+  border: 1px solid #ccc;
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
-}
-
-.tabs button:hover {
-  background-color: #0066cc;
+  font-weight: bold;
+  border-radius: 4px;
 }
 
 .tab-content {
   display: none;
-  padding: 20px;
+  padding: 2rem;
 }
 
 .tab-content.active {
@@ -52,38 +52,45 @@ header {
 
 label {
   display: block;
-  margin: 10px 0;
+  margin: 0.5rem 0;
+  font-weight: bold;
 }
 
 input[type="number"], input[type="text"], input[type="range"] {
-  width: 200px;
-  margin-left: 10px;
-}
-
-.summary {
-  background-color: #fff;
-  padding: 15px;
-  margin-top: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  width: 150px;
 }
 
 canvas {
   max-width: 100%;
-  margin: 20px auto;
+  margin: 2rem auto;
   display: block;
 }
 
-button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  background-color: #004a99;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
+.summary-block {
+  background: #eef1f5;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-left: 4px solid #0f62fe;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
-button:hover {
-  background-color: #0066cc;
+.toggle {
+  margin: 1rem 0;
+}
+
+#paybackTableContainer {
+  margin-top: 2rem;
+}
+
+#paybackTableContainer table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#paybackTableContainer th, #paybackTableContainer td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: center;
 }
