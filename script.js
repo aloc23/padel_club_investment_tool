@@ -30,11 +30,14 @@ function calculatePadel() {
 
   const days = +document.getElementById('padelDays').value;
   const weeks = +document.getElementById('padelWeeks').value;
+  const courts = +document.getElementById('padelCourts').value || 1;
 
-  const peakRevenue = peakHours * peakRate * peakUtil * days * weeks;
-  const offRevenue = offHours * offRate * offUtil * days * weeks;
-  const totalRevenue = peakRevenue + offRevenue;
+  const peakAnnualRevenue = peakHours * peakRate * days * weeks * courts * peakUtil;
+  const offAnnualRevenue = offHours * offRate * days * weeks * courts * offUtil;
 
+  const totalAnnualRevenue = peakAnnualRevenue + offAnnualRevenue;
+
+  // Operational costs (assumed annual)
   const utilCost = +document.getElementById('padelUtil').value;
   const insureCost = +document.getElementById('padelInsure').value;
   const maintCost = +document.getElementById('padelMaint').value;
@@ -45,6 +48,7 @@ function calculatePadel() {
 
   const totalOpCosts = utilCost + insureCost + maintCost + marketCost + adminCost + cleanCost + miscCost;
 
+  // Staff costs (annual)
   const ftMgr = +document.getElementById('padelFtMgr').value;
   const ftMgrSal = +document.getElementById('padelFtMgrSal').value;
   const ftRec = +document.getElementById('padelFtRec').value;
@@ -63,28 +67,29 @@ function calculatePadel() {
     ptCoach * ptCoachSal +
     addStaff * addStaffSal;
 
-  const netProfit = totalRevenue - totalOpCosts - totalStaffCost;
+  const netProfit = totalAnnualRevenue - totalOpCosts - totalStaffCost;
 
   const summaryDiv = document.getElementById('padelSummary');
   summaryDiv.innerHTML = `
     <h3>Summary</h3>
-    <p><b>Total Revenue:</b> €${totalRevenue.toFixed(2)}</p>
+    <p><b>Annual Revenue:</b> €${totalAnnualRevenue.toFixed(2)}</p>
     <p><b>Operational Costs:</b> €${totalOpCosts.toFixed(2)}</p>
     <p><b>Staff Costs:</b> €${totalStaffCost.toFixed(2)}</p>
     <p><b>Net Profit:</b> €${netProfit.toFixed(2)}</p>
   `;
 
   window.padelData = {
-    revenue: totalRevenue,
+    revenue: totalAnnualRevenue,
     costs: totalOpCosts + totalStaffCost,
     profit: netProfit,
-    monthlyRevenue: totalRevenue / 12,
+    monthlyRevenue: totalAnnualRevenue / 12,
     monthlyCosts: (totalOpCosts + totalStaffCost) / 12,
     monthlyProfit: netProfit / 12,
   };
 
   updatePnL();
   updateROI();
+}
 }
 
 // -- Gym Calculations --
