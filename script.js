@@ -113,7 +113,14 @@ function calculateGym() {
   const annualMembers = +document.getElementById('gymAnnualMembers').value;
   const annualFee = +document.getElementById('gymAnnualFee').value;
 
-  let totalRevenue = (weekMembers * weekFee * 52 / 12) + (monthMembers * monthFee) + (annualMembers * annualFee / 12);
+  const weeklyRevenueAnnual = weekMembers * weekFee * 52;
+const monthlyRevenueAnnual = monthMembers * monthFee * 12;
+const annualRevenueAnnual = annualMembers * annualFee;
+
+const totalAnnualRevenue = weeklyRevenueAnnual + monthlyRevenueAnnual + annualRevenueAnnual;
+const totalMonthlyRevenue = totalAnnualRevenue / 12;
+
+let totalRevenue = totalMonthlyRevenue;
 
   if (document.getElementById('gymRamp').checked) {
     const rampDuration = +document.getElementById('rampDuration').value;
