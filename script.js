@@ -318,36 +318,47 @@ function updateRampSliders() {
 
 // Hook inputs for live update
 function hookInputEvents() {
-  document.querySelectorAll('input').forEach(input => {
+  // Live update (optional, but can be kept)
+  document.querySelectorAll('input[type=number]').forEach(input => {
     input.addEventListener('input', () => {
-      calculatePadel();
-      calculateGym();
-      updatePnL();
-      updateROI();
-      updateRampSliders();
+      // Comment out live update if you want ONLY Calculate buttons to trigger
+      //calculatePadel();
+      //calculateGym();
+      //updatePnL();
+      //updateROI();
+      //updateRampSliders();
     });
   });
-  document.getElementById('gymRamp').addEventListener('change', () => {
-    toggleRampSettings();
+
+  // Calculate buttons
+  document.getElementById('btnCalculatePadel').addEventListener('click', () => {
+    calculatePadel();
+    updatePnL();
+    updateROI();
+  });
+
+  document.getElementById('btnCalculateGym').addEventListener('click', () => {
     calculateGym();
     updatePnL();
     updateROI();
   });
+
+  document.getElementById('gymRamp').addEventListener('change', () => {
+    toggleRampSettings();
+  });
+
+  document.getElementById('rampDuration').addEventListener('input', () => {
+    updateRampSliders();
+  });
+
+  document.getElementById('rampEffect').addEventListener('input', () => {
+    updateRampSliders();
+  });
+
   document.querySelectorAll('input[name="pl_toggle"]').forEach(radio => {
     radio.addEventListener('change', updatePnL);
   });
-  document.getElementById('rampDuration').addEventListener('input', () => {
-    updateRampSliders();
-    calculateGym();
-    updatePnL();
-    updateROI();
-  });
-  document.getElementById('rampEffect').addEventListener('input', () => {
-    updateRampSliders();
-    calculateGym();
-    updatePnL();
-    updateROI();
-  });
+
   document.querySelectorAll('.tabs button').forEach(btn => {
     btn.addEventListener('click', () => {
       showTab(btn.id.replace('tab', '').toLowerCase());
