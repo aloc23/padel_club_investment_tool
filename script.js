@@ -1,210 +1,168 @@
-// Tab switching
-function showTab(id) {
+// script.js
+
+function showTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
-  document.getElementById(id).style.display = 'block';
-}
-
-function getVal(id) {
-  return parseFloat(document.getElementById(id)?.value || 0);
-}
-
-function calcStaffCost(prefix) {
-  let roles = ['FtMgr', 'FtRec', 'FtCoach', 'PtCoach', 'FtTrainer', 'PtTrainer'];
-  let total = 0;
-  roles.forEach(role => {
-    let qty = getVal(`${prefix}${role}`);
-    let sal = getVal(`${prefix}${role}Sal`);
-    total += qty * sal;
-  });
-  return total;
-}
-
-function calcOpCosts(prefix) {
-  return ['Util', 'Insure', 'Maint', 'Market', 'Admin', 'Clean', 'Misc']
-    .reduce((sum, id) => sum + getVal(`${prefix}${id}`), 0);
-}
-
-function calcPadelRevenue() {
-  let courts = getVal('padelCourts');
-  let peak = getVal('padelPeakHours') * getVal('padelPeakRate') * (getVal('padelPeakUtil') / 100);
-  let off = getVal('padelOffHours') * getVal('padelOffRate') * (getVal('padelOffUtil') / 100);
-  let days = getVal('padelDays');
-  let weeks = getVal('padelWeeks');
-  return courts * (peak + off) * days * weeks;
-}
-
-function calcGymRevenue() {
-  let week = getVal('gymWeekMembers') * getVal('gymWeekFee') * 52;
-  let month = getVal('gymMonthMembers') * getVal('gymMonthFee') * 12;
-  let annual = getVal('gymAnnualMembers') * getVal('gymAnnualFee');
-  let total = week + month + annual;
-  return document.getElementById('gymRamp').checked ? total * 0.6 : total;
+  document.getElementById(tabId).style.display = 'block';
 }
 
 function calculatePadel() {
-  let invest = getVal('padelGround') + getVal('padelStructure') + (getVal('padelCourts') * getVal('padelCourtCost'));
-  let revenue = calcPadelRevenue();
-  let ops = calcOpCosts('padel');
-  let staff = calcStaffCost('padel');
-  let profit = revenue - (ops + staff);
+  const courts = +document.getElementById('padelCourts').value;
+  const courtCost = +document.getElementById('padelCourtCost').value;
+  const ground = +document.getElementById('padelGround').value;
+  const struct = +document.getElementById('padelStructure').value;
+
+  const peakH = +document.getElementById('padelPeakHours').value;
+  const peakR = +document.getElementById('padelPeakRate').value;
+  const peakU = +document.getElementById('padelPeakUtil').value / 100;
+  const offH = +document.getElementById('padelOffHours').value;
+  const offR = +document.getElementById('padelOffRate').value;
+  const offU = +document.getElementById('padelOffUtil').value / 100;
+  const days = +document.getElementById('padelDays').value;
+  const weeks = +document.getElementById('padelWeeks').value;
+
+  const revenue = courts * ((peakH * peakR * peakU) + (offH * offR * offU)) * days * weeks;
+
+  const util = +document.getElementById('padelUtil').value;
+  const insure = +document.getElementById('padelInsure').value;
+  const maint = +document.getElementById('padelMaint').value;
+  const market = +document.getElementById('padelMarket').value;
+  const admin = +document.getElementById('padelAdmin').value;
+  const clean = +document.getElementById('padelClean').value;
+  const misc = +document.getElementById('padelMisc').value;
+
+  const ftMgr = +document.getElementById('padelFtMgr').value * +document.getElementById('padelFtMgrSal').value;
+  const ftRec = +document.getElementById('padelFtRec').value * +document.getElementById('padelFtRecSal').value;
+  const ftCoach = +document.getElementById('padelFtCoach').value * +document.getElementById('padelFtCoachSal').value;
+  const ptCoach = +document.getElementById('padelPtCoach').value * +document.getElementById('padelPtCoachSal').value;
+
+  const staff = ftMgr + ftRec + ftCoach + ptCoach;
+  const ops = util + insure + maint + market + admin + clean + misc;
+
+  const invest = ground + struct + (courts * courtCost);
+  const profit = revenue - ops - staff;
+
   document.getElementById('padelSummary').innerHTML = `
-    <h3>Padel Summary</h3>
-    <p><strong>Investment:</strong> €${invest.toLocaleString()}</p>
-    <p><strong>Revenue:</strong> €${revenue.toLocaleString()}</p>
-    <p><strong>Operational Costs:</strong> €${ops.toLocaleString()}</p>
-    <p><strong>Staff Costs:</strong> €${staff.toLocaleString()}</p>
-    <p><strong>Profit:</strong> €${profit.toLocaleString()}</p>
+    <strong>Revenue:</strong> €${revenue.toFixed(2)}<br>
+    <strong>Operational Costs:</strong> €${ops.toFixed(2)}<br>
+    <strong>Staff Costs:</strong> €${staff.toFixed(2)}<br>
+    <strong>Profit:</strong> €${profit.toFixed(2)}<br>
+    <strong>Investment:</strong> €${invest.toFixed(2)}
   `;
-  updatePNL();
-  updateROI();
 }
 
 function calculateGym() {
-  let invest = getVal('gymEquip') + getVal('gymFloor') + getVal('gymAmen');
-  let revenue = calcGymRevenue();
-  let ops = calcOpCosts('gym');
-  let staff = calcStaffCost('gym');
-  let profit = revenue - (ops + staff);
+  const equip = +document.getElementById('gymEquip').value;
+  const floor = +document.getElementById('gymFloor').value;
+  const amen = +document.getElementById('gymAmen').value;
+  const invest = equip + floor + amen;
+
+  const wMem = +document.getElementById('gymWeekMembers').value * +document.getElementById('gymWeekFee').value * 52;
+  const mMem = +document.getElementById('gymMonthMembers').value * +document.getElementById('gymMonthFee').value * 12;
+  const aMem = +document.getElementById('gymAnnualMembers').value * +document.getElementById('gymAnnualFee').value;
+
+  let revenue = wMem + mMem + aMem;
+  if (document.getElementById('gymRamp').checked) revenue *= 0.7;
+
+  const util = +document.getElementById('gymUtil').value;
+  const insure = +document.getElementById('gymInsure').value;
+  const maint = +document.getElementById('gymMaint').value;
+  const market = +document.getElementById('gymMarket').value;
+  const admin = +document.getElementById('gymAdmin').value;
+  const clean = +document.getElementById('gymClean').value;
+  const misc = +document.getElementById('gymMisc').value;
+
+  const ft = +document.getElementById('gymFtTrainer').value * +document.getElementById('gymFtTrainerSal').value;
+  const pt = +document.getElementById('gymPtTrainer').value * +document.getElementById('gymPtTrainerSal').value;
+  const staff = ft + pt;
+
+  const ops = util + insure + maint + market + admin + clean + misc;
+  const profit = revenue - ops - staff;
+
   document.getElementById('gymSummary').innerHTML = `
-    <h3>Gym Summary</h3>
-    <p><strong>Investment:</strong> €${invest.toLocaleString()}</p>
-    <p><strong>Revenue:</strong> €${revenue.toLocaleString()}</p>
-    <p><strong>Operational Costs:</strong> €${ops.toLocaleString()}</p>
-    <p><strong>Staff Costs:</strong> €${staff.toLocaleString()}</p>
-    <p><strong>Profit:</strong> €${profit.toLocaleString()}</p>
+    <strong>Revenue:</strong> €${revenue.toFixed(2)}<br>
+    <strong>Operational Costs:</strong> €${ops.toFixed(2)}<br>
+    <strong>Staff Costs:</strong> €${staff.toFixed(2)}<br>
+    <strong>Profit:</strong> €${profit.toFixed(2)}<br>
+    <strong>Investment:</strong> €${invest.toFixed(2)}
   `;
-  updatePNL();
-  updateROI();
-}
-
-function updatePNL() {
-  let revenue = calcPadelRevenue() + calcGymRevenue();
-  let costs = calcOpCosts('padel') + calcOpCosts('gym') + calcStaffCost('padel') + calcStaffCost('gym');
-  let profit = revenue - costs;
-  let monthly = (val) => document.querySelector('input[name="pl_toggle"]:checked').value === 'monthly' ? val / 12 : val;
-
-  new Chart(document.getElementById('pnlChart').getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels: ['Revenue', 'Costs', 'Profit'],
-      datasets: [{
-        label: 'P&L Summary',
-        data: [monthly(revenue), monthly(costs), monthly(profit)],
-        backgroundColor: ['green', 'orange', 'blue']
-      }]
-    },
-    options: { responsive: true }
-  });
-
-  new Chart(document.getElementById('profitTrendChart').getContext('2d'), {
-    type: 'line',
-    data: {
-      labels: Array.from({ length: 12 }, (_, i) => `Month ${i + 1}`),
-      datasets: [{
-        label: 'Monthly Profit Trend',
-        data: Array.from({ length: 12 }, () => monthly(profit)),
-        borderColor: 'blue',
-        fill: false
-      }]
-    }
-  });
-
-  new Chart(document.getElementById('costPieChart').getContext('2d'), {
-    type: 'pie',
-    data: {
-      labels: ['Operational Costs', 'Staff Costs'],
-      datasets: [{
-        data: [calcOpCosts('padel') + calcOpCosts('gym'), calcStaffCost('padel') + calcStaffCost('gym')],
-        backgroundColor: ['#FFA500', '#FF6347']
-      }]
-    }
-  });
 }
 
 function updateROI() {
-  let invest = getVal('padelGround') + getVal('padelStructure') + (getVal('padelCourts') * getVal('padelCourtCost')) + getVal('gymEquip') + getVal('gymFloor') + getVal('gymAmen');
-  let revenue = calcPadelRevenue() + calcGymRevenue();
-  let costs = calcOpCosts('padel') + calcOpCosts('gym') + calcStaffCost('padel') + calcStaffCost('gym');
-  let profit = revenue - costs;
-  let roi = (profit / invest) * 100;
-  let yearsToROI = invest > 0 && profit > 0 ? (invest / profit).toFixed(1) : 'N/A';
-document.getElementById('yearsToROIText').innerHTML = `<strong>💡 Estimated Years to Break Even:</strong> ${yearsToROI} years`;
-  // Cumulative ROI over 5 years
-let cumulativeROIs = Array.from({ length: 5 }, (_, i) => ((profit * (i + 1)) / invest) * 100);
-let breakevenLine = Array(5).fill(100);
+  const padelRev = parseFloat(document.getElementById('padelSummary').textContent.match(/Revenue:\s€([\d.]+)/)?.[1] || 0);
+  const padelOps = parseFloat(document.getElementById('padelSummary').textContent.match(/Operational Costs:\s€([\d.]+)/)?.[1] || 0);
+  const padelStaff = parseFloat(document.getElementById('padelSummary').textContent.match(/Staff Costs:\s€([\d.]+)/)?.[1] || 0);
+  const padelInv = parseFloat(document.getElementById('padelSummary').textContent.match(/Investment:\s€([\d.]+)/)?.[1] || 0);
 
-new Chart(document.getElementById('roiBreakEvenChart').getContext('2d'), {
-  type: 'line',
-  data: {
-    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-    datasets: [
-      {
-        label: 'Cumulative ROI (%)',
-        data: cumulativeROIs,
-        borderColor: 'green',
-        fill: false,
-        tension: 0.3
-      },
-      {
-        label: 'Break-even (100%)',
-        data: breakevenLine,
-        borderColor: 'red',
-        borderDash: [5, 5],
-        fill: false,
-        pointRadius: 0
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'top' },
-      tooltip: { mode: 'index' }
-    },
-    scales: {
-      y: {
-        title: { display: true, text: 'ROI (%)' },
-        beginAtZero: true
-      }
-    }
-  }
-});
+  const gymRev = parseFloat(document.getElementById('gymSummary').textContent.match(/Revenue:\s€([\d.]+)/)?.[1] || 0);
+  const gymOps = parseFloat(document.getElementById('gymSummary').textContent.match(/Operational Costs:\s€([\d.]+)/)?.[1] || 0);
+  const gymStaff = parseFloat(document.getElementById('gymSummary').textContent.match(/Staff Costs:\s€([\d.]+)/)?.[1] || 0);
+  const gymInv = parseFloat(document.getElementById('gymSummary').textContent.match(/Investment:\s€([\d.]+)/)?.[1] || 0);
+
+  const invest = padelInv + gymInv;
+  const profit = (padelRev + gymRev) - (padelOps + gymOps + padelStaff + gymStaff);
+  const roi = invest > 0 ? (profit / invest) * 100 : 0;
+  const yearsToROI = profit > 0 ? (invest / profit).toFixed(1) : 'N/A';
+
+  document.getElementById('yearsToROIText').innerHTML = `<strong>💡 Estimated Years to Break Even:</strong> ${yearsToROI} years`;
 
   new Chart(document.getElementById('roiLineChart').getContext('2d'), {
     type: 'line',
     data: {
       labels: ['Year 1', 'Year 2', 'Year 3'],
-      datasets: [{
-        label: 'ROI Over Time',
-        data: [roi, roi * 1.5, roi * 2],
-        borderColor: 'green',
-        fill: false
-      }]
+      datasets: [{ label: 'ROI %', data: [roi, roi * 1.5, roi * 2] }]
     }
   });
 
   new Chart(document.getElementById('roiBarChart').getContext('2d'), {
     type: 'bar',
     data: {
-      labels: ['Year 1 ROI'],
-      datasets: [{
-        label: 'ROI (%)',
-        data: [roi],
-        backgroundColor: ['#00BFFF']
-      }]
+      labels: ['Year 1'],
+      datasets: [{ label: 'ROI %', data: [roi], backgroundColor: 'blue' }]
     }
   });
 
   new Chart(document.getElementById('roiPieChart').getContext('2d'), {
     type: 'pie',
     data: {
-      labels: ['Investment Return', 'Remaining Investment'],
-      datasets: [{
-        data: [profit, invest - profit],
-        backgroundColor: ['#90EE90', '#d3d3d3']
-      }]
+      labels: ['Profit', 'Remaining'],
+      datasets: [{ data: [profit, invest - profit], backgroundColor: ['green', 'red'] }]
+    }
+  });
+
+  new Chart(document.getElementById('roiBreakEvenChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+      datasets: [
+        {
+          label: 'Cumulative ROI (%)',
+          data: Array.from({ length: 5 }, (_, i) => ((profit * (i + 1)) / invest) * 100),
+          borderColor: 'green',
+          fill: false,
+          tension: 0.3
+        },
+        {
+          label: 'Break-even (100%)',
+          data: Array(5).fill(100),
+          borderColor: 'red',
+          borderDash: [5, 5],
+          fill: false,
+          pointRadius: 0
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: { mode: 'index' }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'ROI (%)' },
+          beginAtZero: true
+        }
+      }
     }
   });
 }
-
-window.onload = () => showTab('padel');
