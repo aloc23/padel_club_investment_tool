@@ -1,20 +1,21 @@
 function showTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(tab => {
     tab.style.display = (tab.id === tabId) ? 'block' : 'none';
+    tab.classList.toggle('active', tab.id === tabId);
+  });
+  document.querySelectorAll('.tabs button').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick').includes(`'${tabId}'`));
   });
 }
 
-// Default tab on page load
 window.onload = function() {
   showTab('padel');
 };
 
-// Ramp-up toggle display
 document.getElementById("gymRamp").addEventListener("change", () => {
   document.getElementById("rampUpSettings").style.display = document.getElementById("gymRamp").checked ? "block" : "none";
 });
 
-// Padel revenue calculation
 function getPadelRevenue() {
   const courts = +document.getElementById("padelCourts").value || 0;
   const peakHours = +document.getElementById("padelPeakHours").value || 0;
@@ -74,7 +75,6 @@ function calculatePadel() {
   window.padelData = { revenue, costs, investment, profit };
 }
 
-// Gym revenue calculation with ramp-up
 function getGymRevenue() {
   let weeklyRev = (+document.getElementById("gymWeekMembers").value || 0) * (+document.getElementById("gymWeekFee").value || 0) * 52;
   let monthlyRev = (+document.getElementById("gymMonthMembers").value || 0) * (+document.getElementById("gymMonthFee").value || 0) * 12;
@@ -85,7 +85,6 @@ function getGymRevenue() {
   if (document.getElementById("gymRamp").checked) {
     const rampDuration = +document.getElementById("rampDuration").value || 6;
     const rampEffect = (+document.getElementById("rampEffect").value || 70) / 100;
-    // Simple linear ramp-up calculation (weighted average)
     totalRev = totalRev * ((rampDuration / 12) * rampEffect + ((12 - rampDuration) / 12));
   }
   return totalRev;
@@ -128,7 +127,6 @@ function calculateGym() {
   window.gymData = { revenue, costs, investment, profit };
 }
 
-// Update Profit & Loss charts and summary
 function updatePnl() {
   const padelRev = window.padelData?.revenue || 0;
   const gymRev = window.gymData?.revenue || 0;
@@ -151,7 +149,6 @@ function updatePnl() {
   drawChart("costPieChart", ["Padel", "Gym"], [padelCost, gymCost], "pie");
 }
 
-// Update ROI charts and summary
 function updateROI() {
   const invest = (window.padelData?.investment || 0) + (window.gymData?.investment || 0);
   const annualProfit = (window.padelData?.profit || 0) + (window.gymData?.profit || 0);
@@ -181,7 +178,6 @@ function updateROI() {
     [invest, annualProfit * 5 - invest], "bar");
 }
 
-// Helper to draw Chart.js charts
 function drawChart(canvasId, labels, data, type) {
   const ctx = document.getElementById(canvasId).getContext("2d");
   if (window[canvasId]) window[canvasId].destroy();
@@ -207,7 +203,6 @@ function drawChart(canvasId, labels, data, type) {
   });
 }
 
-// Update all summaries and charts
 function updateAll() {
   calculatePadel();
   calculateGym();
