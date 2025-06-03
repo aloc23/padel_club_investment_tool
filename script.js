@@ -1,149 +1,220 @@
-// Full Working Script.js
+function showTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.getElementById(tabId).classList.add('active');
+}
 
-// Global Variables
-let padelRevenue = 0, gymRevenue = 0, totalRevenue = 0;
-let padelCosts = 0, gymCosts = 0, totalCosts = 0;
-let totalInvestment = 0, annualProfit = 0;
+document.getElementById('gymRamp').addEventListener('change', function () {
+  document.getElementById('rampUpSettings').style.display = this.checked ? 'block' : 'none';
+});
 
 function calculatePadel() {
-  const courts = +document.getElementById("padelCourts").value;
-  const courtCost = +document.getElementById("padelCourtCost").value;
-  const peakHours = +document.getElementById("padelPeakHours").value;
-  const peakRate = +document.getElementById("padelPeakRate").value;
-  const peakUtil = +document.getElementById("padelPeakUtil").value / 100;
-  const offHours = +document.getElementById("padelOffHours").value;
-  const offRate = +document.getElementById("padelOffRate").value;
-  const offUtil = +document.getElementById("padelOffUtil").value / 100;
-  const days = +document.getElementById("padelDays").value;
-  const weeks = +document.getElementById("padelWeeks").value;
+  const courts = +document.getElementById('padelCourts').value;
+  const courtCost = +document.getElementById('padelCourtCost').value;
+  const ground = +document.getElementById('padelGround').value;
+  const struct = +document.getElementById('padelStructure').value;
 
-  padelRevenue = (
-    ((peakHours * peakRate * peakUtil) + (offHours * offRate * offUtil))
-    * courts * days * weeks
-  );
+  const peakHours = +document.getElementById('padelPeakHours').value;
+  const peakRate = +document.getElementById('padelPeakRate').value;
+  const peakUtil = +document.getElementById('padelPeakUtil').value / 100;
 
-  totalInvestment = +document.getElementById("padelGround").value
-                   + +document.getElementById("padelStructure").value
-                   + (courts * courtCost);
+  const offHours = +document.getElementById('padelOffHours').value;
+  const offRate = +document.getElementById('padelOffRate').value;
+  const offUtil = +document.getElementById('padelOffUtil').value / 100;
 
-  padelCosts = ["padelUtil","padelInsure","padelMaint","padelMarket","padelAdmin","padelClean","padelMisc"]
-    .map(id => +document.getElementById(id).value)
-    .reduce((a, b) => a + b, 0);
+  const days = +document.getElementById('padelDays').value;
+  const weeks = +document.getElementById('padelWeeks').value;
 
-  padelCosts += +document.getElementById("padelFtMgr").value * +document.getElementById("padelFtMgrSal").value;
-  padelCosts += +document.getElementById("padelFtRec").value * +document.getElementById("padelFtRecSal").value;
-  padelCosts += +document.getElementById("padelFtCoach").value * +document.getElementById("padelFtCoachSal").value;
-  padelCosts += +document.getElementById("padelPtCoach").value * +document.getElementById("padelPtCoachSal").value;
-  padelCosts += +document.getElementById("padelAddStaff").value * +document.getElementById("padelAddStaffSal").value;
+  const padelRevenue = courts * (
+    peakHours * peakRate * peakUtil +
+    offHours * offRate * offUtil
+  ) * days * weeks;
 
-  document.getElementById("padelSummary").innerHTML =
-    `<strong>Annual Revenue:</strong> €${padelRevenue.toLocaleString()}<br>` +
-    `<strong>Annual Costs:</strong> €${padelCosts.toLocaleString()}<br>` +
-    `<strong>Investment:</strong> €${totalInvestment.toLocaleString()}`;
+  const opCosts = [
+    'padelUtil', 'padelInsure', 'padelMaint', 'padelMarket', 'padelAdmin', 'padelClean', 'padelMisc'
+  ].reduce((sum, id) => sum + (+document.getElementById(id).value), 0);
 
-  updatePL();
+  const staffTotal =
+    (+document.getElementById('padelFtMgr').value * +document.getElementById('padelFtMgrSal').value) +
+    (+document.getElementById('padelFtRec').value * +document.getElementById('padelFtRecSal').value) +
+    (+document.getElementById('padelFtCoach').value * +document.getElementById('padelFtCoachSal').value) +
+    (+document.getElementById('padelPtCoach').value * +document.getElementById('padelPtCoachSal').value) +
+    (+document.getElementById('padelAddStaff').value * +document.getElementById('padelAddStaffSal').value);
+
+  const investment = ground + struct + (courts * courtCost);
+
+  window.padelData = {
+    revenue: padelRevenue,
+    costs: opCosts + staffTotal,
+    investment,
+    staff: staffTotal,
+    ops: opCosts
+  };
+
+  document.getElementById('padelSummary').innerHTML = `
+    <p><strong>Annual Revenue:</strong> €${padelRevenue.toFixed(2)}</p>
+    <p><strong>Operational Costs:</strong> €${opCosts.toFixed(2)}</p>
+    <p><strong>Staff Costs:</strong> €${staffTotal.toFixed(2)}</p>
+    <p><strong>Total Investment:</strong> €${investment.toFixed(2)}</p>
+  `;
+  updatePnL();
   updateROI();
-}
+}function calculateGym() {
+  const equip = +document.getElementById('gymEquip').value;
+  const floor = +document.getElementById('gymFloor').value;
+  const amen = +document.getElementById('gymAmen').value;
 
-function calculateGym() {
-  const ramp = document.getElementById("gymRamp").checked;
-  let w = +document.getElementById("gymWeekMembers").value * +document.getElementById("gymWeekFee").value * 52;
-  let m = +document.getElementById("gymMonthMembers").value * +document.getElementById("gymMonthFee").value * 12;
-  let a = +document.getElementById("gymAnnualMembers").value * +document.getElementById("gymAnnualFee").value;
+  const weekMembers = +document.getElementById('gymWeekMembers').value;
+  const weekFee = +document.getElementById('gymWeekFee').value;
+  const monthMembers = +document.getElementById('gymMonthMembers').value;
+  const monthFee = +document.getElementById('gymMonthFee').value;
+  const yearMembers = +document.getElementById('gymAnnualMembers').value;
+  const yearFee = +document.getElementById('gymAnnualFee').value;
 
-  if (ramp) {
-    const duration = +document.getElementById("rampDuration").value;
-    const effectiveness = +document.getElementById("rampEffect").value / 100;
-    const factor = (duration / 12 + effectiveness) / 2;
-    w *= factor; m *= factor; a *= factor;
+  let rampFactor = 1;
+  if (document.getElementById('gymRamp').checked) {
+    const rampDuration = +document.getElementById('rampDuration').value;
+    const rampEffect = +document.getElementById('rampEffect').value / 100;
+    rampFactor = (rampEffect + 1) / 2;
   }
 
-  gymRevenue = w + m + a;
+  const revenue = (
+    (weekMembers * weekFee * 52) +
+    (monthMembers * monthFee * 12) +
+    (yearMembers * yearFee)
+  ) * rampFactor;
 
-  totalInvestment += +document.getElementById("gymEquip").value
-                   + +document.getElementById("gymFloor").value
-                   + +document.getElementById("gymAmen").value;
+  const opCosts = [
+    'gymUtil', 'gymInsure', 'gymMaint', 'gymMarket', 'gymAdmin', 'gymClean', 'gymMisc'
+  ].reduce((sum, id) => sum + (+document.getElementById(id).value), 0);
 
-  gymCosts = ["gymUtil","gymInsure","gymMaint","gymMarket","gymAdmin","gymClean","gymMisc"]
-    .map(id => +document.getElementById(id).value)
-    .reduce((a, b) => a + b, 0);
+  const staffTotal =
+    (+document.getElementById('gymFtTrainer').value * +document.getElementById('gymFtTrainerSal').value) +
+    (+document.getElementById('gymPtTrainer').value * +document.getElementById('gymPtTrainerSal').value) +
+    (+document.getElementById('gymAddStaff').value * +document.getElementById('gymAddStaffSal').value);
 
-  gymCosts += +document.getElementById("gymFtTrainer").value * +document.getElementById("gymFtTrainerSal").value;
-  gymCosts += +document.getElementById("gymPtTrainer").value * +document.getElementById("gymPtTrainerSal").value;
-  gymCosts += +document.getElementById("gymAddStaff").value * +document.getElementById("gymAddStaffSal").value;
+  const investment = equip + floor + amen;
 
-  document.getElementById("gymSummary").innerHTML =
-    `<strong>Annual Revenue:</strong> €${gymRevenue.toLocaleString()}<br>` +
-    `<strong>Annual Costs:</strong> €${gymCosts.toLocaleString()}<br>`;
+  window.gymData = {
+    revenue,
+    costs: opCosts + staffTotal,
+    investment,
+    staff: staffTotal,
+    ops: opCosts
+  };
 
-  updatePL();
+  document.getElementById('gymSummary').innerHTML = `
+    <p><strong>Annual Revenue:</strong> €${revenue.toFixed(2)}</p>
+    <p><strong>Operational Costs:</strong> €${opCosts.toFixed(2)}</p>
+    <p><strong>Staff Costs:</strong> €${staffTotal.toFixed(2)}</p>
+    <p><strong>Total Investment:</strong> €${investment.toFixed(2)}</p>
+  `;
+  updatePnL();
   updateROI();
 }
 
-function updatePL() {
-  totalRevenue = padelRevenue + gymRevenue;
-  totalCosts = padelCosts + gymCosts;
-  annualProfit = totalRevenue - totalCosts;
+function updatePnL() {
+  const totalRevenue = (window.padelData?.revenue || 0) + (window.gymData?.revenue || 0);
+  const totalCosts = (window.padelData?.costs || 0) + (window.gymData?.costs || 0);
+  const profit = totalRevenue - totalCosts;
+  const profitMonthly = profit / 12;
 
-  document.getElementById("pnlSummary").innerHTML =
-    `<strong>Total Revenue:</strong> €${totalRevenue.toLocaleString()}<br>` +
-    `<strong>Total Costs:</strong> €${totalCosts.toLocaleString()}<br>` +
-    `<strong>Annual Profit:</strong> €${annualProfit.toLocaleString()}`;
+  document.getElementById('pnlSummary').innerHTML = `
+    <p><strong>Annual Profit:</strong> €${profit.toFixed(2)}</p>
+    <p><strong>Monthly Profit:</strong> €${profitMonthly.toFixed(2)}</p>
+  `;
 
-  const ctx = document.getElementById("pnlChart").getContext("2d");
-  if (window.pnlChartObj) window.pnlChartObj.destroy();
-  window.pnlChartObj = new Chart(ctx, {
+  const mode = document.querySelector('input[name="pl_toggle"]:checked').value;
+  const labels = mode === "monthly" ? Array.from({ length: 12 }, (_, i) => `Month ${i + 1}`) : ['Annual'];
+  const profits = mode === "monthly" ? Array(12).fill(profitMonthly) : [profit];
+
+  new Chart(document.getElementById("pnlChart"), {
     type: "bar",
     data: {
-      labels: ["Revenue", "Costs", "Profit"],
-      datasets: [{
-        label: "Annual Summary (€)",
-        data: [totalRevenue, totalCosts, annualProfit],
-        backgroundColor: ["#2a9d8f", "#e76f51", "#264653"]
-      }]
+      labels,
+      datasets: [{ label: "Profit", data: profits, backgroundColor: "green" }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+  });
+
+  new Chart(document.getElementById("profitTrendChart"), {
+    type: "line",
+    data: {
+      labels,
+      datasets: [{ label: "Cumulative Profit", data: profits.map((v, i) => v * (i + 1)), borderColor: "blue", fill: false }]
     },
     options: { responsive: true }
+  });
+
+  new Chart(document.getElementById("costPieChart"), {
+    type: "pie",
+    data: {
+      labels: ["Padel", "Gym"],
+      datasets: [{
+        data: [(window.padelData?.costs || 0), (window.gymData?.costs || 0)],
+        backgroundColor: ["#3498db", "#e67e22"]
+      }]
+    }
   });
 }
 
 function updateROI() {
-  const roiText = document.getElementById("yearsToROIText");
-  if (annualProfit <= 0) {
-    roiText.textContent = "ROI not achievable with current inputs.";
-  } else {
-    const years = Math.ceil(totalInvestment / annualProfit);
-    roiText.textContent = `Estimated time to ROI: ${years} year(s)`;
+  const totalInvestment = (window.padelData?.investment || 0) + (window.gymData?.investment || 0);
+  const totalProfitAnnual = ((window.padelData?.revenue || 0) + (window.gymData?.revenue || 0)) -
+                            ((window.padelData?.costs || 0) + (window.gymData?.costs || 0));
+
+  let cumulative = 0;
+  let roiYears = 0;
+  for (let i = 1; i <= 10; i++) {
+    cumulative += totalProfitAnnual;
+    if (roiYears === 0 && cumulative >= totalInvestment) roiYears = i;
   }
 
-  const ctx = document.getElementById("roiChart").getContext("2d");
-  if (window.roiChartObj) window.roiChartObj.destroy();
-  window.roiChartObj = new Chart(ctx, {
+  document.getElementById("yearsToROIText").innerText =
+    `Estimated Years to ROI: ${roiYears > 0 ? roiYears : "Not within 10 years"}`;
+
+  const labels = Array.from({ length: 10 }, (_, i) => `Year ${i + 1}`);
+  const cumulativeData = labels.map((_, i) => totalProfitAnnual * (i + 1));
+
+  new Chart(document.getElementById("roiLineChart"), {
     type: "line",
     data: {
-      labels: [...Array(6).keys()].map(i => `Year ${i+1}`),
-      datasets: [{
-        label: "Cumulative Profit (€)",
-        data: [...Array(6).keys()].map(i => annualProfit * (i + 1)),
-        borderColor: "#2a9d8f",
-        fill: false
-      }]
+      labels,
+      datasets: [{ label: "Cumulative Profit", data: cumulativeData, borderColor: "blue", fill: false }]
     },
     options: { responsive: true }
   });
-}
 
-document.getElementById("gymRamp").addEventListener("change", function() {
-  document.getElementById("rampUpSettings").style.display = this.checked ? "block" : "none";
-});
-
-document.querySelectorAll("input[type='range']").forEach(slider => {
-  slider.addEventListener("input", () => {
-    const valDisplay = document.getElementById(slider.id + "Val");
-    if (valDisplay) valDisplay.textContent = slider.value;
+  new Chart(document.getElementById("roiBarChart"), {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{ label: "Annual Profit", data: Array(10).fill(totalProfitAnnual), backgroundColor: "green" }]
+    }
   });
-});
 
-function showTab(id) {
-  document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+  new Chart(document.getElementById("roiPieChart"), {
+    type: "pie",
+    data: {
+      labels: ["Padel", "Gym"],
+      datasets: [{
+        data: [(window.padelData?.revenue || 0), (window.gymData?.revenue || 0)],
+        backgroundColor: ["#2ecc71", "#f39c12"]
+      }]
+    }
+  });
+
+  new Chart(document.getElementById("roiBreakEvenChart"), {
+    type: "line",
+    data: {
+      labels,
+      datasets: [{
+        label: "Investment vs Return",
+        data: labels.map((_, i) => totalProfitAnnual * (i + 1) - totalInvestment),
+        borderColor: "red",
+        fill: false
+      }]
+    }
+  });
 }
