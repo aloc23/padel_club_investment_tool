@@ -89,22 +89,6 @@ function calculatePadel() {
 
 // -- Gym Calculations --
 
-function toggleRampSettings() {
-  const rampSettings = document.getElementById('rampUpSettings');
-  rampSettings.classList.toggle('hidden', !document.getElementById('gymRamp').checked);
-  calculateGym();
-}
-
-function updateRampDurationLabel(val) {
-  document.getElementById('rampDurationLabel').textContent = val;
-  calculateGym();
-}
-
-function updateRampEffectLabel(val) {
-  document.getElementById('rampEffectLabel').textContent = val + '%';
-  calculateGym();
-}
-
 function calculateGym() {
   const weekMembers = +document.getElementById('gymWeekMembers').value;
   const weekFee = +document.getElementById('gymWeekFee').value;
@@ -113,29 +97,18 @@ function calculateGym() {
   const annualMembers = +document.getElementById('gymAnnualMembers').value;
   const annualFee = +document.getElementById('gymAnnualFee').value;
 
+  // Annual revenues from each membership type
   const weeklyRevenueAnnual = weekMembers * weekFee * 52;
-const monthlyRevenueAnnual = monthMembers * monthFee * 12;
-const annualRevenueAnnual = annualMembers * annualFee;
+  const monthlyRevenueAnnual = monthMembers * monthFee * 12;
+  const annualRevenueAnnual = annualMembers * annualFee;
 
-const totalAnnualRevenue = weeklyRevenueAnnual + monthlyRevenueAnnual + annualRevenueAnnual;
-const totalMonthlyRevenue = totalAnnualRevenue / 12;
+  // Total annual revenue
+  const totalAnnualRevenue = weeklyRevenueAnnual + monthlyRevenueAnnual + annualRevenueAnnual;
 
-let totalRevenue = totalMonthlyRevenue;
+  // Monthly revenue for internal calculations (e.g. monthly P&L)
+  const totalMonthlyRevenue = totalAnnualRevenue / 12;
 
-  if (document.getElementById('gymRamp').checked) {
-    const rampDuration = +document.getElementById('rampDuration').value;
-    const rampEffect = +document.getElementById('rampEffect').value / 100;
-    let rampedRevenue = 0;
-    for(let i=1; i <= 12; i++) {
-      if(i <= rampDuration) {
-        rampedRevenue += totalRevenue * (rampEffect * (i / rampDuration));
-      } else {
-        rampedRevenue += totalRevenue;
-      }
-    }
-    totalRevenue = rampedRevenue / 12; // average monthly revenue
-  }
-
+  // Operational costs
   const utilCost = +document.getElementById('gymUtil').value;
   const insureCost = +document.getElementById('gymInsure').value;
   const maintCost = +document.getElementById('gymMaint').value;
@@ -146,6 +119,7 @@ let totalRevenue = totalMonthlyRevenue;
 
   const totalOpCosts = utilCost + insureCost + maintCost + marketCost + adminCost + cleanCost + miscCost;
 
+  // Staff costs
   const ftTrainer = +document.getElementById('gymFtTrainer').value;
   const ftTrainerSal = +document.getElementById('gymFtTrainerSal').value;
   const ptTrainer = +document.getElementById('gymPtTrainer').value;
@@ -158,28 +132,47 @@ let totalRevenue = totalMonthlyRevenue;
     ptTrainer * ptTrainerSal +
     addStaff * addStaffSal;
 
-  const netProfit = totalRevenue - totalOpCosts - totalStaffCost;
+  // Adjust total revenue if ramp-up enabled
+  let adjustedAnnualRevenue = totalAnnualRevenue;
+  if (document.getElementById('gymRamp').checked) {
+    const rampDuration = +document.getElementById('rampDuration').value;
+    const rampEffect = +document.getElementById('rampEffect').value / 100;
+    let rampedRevenue = 0;
+    for (let i = 1; i <= 12; i++) {
+      if (i <= rampDuration) {
+        rampedRevenue += totalAnnualRevenue * (rampEffect * (i / rampDuration));
+      } else {
+        rampedRevenue += totalAnnualRevenue;
+      }
+    }
+    adjustedAnnualRevenue = rampedRevenue / 12 * 12; // yearly average after ramp
+  }
 
+  const netProfit = adjustedAnnualRevenue - totalOpCosts - totalStaffCost;
+
+  // Update summary with annual revenue
   const summaryDiv = document.getElementById('gymSummary');
   summaryDiv.innerHTML = `
     <h3>Summary</h3>
-    <p><b>Total Revenue:</b> €${totalRevenue.toFixed(2)}</p>
+    <p><b>Annual Revenue:</b> €${adjustedAnnualRevenue.toFixed(2)}</p>
     <p><b>Operational Costs:</b> €${totalOpCosts.toFixed(2)}</p>
     <p><b>Staff Costs:</b> €${totalStaffCost.toFixed(2)}</p>
     <p><b>Net Profit:</b> €${netProfit.toFixed(2)}</p>
   `;
 
+  // Save monthly values for P&L and ROI
   window.gymData = {
-    revenue: totalRevenue,
+    revenue: adjustedAnnualRevenue,
     costs: totalOpCosts + totalStaffCost,
     profit: netProfit,
-    monthlyRevenue: totalRevenue / 12,
+    monthlyRevenue: adjustedAnnualRevenue / 12,
     monthlyCosts: (totalOpCosts + totalStaffCost) / 12,
     monthlyProfit: netProfit / 12,
   };
 
   updatePnL();
   updateROI();
+}
 }
 
 // -- Profit and Loss --
