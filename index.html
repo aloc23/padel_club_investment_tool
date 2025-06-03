@@ -49,7 +49,7 @@
     <label>Coaches FT <input type="number" id="padelFtCoach"> x Salary (€)<input type="number" id="padelFtCoachSal"></label>
     <label>Coaches PT <input type="number" id="padelPtCoach"> x Salary (€)<input type="number" id="padelPtCoachSal"></label>
 
-    <button onclick="calculatePadel()">Calculate Padel</button>
+    <button onclick="calculatePadel(); updateROI();">Calculate Padel</button>
     <div id="padelSummary" class="summary"></div>
   </div>
 
@@ -78,7 +78,7 @@
     <label>Trainers FT <input type="number" id="gymFtTrainer"> x Salary (€)<input type="number" id="gymFtTrainerSal"></label>
     <label>Trainers PT <input type="number" id="gymPtTrainer"> x Salary (€)<input type="number" id="gymPtTrainerSal"></label>
 
-    <button onclick="calculateGym()">Calculate Gym</button>
+    <button onclick="calculateGym(); updateROI();">Calculate Gym</button>
     <div id="gymSummary" class="summary"></div>
   </div>
 
@@ -98,7 +98,7 @@
     <canvas id="roiBarChart"></canvas>
     <canvas id="roiPieChart"></canvas>
     <h3>Cumulative ROI Over Time</h3>
-<canvas id="roiBreakEvenChart"></canvas>
+    <canvas id="roiBreakEvenChart"></canvas>
   </div>
 
   <script src="script.js"></script>
