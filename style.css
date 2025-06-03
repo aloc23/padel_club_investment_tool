@@ -1,50 +1,44 @@
+/* style.css */
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f8f9fa;
+  background-color: #f4f4f4;
   color: #333;
 }
 
 header {
-  background: #1e90ff;
+  background-color: #002f6c;
   color: white;
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
 }
 
-header img.logo {
-  height: 50px;
-  width: auto;
-}
-
-h1 {
-  margin: 0;
-  font-size: 1.8rem;
+.logo {
+  height: 60px;
+  display: block;
+  margin: 0 auto 10px;
 }
 
 .tabs {
   display: flex;
   justify-content: center;
-  background-color: #f1f1f1;
-  border-bottom: 1px solid #ccc;
+  background-color: #ddd;
+  padding: 10px;
 }
 
 .tabs button {
-  background-color: inherit;
+  margin: 0 5px;
+  padding: 10px 20px;
   border: none;
-  outline: none;
-  padding: 14px 20px;
+  background-color: #004a99;
+  color: white;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
 }
 
 .tabs button:hover {
-  background-color: #ddd;
+  background-color: #0066cc;
 }
 
 .tab-content {
@@ -61,48 +55,35 @@ label {
   margin: 10px 0;
 }
 
-input[type="number"],
-input[type="text"],
-input[type="range"] {
+input[type="number"], input[type="text"], input[type="range"] {
+  width: 200px;
   margin-left: 10px;
-  padding: 5px;
-  width: 120px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-input[type="checkbox"],
-input[type="radio"] {
-  margin-right: 5px;
-}
-
-button {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  margin-top: 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #218838;
 }
 
 .summary {
-  margin-top: 20px;
+  background-color: #fff;
   padding: 15px;
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 canvas {
-  width: 100% !important;
-  max-width: 800px;
-  height: auto !important;
+  max-width: 100%;
   margin: 20px auto;
   display: block;
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #004a99;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #0066cc;
 }
