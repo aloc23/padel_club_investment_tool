@@ -9,9 +9,10 @@
 </head>
 <body>
   <header>
-    <img src="logo.png" alt="Logo" class="logo" />
+    <img src="logo.png" alt="Padel Club Logo" class="logo">
     <h1>Padel Club Investment Planner</h1>
   </header>
+
   <div class="tabs">
     <button onclick="showTab('padel')">Padel</button>
     <button onclick="showTab('gym')">Gym</button>
@@ -21,11 +22,11 @@
 
   <div id="padel" class="tab-content">
     <h2>Padel Investment & Revenue</h2>
+    <label>Amenities (€)<input type="number" id="padelAmenities"></label>
     <label>Groundworks (€)<input type="number" id="padelGround"></label>
     <label>Structure (€)<input type="number" id="padelStructure"></label>
     <label>Courts<input type="number" id="padelCourts"></label>
     <label>Per Court Cost (€)<input type="number" id="padelCourtCost"></label>
-    <label>Amenities (€)<input type="number" id="padelAmenities"></label>
 
     <h3>Utilisation</h3>
     <label>Peak Hours/Day<input type="number" id="padelPeakHours"></label>
@@ -53,7 +54,7 @@
     <label>Coaches PT<input type="number" id="padelPtCoach"> x Salary (€)<input type="number" id="padelPtCoachSal"></label>
     <label>Additional Staff<input type="number" id="padelAddStaff"> x Salary (€)<input type="number" id="padelAddStaffSal"></label>
 
-    <button onclick="calculatePadel(); updateROI();">Calculate Padel</button>
+    <button onclick="calculatePadel(); updateROI(); updatePNL();">Calculate Padel</button>
     <div id="padelSummary" class="summary"></div>
   </div>
 
@@ -67,7 +68,6 @@
     <label>Weekly Members<input type="number" id="gymWeekMembers"> x Fee (€)<input type="number" id="gymWeekFee"></label>
     <label>Monthly Members<input type="number" id="gymMonthMembers"> x Fee (€)<input type="number" id="gymMonthFee"></label>
     <label>Annual Members<input type="number" id="gymAnnualMembers"> x Fee (€)<input type="number" id="gymAnnualFee"></label>
-
     <label><input type="checkbox" id="gymRamp"> Apply Ramp-Up</label>
     <div id="rampUpSettings" style="display:none;">
       <label>Ramp-Up Duration (Months):
@@ -94,14 +94,14 @@
     <label>Trainers PT<input type="number" id="gymPtTrainer"> x Salary (€)<input type="number" id="gymPtTrainerSal"></label>
     <label>Additional Staff<input type="number" id="gymAddStaff"> x Salary (€)<input type="number" id="gymAddStaffSal"></label>
 
-    <button onclick="calculateGym(); updateROI();">Calculate Gym</button>
+    <button onclick="calculateGym(); updateROI(); updatePNL();">Calculate Gym</button>
     <div id="gymSummary" class="summary"></div>
   </div>
 
   <div id="pnl" class="tab-content">
     <h2>Profit & Loss</h2>
     <label><input type="radio" name="pl_toggle" value="annual" checked> Annual
-      <input type="radio" name="pl_toggle" value="monthly"> Monthly</label>
+    <input type="radio" name="pl_toggle" value="monthly"> Monthly</label>
     <canvas id="pnlChart"></canvas>
     <canvas id="profitTrendChart"></canvas>
     <canvas id="costPieChart"></canvas>
@@ -116,7 +116,6 @@
     <canvas id="roiPieChart"></canvas>
     <h3>Cumulative ROI Over Time</h3>
     <canvas id="roiBreakEvenChart"></canvas>
-    <div id="paybackTableContainer"></div>
   </div>
 
   <script src="script.js"></script>
