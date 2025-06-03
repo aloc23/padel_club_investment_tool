@@ -1,43 +1,51 @@
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
   background: #f9f9f9;
   color: #333;
+  margin: 0;
+  padding: 0;
 }
 
 header {
-  background-color: #0072b1;
-  color: white;
-  padding: 1rem;
-  text-align: center;
+  background-color: #20232a;
+  color: #61dafb;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo {
+  height: 50px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.8rem;
 }
 
 .tabs {
   display: flex;
-  justify-content: center;
-  background-color: #eee;
+  background: #fff;
+  border-bottom: 2px solid #ccc;
 }
 
 .tabs button {
-  background-color: #ddd;
-  border: none;
-  padding: 1rem;
-  cursor: pointer;
   flex: 1;
-  font-weight: bold;
+  padding: 15px;
   font-size: 1rem;
+  background: #eee;
+  border: none;
+  cursor: pointer;
 }
 
-.tabs button:hover,
-.tabs button.active {
-  background-color: #0072b1;
-  color: white;
+.tabs button:hover {
+  background: #ddd;
 }
 
 .tab-content {
+  padding: 20px;
   display: none;
-  padding: 2rem;
 }
 
 .tab-content.active {
@@ -46,54 +54,43 @@ header {
 
 label {
   display: block;
-  margin: 0.5rem 0;
+  margin: 10px 0;
 }
 
-input[type="number"],
-input[type="text"],
-input[type="range"] {
-  width: 100%;
-  padding: 0.4rem;
-  margin-top: 0.2rem;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+input[type="number"], input[type="text"] {
+  margin-left: 10px;
+  padding: 5px;
+  width: 150px;
 }
 
 button {
-  background-color: #0072b1;
-  color: white;
-  padding: 0.6rem 1.2rem;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #61dafb;
   border: none;
-  border-radius: 4px;
-  margin-top: 1rem;
   cursor: pointer;
-  font-size: 1rem;
+  font-weight: bold;
+  color: #000;
 }
 
 button:hover {
-  background-color: #005c8a;
+  background: #21a1f1;
 }
 
 .summary {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background-color: #eaf4ff;
-  border: 1px solid #b0d6f5;
-  border-radius: 6px;
-  font-weight: bold;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
 }
 
 canvas {
-  width: 100% !important;
-  max-width: 800px;
-  height: 400px !important;
-  margin: 2rem auto;
-  display: block;
+  margin: 30px 0;
+  max-width: 100%;
 }
 
-@media (min-width: 768px) {
-  label {
-    max-width: 600px;
-  }
+input[type="range"] {
+  width: 150px;
 }
