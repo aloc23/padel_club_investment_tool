@@ -16,6 +16,7 @@
     <button onclick="showTab('roi')">ROI</button>
   </div>
 
+  <!-- Padel Section -->
   <div id="padel" class="tab-content">
     <h2>Padel Investment & Revenue</h2>
     <label>Peak Hours/Day<input type="number" id="padelPeakHours" /></label>
@@ -36,14 +37,25 @@
     <label>Additional Staff<input type="number" id="padelAddStaff" /> x <input type="number" id="padelAddSalary" /></label>
 
     <button onclick="calculatePadel()">Calculate</button>
-    <div id="padelResult"></div>
+    <div id="padelResult" class="summary"></div>
   </div>
 
+  <!-- Gym Section -->
   <div id="gym" class="tab-content" style="display:none;">
     <h2>Gym Revenue</h2>
     <label>Weekly Members<input type="number" id="gymWeeklyMembers" /> x <input type="number" id="gymWeeklyFee" /></label>
     <label>Monthly Members<input type="number" id="gymMonthlyMembers" /> x <input type="number" id="gymMonthlyFee" /></label>
     <label>Annual Members<input type="number" id="gymAnnualMembers" /> x <input type="number" id="gymAnnualFee" /></label>
+
+    <label><input type="checkbox" id="gymRamp"> Apply Ramp-Up</label>
+    <div id="rampSettings" style="display:none;">
+      <label>Ramp-Up Months<input type="range" id="rampMonths" min="1" max="12" value="6" oninput="rampMonthsVal.innerText = this.value">
+        <span id="rampMonthsVal">6</span>
+      </label>
+      <label>Ramp-Up % Start<input type="range" id="rampPercent" min="10" max="100" value="50" oninput="rampPercentVal.innerText = this.value">
+        <span id="rampPercentVal">50</span>%
+      </label>
+    </div>
 
     <h3>Overheads</h3>
     <label>Utilities<input type="number" id="gymUtilCost" /></label>
@@ -55,19 +67,21 @@
     <label>Additional Staff<input type="number" id="gymAddStaff" /> x <input type="number" id="gymAddSalary" /></label>
 
     <button onclick="calculateGym()">Calculate</button>
-    <div id="gymResult"></div>
+    <div id="gymResult" class="summary"></div>
   </div>
 
+  <!-- P&L Section -->
   <div id="pnl" class="tab-content" style="display:none;">
-    <h2>Profit & Loss</h2>
+    <h2>Profit & Loss Summary</h2>
     <canvas id="pnlChart"></canvas>
-    <div id="pnlSummary"></div>
+    <div id="pnlSummary" class="summary"></div>
   </div>
 
+  <!-- ROI Section -->
   <div id="roi" class="tab-content" style="display:none;">
-    <h2>ROI</h2>
+    <h2>Return on Investment</h2>
     <canvas id="roiChart"></canvas>
-    <div id="roiSummary"></div>
+    <div id="roiSummary" class="summary"></div>
   </div>
 
   <script src="script.js"></script>
