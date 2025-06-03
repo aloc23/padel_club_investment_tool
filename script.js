@@ -117,7 +117,7 @@ function calculateGym() {
     `Revenue: €${annualRevenue.toFixed(2)}\nCosts: €${(opCosts + staffCosts).toFixed(2)}\nInvestment: €${investment.toFixed(2)}`;
 }
 
-function updatePnl() {
+function updateCharts() {
   const revenue = financials.padelRevenue + financials.gymRevenue;
   const costs = financials.padelCost + financials.gymCost;
   const investment = financials.padelInvestment + financials.gymInvestment;
