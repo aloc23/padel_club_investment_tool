@@ -1,51 +1,56 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f9f9f9;
-  color: #333;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background: #f4f4f4;
+  color: #333;
 }
 
 header {
-  background-color: #20232a;
-  color: #61dafb;
-  padding: 20px;
+  background: #0d6efd;
+  color: #fff;
+  padding: 1rem;
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
 }
 
 .logo {
-  height: 50px;
-}
-
-h1 {
-  margin: 0;
-  font-size: 1.8rem;
+  height: 40px;
+  margin-right: 1rem;
 }
 
 .tabs {
   display: flex;
-  background: #fff;
-  border-bottom: 2px solid #ccc;
+  background: #e9ecef;
+  padding: 0.5rem;
+  justify-content: center;
+  gap: 10px;
 }
 
 .tabs button {
-  flex: 1;
-  padding: 15px;
-  font-size: 1rem;
-  background: #eee;
-  border: none;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
   cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
 }
 
 .tabs button:hover {
-  background: #ddd;
+  background-color: #ddd;
 }
 
 .tab-content {
-  padding: 20px;
   display: none;
+  padding: 2rem;
+  background: white;
+  border-top: 1px solid #ccc;
 }
 
 .tab-content.active {
@@ -54,43 +59,48 @@ h1 {
 
 label {
   display: block;
-  margin: 10px 0;
+  margin-bottom: 1rem;
+  font-weight: 500;
 }
 
-input[type="number"], input[type="text"] {
-  margin-left: 10px;
-  padding: 5px;
+input[type="number"], input[type="text"], input[type="range"] {
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   width: 150px;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  margin-right: 0.5rem;
 }
 
 button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background: #61dafb;
+  padding: 0.5rem 1rem;
+  background: #0d6efd;
+  color: white;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
-  color: #000;
+  margin-top: 1rem;
 }
 
 button:hover {
-  background: #21a1f1;
+  background: #084298;
 }
 
 .summary {
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+  margin-top: 1.5rem;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-left: 4px solid #0d6efd;
+  border-radius: 4px;
 }
 
 canvas {
-  margin: 30px 0;
+  margin: 1rem 0;
   max-width: 100%;
-}
-
-input[type="range"] {
-  width: 150px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
