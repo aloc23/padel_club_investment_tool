@@ -119,16 +119,18 @@
   </section>
 
   <!-- Profit & Loss Tab -->
-  <section id="pnl" class="tab-content hidden">
-    <h2>Profit & Loss</h2>
-    <label><input type="radio" name="pl_toggle" value="annual" checked onchange="updatePnL()"> Annual</label>
-    <label><input type="radio" name="pl_toggle" value="monthly" onchange="updatePnL()"> Monthly</label>
+  <div id="pnl" class="tab-content" style="display:none;">
+  <h2>Profit & Loss</h2>
+  <label>
+    <input type="radio" name="pl_toggle" value="annual" checked onchange="updatePnL()"> Annual
+    <input type="radio" name="pl_toggle" value="monthly" onchange="updatePnL()"> Monthly
+  </label>
 
-    <canvas id="pnlChart" style="max-height: 300px;"></canvas>
-    <canvas id="profitTrendChart" style="max-height: 250px; margin-top: 2rem;"></canvas>
-    <canvas id="costPieChart" style="max-height: 250px; margin-top: 2rem;"></canvas>
-
-    <div id="pnlSummary" class="summary"></div>
+  <canvas id="pnlChart"></canvas>
+  <canvas id="profitTrendChart"></canvas>
+  <canvas id="costPieChart"></canvas>
+  <div class="summary" id="pnlSummary"></div>
+</div>
 
     <details style="margin-top: 1rem;">
       <summary>Monthly Breakdown Table</summary>
