@@ -54,7 +54,7 @@ function calculatePadel() {
     +document.getElementById("padelCoachPT").value * +document.getElementById("padelCoachPTSal").value +
     +document.getElementById("padelAddStaff").value * +document.getElementById("padelAddStaffSal").value;
 
-  const investment = padelAmenities + ground + structure + courts * courtCost;
+  const investment = ground + structure + courts * courtCost;
 
   financials.padelRevenue = utilTotal;
   financials.padelCost = opCosts + staffCosts;
@@ -63,6 +63,7 @@ function calculatePadel() {
   document.getElementById("padelSummary").innerText =
     `Revenue: €${utilTotal.toFixed(2)}\nCosts: €${(opCosts + staffCosts).toFixed(2)}\nInvestment: €${investment.toFixed(2)}`;
 }
+
 
 function calculateGym() {
   const equip = +document.getElementById("gymEquip").value;
