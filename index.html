@@ -18,6 +18,7 @@
 
   <div id="padel" class="tab-content">
     <h2>Padel</h2>
+    <h3>Revenue Inputs</h3>
     <label>Peak Hours/Day<input type="number" id="padelPeakHours"></label>
     <label>Peak Rate (€)<input type="number" id="padelPeakRate"></label>
     <label>Off-Peak Hours/Day<input type="number" id="padelOffHours"></label>
@@ -25,31 +26,43 @@
     <label>Utilization %<input type="number" id="padelUtil"></label>
     <label>Days/Week<input type="number" id="padelDays"></label>
     <label>Weeks/Year<input type="number" id="padelWeeks"></label>
+
+    <h3>Operational Costs</h3>
     <label>Utilities (€)<input type="number" id="padelUtilCost"></label>
     <label>Insurance (€)<input type="number" id="padelInsure"></label>
     <label>Marketing (€)<input type="number" id="padelMarket"></label>
-    <label>Manager Count<input type="number" id="padelMgr"> Salary<input type="number" id="padelMgrSal"></label>
-    <label>Coach Count<input type="number" id="padelCoach"> Salary<input type="number" id="padelCoachSal"></label>
-    <label>Additional Staff<input type="number" id="padelAddStaff"> Salary<input type="number" id="padelAddStaffSal"></label>
+
+    <h3>Staff</h3>
+    <label>Managers<input type="number" id="padelMgr"> x Salary<input type="number" id="padelMgrSal"></label>
+    <label>Coaches<input type="number" id="padelCoach"> x Salary<input type="number" id="padelCoachSal"></label>
+    <label>Additional Staff<input type="number" id="padelAddStaff"> x Salary<input type="number" id="padelAddStaffSal"></label>
+
     <button onclick="calculatePadel()">Calculate Padel</button>
     <div class="summary" id="padelSummary"></div>
   </div>
 
   <div id="gym" class="tab-content">
     <h2>Gym</h2>
+    <h3>Revenue</h3>
     <label>Weekly Members<input type="number" id="gymWeekly"></label>
-    <label>Monthly Members<input type="number" id="gymMonthly"></label>
-    <label>Annual Members<input type="number" id="gymAnnual"></label>
     <label>Weekly Fee<input type="number" id="gymWeeklyFee"></label>
+    <label>Monthly Members<input type="number" id="gymMonthly"></label>
     <label>Monthly Fee<input type="number" id="gymMonthlyFee"></label>
+    <label>Annual Members<input type="number" id="gymAnnual"></label>
     <label>Annual Fee<input type="number" id="gymAnnualFee"></label>
+
     <label><input type="checkbox" id="gymRamp"> Ramp-Up</label>
     <div id="rampSettings" style="display:none;">
       <label>Ramp-Up %<input type="range" id="rampEffect" min="50" max="100" value="70" oninput="rampVal.innerText = this.value"> <span id="rampVal">70</span>%</label>
     </div>
+
+    <h3>Operational Costs</h3>
     <label>Utilities (€)<input type="number" id="gymUtilCost"></label>
-    <label>Trainer Count<input type="number" id="gymTrainer"> Salary<input type="number" id="gymTrainerSal"></label>
-    <label>Additional Staff<input type="number" id="gymAddStaff"> Salary<input type="number" id="gymAddStaffSal"></label>
+
+    <h3>Staff</h3>
+    <label>Trainers<input type="number" id="gymTrainer"> x Salary<input type="number" id="gymTrainerSal"></label>
+    <label>Additional Staff<input type="number" id="gymAddStaff"> x Salary<input type="number" id="gymAddStaffSal"></label>
+
     <button onclick="calculateGym()">Calculate Gym</button>
     <div class="summary" id="gymSummary"></div>
   </div>
@@ -62,7 +75,6 @@
 
   <div id="roi" class="tab-content">
     <h2>Return on Investment</h2>
-    <div id="roiText"></div>
     <canvas id="roiChart"></canvas>
     <div class="summary" id="roiSummary"></div>
   </div>
