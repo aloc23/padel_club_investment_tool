@@ -1,7 +1,13 @@
-// Utility function to show tabs
 function showTab(tabId) {
-  document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
-  document.getElementById(tabId).style.display = 'block';
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.style.display = (tab.id === tabId) ? 'block' : 'none';
+  });
+}
+
+// On page load, show default tab
+window.onload = function() {
+  showTab('padel');  // default tab to show on load
+};
 }
 showTab('padel'); // default tab
 
