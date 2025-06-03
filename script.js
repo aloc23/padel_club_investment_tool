@@ -4,19 +4,17 @@ function showTab(tabId) {
   });
 }
 
-// On page load, show default tab
+// Default tab on page load
 window.onload = function() {
-  showTab('padel');  // default tab to show on load
+  showTab('padel');
 };
-}
-showTab('padel'); // default tab
 
 // Ramp-up toggle display
 document.getElementById("gymRamp").addEventListener("change", () => {
   document.getElementById("rampUpSettings").style.display = document.getElementById("gymRamp").checked ? "block" : "none";
 });
 
-// Get Padel Revenue
+// Padel revenue calculation
 function getPadelRevenue() {
   const courts = +document.getElementById("padelCourts").value || 0;
   const peakHours = +document.getElementById("padelPeakHours").value || 0;
@@ -34,7 +32,6 @@ function getPadelRevenue() {
   return peakRev + offRev;
 }
 
-// Get Padel Costs (Operational + Staff)
 function getPadelCosts() {
   const ops = ["padelUtil", "padelInsure", "padelMaint", "padelMarket", "padelAdmin", "padelClean", "padelMisc"];
   let opsCost = ops.reduce((sum, id) => sum + (+document.getElementById(id).value || 0), 0);
@@ -53,7 +50,6 @@ function getPadelCosts() {
   return opsCost + staffCost;
 }
 
-// Get Padel Investment
 function getPadelInvestment() {
   const baseIds = ["padelGround", "padelStructure", "padelAmenities"];
   let baseTotal = baseIds.reduce((sum, id) => sum + (+document.getElementById(id).value || 0), 0);
@@ -78,7 +74,7 @@ function calculatePadel() {
   window.padelData = { revenue, costs, investment, profit };
 }
 
-// Get Gym Revenue (with Ramp-Up)
+// Gym revenue calculation with ramp-up
 function getGymRevenue() {
   let weeklyRev = (+document.getElementById("gymWeekMembers").value || 0) * (+document.getElementById("gymWeekFee").value || 0) * 52;
   let monthlyRev = (+document.getElementById("gymMonthMembers").value || 0) * (+document.getElementById("gymMonthFee").value || 0) * 12;
@@ -95,7 +91,6 @@ function getGymRevenue() {
   return totalRev;
 }
 
-// Get Gym Costs
 function getGymCosts() {
   const ops = ["gymUtil", "gymInsure", "gymMaint", "gymMarket", "gymAdmin", "gymClean", "gymMisc"];
   let opsCost = ops.reduce((sum, id) => sum + (+document.getElementById(id).value || 0), 0);
@@ -112,7 +107,6 @@ function getGymCosts() {
   return opsCost + staffCost;
 }
 
-// Get Gym Investment
 function getGymInvestment() {
   const ids = ["gymEquip", "gymFloor", "gymAmen"];
   return ids.reduce((sum, id) => sum + (+document.getElementById(id).value || 0), 0);
@@ -134,7 +128,7 @@ function calculateGym() {
   window.gymData = { revenue, costs, investment, profit };
 }
 
-// Update P&L Summary and Charts
+// Update Profit & Loss charts and summary
 function updatePnl() {
   const padelRev = window.padelData?.revenue || 0;
   const gymRev = window.gymData?.revenue || 0;
@@ -157,7 +151,7 @@ function updatePnl() {
   drawChart("costPieChart", ["Padel", "Gym"], [padelCost, gymCost], "pie");
 }
 
-// Update ROI Summary and Charts
+// Update ROI charts and summary
 function updateROI() {
   const invest = (window.padelData?.investment || 0) + (window.gymData?.investment || 0);
   const annualProfit = (window.padelData?.profit || 0) + (window.gymData?.profit || 0);
@@ -170,7 +164,6 @@ function updateROI() {
   const yearsToROI = Math.ceil(invest / annualProfit);
   document.getElementById("yearsToROIText").innerText = `Estimated Payback Period: ${yearsToROI} years`;
 
-  // ROI cumulative profits over 6 years
   const cumulativeProfits = Array.from({ length: 6 }, (_, i) => annualProfit * i - invest);
 
   drawChart("roiLineChart", ["Year 0", "Year 1", "Year 2", "Year 3", "Year 4", "Year 5"], cumulativeProfits, "line");
@@ -188,36 +181,9 @@ function updateROI() {
     [invest, annualProfit * 5 - invest], "bar");
 }
 
-// General function to draw Chart.js charts
+// Helper to draw Chart.js charts
 function drawChart(canvasId, labels, data, type) {
   const ctx = document.getElementById(canvasId).getContext("2d");
-  if (window[canvasId]) window[canvasId].destroy(); // destroy previous chart instance
+  if (window[canvasId]) window[canvasId].destroy();
 
-  window[canvasId] = new Chart(ctx, {
-    type,
-    data: {
-      labels,
-      datasets: [{
-        label: canvasId,
-        data,
-        backgroundColor: ['#4CAF50', '#FF9800', '#2196F3', '#f44336', '#9C27B0', '#00BCD4'],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: type === "pie" },
-        tooltip: { enabled: true }
-      }
-    }
-  });
-}
-
-// Update all Padel and Gym info, summaries, charts, ROI
-function updateAll() {
-  calculatePadel();
-  calculateGym();
-  updatePnl();
-  updateROI();
-}
+  window[canvasId] = new
