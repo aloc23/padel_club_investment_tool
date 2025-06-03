@@ -126,6 +126,7 @@ function updatePnL() {
   const ebitda = totalRevenue - totalCosts;
   const netMargin = totalRevenue > 0 ? (ebitda / totalRevenue) * 100 : 0;
 
+  // Update summary box
   const summaryDiv = document.getElementById('pnlSummary');
   summaryDiv.innerHTML = `
     <p><strong>Total Revenue:</strong> €${totalRevenue.toLocaleString(undefined, {minimumFractionDigits:2})}</p>
@@ -134,6 +135,7 @@ function updatePnL() {
     <p><strong>Net Margin:</strong> ${netMargin.toFixed(2)}%</p>
   `;
 
+  // Prepare data for charts
   let revenueData, costsData, profitData;
   if (plMode === 'annual') {
     revenueData = [totalRevenue];
@@ -149,17 +151,23 @@ function updatePnL() {
   populateMonthlyBreakdownTable(revenueData, costsData, profitData);
 }
 
-// Draw P&L charts
+// Drawing P&L charts
 function drawPnLCharts(revenueData, costsData, profitData) {
+  // Destroy existing charts if any
   if (window.pnlChart) window.pnlChart.destroy();
   if (window.profitTrendChart) window.profitTrendChart.destroy();
   if (window.costPieChart) window.costPieChart.destroy();
 
+  const labels = revenueData.length === 1
+    ? ['Year']
+    : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  // Line chart: Revenue, Costs, Profit
   const ctx1 = document.getElementById('pnlChart').getContext('2d');
   window.pnlChart = new Chart(ctx1, {
     type: 'line',
     data: {
-      labels: revenueData.length === 1 ? ['Year'] : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      labels: labels,
       datasets: [
         { label: 'Revenue', data: revenueData, borderColor: 'green', fill: false, tension: 0.3 },
         { label: 'Costs', data: costsData, borderColor: 'red', fill: false, tension: 0.3 },
@@ -169,28 +177,37 @@ function drawPnLCharts(revenueData, costsData, profitData) {
     options: { responsive: true, plugins: { legend: { position: 'top' } } }
   });
 
+  // Bar chart: Profit trend
   const ctx2 = document.getElementById('profitTrendChart').getContext('2d');
   window.profitTrendChart = new Chart(ctx2, {
     type: 'bar',
     data: {
-      labels: revenueData.length === 1 ? ['Year'] : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      labels: labels,
       datasets: [{ label: 'Profit', data: profitData, backgroundColor: 'blue' }]
     },
     options: { responsive: true, plugins: { legend: { display: false } } }
   });
 
+  // Pie chart: Revenue vs Costs vs Profit
   const ctx3 = document.getElementById('costPieChart').getContext('2d');
   window.costPieChart = new Chart(ctx3, {
     type: 'pie',
     data: {
       labels: ['Revenue', 'Costs', 'Profit'],
-      datasets: [{ data: [revenueData.reduce((a,b) => a+b, 0), costsData.reduce((a,b) => a+b, 0), profitData.reduce((a,b) => a+b, 0)], backgroundColor: ['#4caf50', '#f44336', '#2196f3'] }]
+      datasets: [{
+        data: [
+          revenueData.reduce((a,b) => a+b, 0),
+          costsData.reduce((a,b) => a+b, 0),
+          profitData.reduce((a,b) => a+b, 0)
+        ],
+        backgroundColor: ['#4caf50', '#f44336', '#2196f3']
+      }]
     },
     options: { responsive: true }
   });
 }
 
-// Populate monthly breakdown table
+// Populate monthly breakdown table in P&L tab
 function populateMonthlyBreakdownTable(revenueData, costsData, profitData) {
   const tbody = document.querySelector('#monthlyBreakdown tbody');
   tbody.innerHTML = '';
@@ -206,8 +223,23 @@ function populateMonthlyBreakdownTable(revenueData, costsData, profitData) {
     tbody.appendChild(tr);
   }
 }
+  }
+}
 
 // ROI Calculation & update with monthly ramp-up
+function updateROI() {
+  const padelInvestment = (Number(document.getElementById('padelGround').value) || 0) +
+    (Number(document.getElementById('padelStructure').value) || 0) +
+    ((Number(document.getElementById('padelCourts').value) || 0) * (Number(document.getElementById('padelCourtCost').value) || 0)) +
+    (Number(document.getElementById('padelAmen').value) || 0);
+
+  const gymInvestment = (Number(document.getElementById('gymEquip').value) || 0) +
+    (Number(document.getElementById('gymFloor').value) || 0) +
+    (Number(document.getElementById('gymAmen').value) || 0);
+
+  const totalInvestment = padelInvestment + gymInvestment;
+
+  // Monthly padel profit (annual / 12)
 function updateROI() {
   const padelInvestment = (Number(document.getElementById('padelGround').value) || 0) +
     (Number(document.getElementById('padelStructure').value) || 0) +
@@ -284,6 +316,7 @@ function updateROI() {
   drawROICharts(cumulativeROI);
 }
 
+// Draw ROI cumulative line chart
 function drawROICharts(cumulativeROI) {
   if (window.roiLineChart) window.roiLineChart.destroy();
 
@@ -301,6 +334,8 @@ function drawROICharts(cumulativeROI) {
       }]
     },
     options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+  });
+}
   });
 }
 
