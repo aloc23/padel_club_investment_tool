@@ -1,15 +1,17 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f9f9f9;
+  background: #f7f9fb;
+  color: #333;
 }
 
 header {
-  background-color: #0077aa;
+  background: #004aad;
   color: white;
   padding: 1rem;
   text-align: center;
+  font-size: 1.5rem;
 }
 
 .tabs {
@@ -17,79 +19,98 @@ header {
   justify-content: center;
   background: #e0e0e0;
   padding: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .tabs button {
-  margin: 0 5px;
+  margin: 0.3rem;
   padding: 0.6rem 1.2rem;
   border: none;
-  background-color: #fff;
-  border-radius: 5px;
+  background: #3498db;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.2s;
+  border-radius: 5px;
 }
 
 .tabs button:hover {
-  background-color: #cce7f0;
+  background: #2c80b4;
 }
 
 .tab-content {
   display: none;
-  padding: 2rem;
+  padding: 1.5rem;
+  max-width: 900px;
+  margin: auto;
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.tab-content h2, .tab-content h3 {
+  color: #004aad;
 }
 
 label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 10px;
+  font-weight: 500;
 }
 
-input[type="number"],
-input[type="text"] {
-  padding: 0.4rem;
+label input[type="number"],
+label input[type="text"],
+label input[type="range"] {
   margin-left: 0.5rem;
-  width: 100px;
+  padding: 0.3rem;
+  width: 120px;
 }
 
-button {
-  margin-top: 1rem;
-  padding: 0.6rem 1.2rem;
-  background: #0077aa;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+input[type="checkbox"] {
+  margin-right: 5px;
 }
 
-button:hover {
-  background: #005f88;
+.summary {
+  margin-top: 1.2rem;
+  background: #ecf0f1;
+  padding: 1rem;
+  border-radius: 6px;
+  font-size: 1rem;
 }
 
 canvas {
+  margin-top: 20px;
   max-width: 100%;
-  margin: 2rem auto;
-  display: block;
 }
 
-#padelResult, #gymResult {
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 1rem;
+button {
+  background: #27ae60;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
   margin-top: 1rem;
-  border-radius: 4px;
 }
 
-@media screen and (max-width: 600px) {
-  input[type="number"] {
-    width: 80px;
+button:hover {
+  background: #219150;
+}
+
+@media screen and (max-width: 768px) {
+  label {
+    font-size: 0.9rem;
+  }
+
+  label input {
+    width: 100px;
   }
 
   .tabs {
     flex-direction: column;
-    align-items: stretch;
   }
 
-  .tabs button {
-    width: 100%;
-    margin-bottom: 5px;
+  .tab-content {
+    padding: 1rem;
   }
 }
