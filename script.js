@@ -1,10 +1,9 @@
-// Tab switching
-function showTab(tabId) {
-  document.querySelectorAll('.tab-content').forEach(tab => {
-    tab.classList.toggle('hidden', tab.id !== tabId);
-  });
-  document.querySelectorAll('.tabs button').forEach(btn => {
-    btn.classList.toggle('active', btn.id === 'tab' + capitalize(tabId));
+// Tab navigation
+function showTab(tab) {
+  const tabs = ['padel', 'gym', 'pnl', 'roi'];
+  tabs.forEach(t => {
+    document.getElementById(t).classList.toggle('hidden', t !== tab);
+    document.getElementById('tab' + capitalize(t)).classList.toggle('active', t === tab);
   });
 }
 
@@ -12,23 +11,26 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Calculate Padel Revenue
+// Calculate Padel revenue
 function calculatePadelRevenue() {
   const peakHours = Number(document.getElementById('padelPeakHours').value) || 0;
   const peakRate = Number(document.getElementById('padelPeakRate').value) || 0;
-  const peakUtil = (Number(document.getElementById('padelPeakUtil').value) || 0) / 100;
+  const peakUtil = Number(document.getElementById('padelPeakUtil').value) / 100 || 0;
+
   const offHours = Number(document.getElementById('padelOffHours').value) || 0;
   const offRate = Number(document.getElementById('padelOffRate').value) || 0;
-  const offUtil = (Number(document.getElementById('padelOffUtil').value) || 0) / 100;
+  const offUtil = Number(document.getElementById('padelOffUtil').value) / 100 || 0;
+
   const days = Number(document.getElementById('padelDays').value) || 0;
   const weeks = Number(document.getElementById('padelWeeks').value) || 0;
 
   const peakRev = peakHours * peakRate * peakUtil * days * weeks;
   const offRev = offHours * offRate * offUtil * days * weeks;
+
   return peakRev + offRev;
 }
 
-// Calculate Gym Revenue (with ramp-up)
+// Calculate Gym revenue (weekly, monthly, annual memberships)
 function calculateGymRevenue() {
   const wMembers = Number(document.getElementById('gymWeekMembers').value) || 0;
   const wFee = Number(document.getElementById('gymWeekFee').value) || 0;
@@ -37,25 +39,17 @@ function calculateGymRevenue() {
   const aMembers = Number(document.getElementById('gymAnnualMembers').value) || 0;
   const aFee = Number(document.getElementById('gymAnnualFee').value) || 0;
 
-  const applyRamp = document.getElementById('gymRamp').checked;
-  const rampDuration = Number(document.getElementById('rampDuration').value) || 6;
-  const rampEffectiveness = Number(document.getElementById('rampEffect').value) / 100 || 0.7;
+  // Annual fee divided by 12 to get monthly, multiply by 12 for yearly revenue
+  const weeklyRev = wMembers * wFee * 52; // 52 weeks
+  const monthlyRev = mMembers * mFee * 12; // 12 months
+  const annualRev = aMembers * aFee;
 
-  let rampFactor = 1;
-  if (applyRamp) {
-    rampFactor = (rampDuration / 12) * rampEffectiveness + ((12 - rampDuration) / 12);
-  }
-
-  const weeklyRevenue = wMembers * wFee * 52 * rampFactor;
-  const monthlyRevenue = mMembers * mFee * 12 * rampFactor;
-  const annualRevenue = aMembers * aFee * rampFactor;
-
-  return weeklyRevenue + monthlyRevenue + annualRevenue;
+  return weeklyRev + monthlyRev + annualRev;
 }
 
 // Calculate Padel Costs (Overhead + Staff)
 function calculatePadelCosts() {
-  const overheads = ['padelUtil', 'padelInsure', 'padelMaint', 'padelMarket', 'padelAdmin', 'padelClean', 'padelMisc'];
+  const overheads = ['padelUtil', 'padelInsure', 'padelMaint', 'padelMarket', 'padelAdmin', 'padelClean', 'padelMisc', 'padelAmen'];
   let totalOverhead = 0;
   overheads.forEach(id => {
     totalOverhead += Number(document.getElementById(id).value) || 0;
@@ -73,7 +67,7 @@ function calculatePadelCosts() {
 
 // Calculate Gym Costs (Overhead + Staff)
 function calculateGymCosts() {
-  const overheads = ['gymUtil', 'gymInsure', 'gymMaint', 'gymMarket', 'gymAdmin', 'gymClean', 'gymMisc'];
+  const overheads = ['gymUtil', 'gymInsure', 'gymMaint', 'gymMarket', 'gymAdmin', 'gymClean', 'gymMisc', 'gymAmen'];
   let totalOverhead = 0;
   overheads.forEach(id => {
     totalOverhead += Number(document.getElementById(id).value) || 0;
@@ -151,9 +145,8 @@ function updatePnL() {
   populateMonthlyBreakdownTable(revenueData, costsData, profitData);
 }
 
-// Drawing P&L charts
+// Draw P&L charts
 function drawPnLCharts(revenueData, costsData, profitData) {
-  // Destroy existing charts if any
   if (window.pnlChart) window.pnlChart.destroy();
   if (window.profitTrendChart) window.profitTrendChart.destroy();
   if (window.costPieChart) window.costPieChart.destroy();
@@ -207,7 +200,7 @@ function drawPnLCharts(revenueData, costsData, profitData) {
   });
 }
 
-// Populate monthly breakdown table in P&L tab
+// Populate monthly breakdown table
 function populateMonthlyBreakdownTable(revenueData, costsData, profitData) {
   const tbody = document.querySelector('#monthlyBreakdown tbody');
   tbody.innerHTML = '';
@@ -221,8 +214,6 @@ function populateMonthlyBreakdownTable(revenueData, costsData, profitData) {
       <td>€${profitData[i].toFixed(2)}</td>
     `;
     tbody.appendChild(tr);
-  }
-}
   }
 }
 
@@ -240,22 +231,9 @@ function updateROI() {
   const totalInvestment = padelInvestment + gymInvestment;
 
   // Monthly padel profit (annual / 12)
-function updateROI() {
-  const padelInvestment = (Number(document.getElementById('padelGround').value) || 0) +
-    (Number(document.getElementById('padelStructure').value) || 0) +
-    ((Number(document.getElementById('padelCourts').value) || 0) * (Number(document.getElementById('padelCourtCost').value) || 0)) +
-    (Number(document.getElementById('padelAmen').value) || 0);
-
-  const gymInvestment = (Number(document.getElementById('gymEquip').value) || 0) +
-    (Number(document.getElementById('gymFloor').value) || 0) +
-    (Number(document.getElementById('gymAmen').value) || 0);
-
-  const totalInvestment = padelInvestment + gymInvestment;
-
-  // Monthly padel profit (annual / 12)
   const padelProfitMonthly = (calculatePadelRevenue() - calculatePadelCosts()) / 12;
 
-  // Gym monthly profit ramp-up calculation
+  // Gym monthly revenue and costs with ramp-up
   const wMembers = Number(document.getElementById('gymWeekMembers').value) || 0;
   const wFee = Number(document.getElementById('gymWeekFee').value) || 0;
   const mMembers = Number(document.getElementById('gymMonthMembers').value) || 0;
@@ -309,14 +287,14 @@ function updateROI() {
 
   // Update ROI summary text
   let breakevenText = breakevenMonth ? `${breakevenMonth} month(s)` : 'Not within 12 months';
-  document.getElementById('roiSummary').innerText = 
+  document.getElementById('roiSummary').innerText =
     `Total Investment: €${totalInvestment.toLocaleString(undefined, {minimumFractionDigits:2})}\n` +
     `Breakeven (Payback) Time: ${breakevenText}`;
 
   drawROICharts(cumulativeROI);
 }
 
-// Draw ROI cumulative line chart
+// Draw ROI chart
 function drawROICharts(cumulativeROI) {
   if (window.roiLineChart) window.roiLineChart.destroy();
 
@@ -336,10 +314,8 @@ function drawROICharts(cumulativeROI) {
     options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
   });
 }
-  });
-}
 
-// Show/hide ramp up settings
+// Show/hide ramp settings
 function toggleRampSettings() {
   const rampCheckbox = document.getElementById('gymRamp');
   document.getElementById('rampUpSettings').style.display = rampCheckbox.checked ? 'block' : 'none';
@@ -351,56 +327,34 @@ function updateRampSliders() {
   document.getElementById('rampEffectVal').textContent = document.getElementById('rampEffect').value;
 }
 
-// Hook inputs for live update
+// Hook inputs and buttons for events
 function hookInputEvents() {
-  // Live update (optional, but can be kept)
-  document.querySelectorAll('input[type=number]').forEach(input => {
-    input.addEventListener('input', () => {
-      // Comment out live update if you want ONLY Calculate buttons to trigger
-      //calculatePadel();
-      //calculateGym();
-      //updatePnL();
-      //updateROI();
-      //updateRampSliders();
-    });
-  });
-
-  // Calculate buttons
   document.getElementById('btnCalculatePadel').addEventListener('click', () => {
     calculatePadel();
     updatePnL();
     updateROI();
   });
-
   document.getElementById('btnCalculateGym').addEventListener('click', () => {
     calculateGym();
     updatePnL();
     updateROI();
   });
 
-  document.getElementById('gymRamp').addEventListener('change', () => {
-    toggleRampSettings();
-  });
-
-  document.getElementById('rampDuration').addEventListener('input', () => {
-    updateRampSliders();
-  });
-
-  document.getElementById('rampEffect').addEventListener('input', () => {
-    updateRampSliders();
-  });
+  document.getElementById('gymRamp').addEventListener('change', toggleRampSettings);
+  document.getElementById('rampDuration').addEventListener('input', updateRampSliders);
+  document.getElementById('rampEffect').addEventListener('input', updateRampSliders);
 
   document.querySelectorAll('input[name="pl_toggle"]').forEach(radio => {
     radio.addEventListener('change', updatePnL);
   });
 
-  document.querySelectorAll('.tabs button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      showTab(btn.id.replace('tab', '').toLowerCase());
-    });
-  });
+  document.getElementById('tabPadel').addEventListener('click', () => showTab('padel'));
+  document.getElementById('tabGym').addEventListener('click', () => showTab('gym'));
+  document.getElementById('tabPnL').addEventListener('click', () => showTab('pnl'));
+  document.getElementById('tabROI').addEventListener('click', () => showTab('roi'));
 }
 
+// Initialize on DOM ready
 window.addEventListener('DOMContentLoaded', () => {
   hookInputEvents();
   showTab('padel');
@@ -410,17 +364,4 @@ window.addEventListener('DOMContentLoaded', () => {
   calculateGym();
   updatePnL();
   updateROI();
-  document.getElementById('btnCalculatePadel').addEventListener('click', () => {
-  alert('Calculate Padel button clicked!');
-  calculatePadel();
-  updatePnL();
-  updateROI();
-});
-
-document.getElementById('btnCalculateGym').addEventListener('click', () => {
-  alert('Calculate Gym button clicked!');
-  calculateGym();
-  updatePnL();
-  updateROI();
-});
 });
