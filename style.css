@@ -1,43 +1,56 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f9f9f9;
+  background: #f4f4f4;
   color: #333;
 }
 
 header {
-  background-color: #0072b1;
+  background-color: #222;
   color: white;
   padding: 1rem;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header img.logo {
+  height: 50px;
+  margin-right: 1rem;
 }
 
 .tabs {
   display: flex;
   justify-content: center;
-  background-color: #eee;
+  background: #ddd;
+  padding: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .tabs button {
-  background-color: #ddd;
+  margin: 5px;
+  padding: 10px 20px;
   border: none;
-  padding: 1rem;
+  background: #333;
+  color: white;
   cursor: pointer;
-  flex: 1;
-  font-weight: bold;
-  font-size: 1rem;
+  border-radius: 4px;
 }
 
-.tabs button:hover,
-.tabs button.active {
-  background-color: #0072b1;
-  color: white;
+.tabs button:hover {
+  background: #555;
 }
 
 .tab-content {
   display: none;
   padding: 2rem;
+  max-width: 900px;
+  margin: auto;
+  background: white;
+  border-radius: 6px;
+  margin-top: 1rem;
 }
 
 .tab-content.active {
@@ -46,54 +59,75 @@ header {
 
 label {
   display: block;
-  margin: 0.5rem 0;
+  margin: 10px 0;
+  font-weight: 500;
 }
 
 input[type="number"],
 input[type="text"],
 input[type="range"] {
-  width: 100%;
-  padding: 0.4rem;
-  margin-top: 0.2rem;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 6px;
+  margin-left: 10px;
+  width: 100px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  margin-right: 5px;
 }
 
 button {
-  background-color: #0072b1;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #2196F3;
   color: white;
-  padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 4px;
-  margin-top: 1rem;
   cursor: pointer;
-  font-size: 1rem;
 }
 
 button:hover {
-  background-color: #005c8a;
+  background: #0b7dda;
 }
 
 .summary {
-  margin-top: 1.5rem;
+  margin-top: 20px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  background: #eaf4fd;
   padding: 1rem;
-  background-color: #eaf4ff;
-  border: 1px solid #b0d6f5;
-  border-radius: 6px;
-  font-weight: bold;
+  border-left: 5px solid #2196F3;
+  border-radius: 5px;
 }
 
 canvas {
+  margin-top: 20px;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
   width: 100% !important;
   max-width: 800px;
-  height: 400px !important;
-  margin: 2rem auto;
-  display: block;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 600px) {
+  input[type="number"],
+  input[type="text"],
+  input[type="range"] {
+    width: 80%;
+    display: block;
+    margin-top: 5px;
+  }
+
   label {
-    max-width: 600px;
+    font-size: 0.95rem;
+  }
+
+  .tabs {
+    flex-direction: column;
+  }
+
+  .tabs button {
+    width: 100%;
   }
 }
