@@ -1,145 +1,138 @@
-// Full script.js implementation for Padel Club Investment Planner
+// Full working script.js for Padel Club Investment Tool
 
-document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
-  document.getElementById("padel").classList.add("active");
-});
-
+// Utility to show selected tab
 function showTab(tabId) {
-  document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
-  document.getElementById(tabId).classList.add("active");
+  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
 }
 
-document.getElementById("gymRamp").addEventListener("change", function () {
-  document.getElementById("rampUpSettings").style.display = this.checked ? "block" : "none";
+// Update ramp-up UI toggle
+const rampCheckbox = document.getElementById("gymRamp");
+const rampUpSettings = document.getElementById("rampUpSettings");
+rampCheckbox.addEventListener("change", () => {
+  rampUpSettings.style.display = rampCheckbox.checked ? "block" : "none";
 });
 
-function getValue(id) {
-  return parseFloat(document.getElementById(id).value) || 0;
+// Format number
+function fmt(n) {
+  return new Intl.NumberFormat().format(n.toFixed(2));
 }
 
+// Padel calculation
 function calculatePadel() {
-  const courtTotal = getValue("padelCourts") * getValue("padelCourtCost");
-  const investment = getValue("padelGround") + getValue("padelStructure") + courtTotal;
+  const courts = +document.getElementById("padelCourts").value;
+  const courtCost = +document.getElementById("padelCourtCost").value;
+  const ground = +document.getElementById("padelGround").value;
+  const structure = +document.getElementById("padelStructure").value;
 
-  const peakRevenue = getValue("padelCourts") * getValue("padelPeakHours") * getValue("padelPeakRate") * (getValue("padelPeakUtil") / 100);
-  const offRevenue = getValue("padelCourts") * getValue("padelOffHours") * getValue("padelOffRate") * (getValue("padelOffUtil") / 100);
-  const annualRevenue = (peakRevenue + offRevenue) * getValue("padelDays") * getValue("padelWeeks");
+  const peakH = +document.getElementById("padelPeakHours").value;
+  const peakRate = +document.getElementById("padelPeakRate").value;
+  const peakUtil = +document.getElementById("padelPeakUtil").value / 100;
+  const offH = +document.getElementById("padelOffHours").value;
+  const offRate = +document.getElementById("padelOffRate").value;
+  const offUtil = +document.getElementById("padelOffUtil").value / 100;
+  const days = +document.getElementById("padelDays").value;
+  const weeks = +document.getElementById("padelWeeks").value;
 
-  const opsCosts = ["padelUtil", "padelInsure", "padelMaint", "padelMarket", "padelAdmin", "padelClean", "padelMisc"].reduce((sum, id) => sum + getValue(id), 0);
+  const utilCosts = ["padelUtil", "padelInsure", "padelMaint", "padelMarket", "padelAdmin", "padelClean", "padelMisc"].map(id => +document.getElementById(id).value).reduce((a, b) => a + b, 0);
 
-  const staffCost = (
-    getValue("padelFtMgr") * getValue("padelFtMgrSal") +
-    getValue("padelFtRec") * getValue("padelFtRecSal") +
-    getValue("padelFtCoach") * getValue("padelFtCoachSal") +
-    getValue("padelPtCoach") * getValue("padelPtCoachSal") +
-    getValue("padelAddStaff") * getValue("padelAddStaffSal")
-  );
+  const staffCosts = [
+    ["padelFtMgr", "padelFtMgrSal"],
+    ["padelFtRec", "padelFtRecSal"],
+    ["padelFtCoach", "padelFtCoachSal"],
+    ["padelPtCoach", "padelPtCoachSal"],
+    ["padelAddStaff", "padelAddStaffSal"]
+  ].map(([qty, sal]) => +document.getElementById(qty).value * +document.getElementById(sal).value).reduce((a, b) => a + b, 0);
 
-  const summary = `
-    <strong>Investment:</strong> €${investment.toLocaleString()}<br>
-    <strong>Annual Revenue:</strong> €${annualRevenue.toLocaleString()}<br>
-    <strong>Operational Costs:</strong> €${opsCosts.toLocaleString()}<br>
-    <strong>Staff Costs:</strong> €${staffCost.toLocaleString()}<br>
-    <strong>Profit:</strong> €${(annualRevenue - opsCosts - staffCost).toLocaleString()}
+  const padelRevenue = courts * ((peakH * peakRate * peakUtil) + (offH * offRate * offUtil)) * days * weeks;
+  const padelCosts = utilCosts + staffCosts;
+  const padelInvestment = ground + structure + (courts * courtCost);
+
+  document.getElementById("padelSummary").innerHTML = `
+    <strong>Annual Revenue:</strong> €${fmt(padelRevenue)}<br>
+    <strong>Operational Costs:</strong> €${fmt(padelCosts)}<br>
+    <strong>Total Investment:</strong> €${fmt(padelInvestment)}
   `;
-  document.getElementById("padelSummary").innerHTML = summary;
-  updatePnl();
-  updateROI();
+
+  window.padelData = { revenue: padelRevenue, costs: padelCosts, investment: padelInvestment };
 }
 
+// Gym calculation
 function calculateGym() {
-  const investment = getValue("gymEquip") + getValue("gymFloor") + getValue("gymAmen");
+  const equip = +document.getElementById("gymEquip").value;
+  const floor = +document.getElementById("gymFloor").value;
+  const amen = +document.getElementById("gymAmen").value;
 
-  let annualMembersRevenue = getValue("gymAnnualMembers") * getValue("gymAnnualFee");
-  let monthlyMembersRevenue = getValue("gymMonthMembers") * getValue("gymMonthFee") * 12;
-  let weeklyMembersRevenue = getValue("gymWeekMembers") * getValue("gymWeekFee") * 52;
+  const weekM = +document.getElementById("gymWeekMembers").value * +document.getElementById("gymWeekFee").value * 52;
+  const monthM = +document.getElementById("gymMonthMembers").value * +document.getElementById("gymMonthFee").value * 12;
+  const yearM = +document.getElementById("gymAnnualMembers").value * +document.getElementById("gymAnnualFee").value;
+  let revenue = weekM + monthM + yearM;
 
-  if (document.getElementById("gymRamp").checked) {
-    const rampDuration = getValue("rampDuration");
-    const rampEffect = getValue("rampEffect") / 100;
-    const scaleFactor = (rampEffect + 1) / 2;
-    monthlyMembersRevenue *= scaleFactor;
-    weeklyMembersRevenue *= scaleFactor;
+  const ramp = document.getElementById("gymRamp").checked;
+  if (ramp) {
+    const rampDur = +document.getElementById("rampDuration").value;
+    const rampEff = +document.getElementById("rampEffect").value / 100;
+    const rampFactor = (rampDur / 12 * rampEff) + ((12 - rampDur) / 12);
+    revenue *= rampFactor;
   }
 
-  const annualRevenue = annualMembersRevenue + monthlyMembersRevenue + weeklyMembersRevenue;
+  const utilCosts = ["gymUtil", "gymInsure", "gymMaint", "gymMarket", "gymAdmin", "gymClean", "gymMisc"].map(id => +document.getElementById(id).value).reduce((a, b) => a + b, 0);
 
-  const opsCosts = ["gymUtil", "gymInsure", "gymMaint", "gymMarket", "gymAdmin", "gymClean", "gymMisc"].reduce((sum, id) => sum + getValue(id), 0);
-  const staffCost = (
-    getValue("gymFtTrainer") * getValue("gymFtTrainerSal") +
-    getValue("gymPtTrainer") * getValue("gymPtTrainerSal") +
-    getValue("gymAddStaff") * getValue("gymAddStaffSal")
-  );
+  const staffCosts = [
+    ["gymFtTrainer", "gymFtTrainerSal"],
+    ["gymPtTrainer", "gymPtTrainerSal"],
+    ["gymAddStaff", "gymAddStaffSal"]
+  ].map(([qty, sal]) => +document.getElementById(qty).value * +document.getElementById(sal).value).reduce((a, b) => a + b, 0);
 
-  const summary = `
-    <strong>Investment:</strong> €${investment.toLocaleString()}<br>
-    <strong>Annual Revenue:</strong> €${annualRevenue.toLocaleString()}<br>
-    <strong>Operational Costs:</strong> €${opsCosts.toLocaleString()}<br>
-    <strong>Staff Costs:</strong> €${staffCost.toLocaleString()}<br>
-    <strong>Profit:</strong> €${(annualRevenue - opsCosts - staffCost).toLocaleString()}
+  const costs = utilCosts + staffCosts;
+  const investment = equip + floor + amen;
+
+  document.getElementById("gymSummary").innerHTML = `
+    <strong>Annual Revenue:</strong> €${fmt(revenue)}<br>
+    <strong>Operational Costs:</strong> €${fmt(costs)}<br>
+    <strong>Total Investment:</strong> €${fmt(investment)}
   `;
-  document.getElementById("gymSummary").innerHTML = summary;
-  updatePnl();
-  updateROI();
-}
 
-function updatePnl() {
-  const totalRevenue = getValue("padelCourts") * getValue("padelPeakHours") * getValue("padelPeakRate") * (getValue("padelPeakUtil") / 100)
-    + getValue("padelCourts") * getValue("padelOffHours") * getValue("padelOffRate") * (getValue("padelOffUtil") / 100);
-
-  const padelAnnual = (totalRevenue * getValue("padelDays") * getValue("padelWeeks"));
-  const gymAnnual = getValue("gymAnnualMembers") * getValue("gymAnnualFee") +
-    getValue("gymMonthMembers") * getValue("gymMonthFee") * 12 +
-    getValue("gymWeekMembers") * getValue("gymWeekFee") * 52;
-
-  const totalAnnualRevenue = padelAnnual + gymAnnual;
-  const padelCosts = ["padelUtil", "padelInsure", "padelMaint", "padelMarket", "padelAdmin", "padelClean", "padelMisc"].reduce((sum, id) => sum + getValue(id), 0)
-    + getValue("padelFtMgr") * getValue("padelFtMgrSal") + getValue("padelFtRec") * getValue("padelFtRecSal")
-    + getValue("padelFtCoach") * getValue("padelFtCoachSal") + getValue("padelPtCoach") * getValue("padelPtCoachSal") + getValue("padelAddStaff") * getValue("padelAddStaffSal");
-
-  const gymCosts = ["gymUtil", "gymInsure", "gymMaint", "gymMarket", "gymAdmin", "gymClean", "gymMisc"].reduce((sum, id) => sum + getValue(id), 0)
-    + getValue("gymFtTrainer") * getValue("gymFtTrainerSal") + getValue("gymPtTrainer") * getValue("gymPtTrainerSal") + getValue("gymAddStaff") * getValue("gymAddStaffSal");
-
-  const totalCosts = padelCosts + gymCosts;
-  const profit = totalAnnualRevenue - totalCosts;
-
-  document.getElementById("pnlSummary").innerHTML = `
-    <strong>Total Revenue:</strong> €${totalAnnualRevenue.toLocaleString()}<br>
-    <strong>Total Costs:</strong> €${totalCosts.toLocaleString()}<br>
-    <strong>Net Profit:</strong> €${profit.toLocaleString()}
-  `;
+  window.gymData = { revenue, costs, investment };
 }
 
 function updateROI() {
-  const totalInvestment = getValue("padelGround") + getValue("padelStructure") + (getValue("padelCourts") * getValue("padelCourtCost"))
-    + getValue("gymEquip") + getValue("gymFloor") + getValue("gymAmen");
+  const padel = window.padelData || { revenue: 0, costs: 0, investment: 0 };
+  const gym = window.gymData || { revenue: 0, costs: 0, investment: 0 };
 
-  const totalRevenue = getValue("padelCourts") * getValue("padelPeakHours") * getValue("padelPeakRate") * (getValue("padelPeakUtil") / 100)
-    + getValue("padelCourts") * getValue("padelOffHours") * getValue("padelOffRate") * (getValue("padelOffUtil") / 100);
-  const padelAnnual = totalRevenue * getValue("padelDays") * getValue("padelWeeks");
+  const totalRevenue = padel.revenue + gym.revenue;
+  const totalCosts = padel.costs + gym.costs;
+  const profit = totalRevenue - totalCosts;
+  const investment = padel.investment + gym.investment;
 
-  const gymAnnual = getValue("gymAnnualMembers") * getValue("gymAnnualFee") +
-    getValue("gymMonthMembers") * getValue("gymMonthFee") * 12 +
-    getValue("gymWeekMembers") * getValue("gymWeekFee") * 52;
+  const yearsToROI = profit > 0 ? (investment / profit).toFixed(1) : "N/A";
 
-  const annualRevenue = padelAnnual + gymAnnual;
+  document.getElementById("yearsToROIText").textContent = `Estimated Years to ROI: ${yearsToROI}`;
 
-  const padelCosts = ["padelUtil", "padelInsure", "padelMaint", "padelMarket", "padelAdmin", "padelClean", "padelMisc"].reduce((sum, id) => sum + getValue(id), 0)
-    + getValue("padelFtMgr") * getValue("padelFtMgrSal") + getValue("padelFtRec") * getValue("padelFtRecSal")
-    + getValue("padelFtCoach") * getValue("padelFtCoachSal") + getValue("padelPtCoach") * getValue("padelPtCoachSal") + getValue("padelAddStaff") * getValue("padelAddStaffSal");
+  // Chart rendering
+  const pnlCtx = document.getElementById("pnlChart").getContext("2d");
+  new Chart(pnlCtx, {
+    type: "bar",
+    data: {
+      labels: ["Padel Revenue", "Padel Costs", "Gym Revenue", "Gym Costs"],
+      datasets: [{
+        label: "Annual Figures (€)",
+        data: [padel.revenue, padel.costs, gym.revenue, gym.costs],
+        backgroundColor: ["#2a9d8f", "#e76f51", "#264653", "#f4a261"]
+      }]
+    },
+    options: { responsive: true }
+  });
 
-  const gymCosts = ["gymUtil", "gymInsure", "gymMaint", "gymMarket", "gymAdmin", "gymClean", "gymMisc"].reduce((sum, id) => sum + getValue(id), 0)
-    + getValue("gymFtTrainer") * getValue("gymFtTrainerSal") + getValue("gymPtTrainer") * getValue("gymPtTrainerSal") + getValue("gymAddStaff") * getValue("gymAddStaffSal");
-
-  const totalCosts = padelCosts + gymCosts;
-  const annualProfit = annualRevenue - totalCosts;
-
-  let years = 0, cumulative = 0;
-  while (cumulative < totalInvestment && years < 50) {
-    cumulative += annualProfit;
-    years++;
-  }
-
-  document.getElementById("yearsToROIText").innerText = `Estimated Payback Period: ${years} year(s)`;
+  const roiCtx = document.getElementById("roiChart").getContext("2d");
+  new Chart(roiCtx, {
+    type: "pie",
+    data: {
+      labels: ["Investment", "Profit"],
+      datasets: [{
+        data: [investment, profit],
+        backgroundColor: ["#e9c46a", "#2a9d8f"]
+      }]
+    }
+  });
 }
