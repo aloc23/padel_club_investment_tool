@@ -375,4 +375,17 @@ window.addEventListener('DOMContentLoaded', () => {
   calculateGym();
   updatePnL();
   updateROI();
+  document.getElementById('btnCalculatePadel').addEventListener('click', () => {
+  alert('Calculate Padel button clicked!');
+  calculatePadel();
+  updatePnL();
+  updateROI();
+});
+
+document.getElementById('btnCalculateGym').addEventListener('click', () => {
+  alert('Calculate Gym button clicked!');
+  calculateGym();
+  updatePnL();
+  updateROI();
+});
 });
