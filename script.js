@@ -22,6 +22,7 @@ function calculatePadel() {
   const courtCost = +document.getElementById("padelCourtCost").value;
   const ground = +document.getElementById("padelGround").value;
   const structure = +document.getElementById("padelStructure").value;
+   const structure = +document.getElementById("padelStructure").value;
 
   const peakHours = +document.getElementById("padelPeakHours").value;
   const peakRate = +document.getElementById("padelPeakRate").value;
