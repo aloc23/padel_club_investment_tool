@@ -11,7 +11,7 @@ header {
   color: white;
   padding: 1rem;
   text-align: center;
-    <img src="logo.png" alt="Logo" style="display:block;margin:10px auto;width:100px;">
+  img src="logo.png;"
 }
 
 .tabs {
