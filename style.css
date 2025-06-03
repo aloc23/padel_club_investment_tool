@@ -1,116 +1,122 @@
+/* style.css */
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f7f9fb;
-  color: #333;
+  background: #f4f4f4;
 }
 
 header {
-  background: #004aad;
+  background: #007bff;
   color: white;
   padding: 1rem;
   text-align: center;
-  font-size: 1.5rem;
 }
 
 .tabs {
   display: flex;
   justify-content: center;
-  background: #e0e0e0;
-  padding: 0.5rem;
-  flex-wrap: wrap;
+  margin: 1rem;
 }
 
 .tabs button {
-  margin: 0.3rem;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  background: #3498db;
+  background: #007bff;
   color: white;
-  font-weight: bold;
+  border: none;
+  padding: 1rem 2rem;
+  margin: 0 0.5rem;
   cursor: pointer;
   border-radius: 5px;
 }
 
 .tabs button:hover {
-  background: #2c80b4;
+  background: #0056b3;
 }
 
 .tab-content {
   display: none;
-  padding: 1.5rem;
-  max-width: 900px;
-  margin: auto;
+  padding: 1rem 2rem;
   background: white;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin: 1rem;
   border-radius: 8px;
-  margin-top: 1rem;
 }
 
 .tab-content h2, .tab-content h3 {
-  color: #004aad;
+  color: #333;
 }
 
 label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  background: #e9ecef;
+  padding: 0.5rem;
+  border-radius: 5px;
 }
 
 label input[type="number"],
-label input[type="text"],
 label input[type="range"] {
-  margin-left: 0.5rem;
-  padding: 0.3rem;
   width: 120px;
-}
-
-input[type="checkbox"] {
-  margin-right: 5px;
-}
-
-.summary {
-  margin-top: 1.2rem;
-  background: #ecf0f1;
-  padding: 1rem;
-  border-radius: 6px;
-  font-size: 1rem;
-}
-
-canvas {
-  margin-top: 20px;
-  max-width: 100%;
+  margin-left: 1rem;
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 button {
-  background: #27ae60;
+  display: block;
+  background: #28a745;
   color: white;
-  padding: 0.6rem 1.2rem;
+  padding: 0.75rem 2rem;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
   margin-top: 1rem;
+  cursor: pointer;
 }
 
 button:hover {
-  background: #219150;
+  background: #218838;
 }
 
-@media screen and (max-width: 768px) {
+.summary {
+  background: #d4edda;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-left: 5px solid #28a745;
+  border-radius: 5px;
+}
+
+canvas {
+  margin-top: 2rem;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-width: 100%;
+}
+
+#rampUpSettings label {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
   label {
-    font-size: 0.9rem;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  label input {
-    width: 100px;
+  label input[type="number"],
+  label input[type="range"] {
+    width: 100%;
+    margin-top: 0.5rem;
   }
 
   .tabs {
     flex-direction: column;
   }
 
-  .tab-content {
-    padding: 1rem;
+  .tabs button {
+    margin: 0.25rem 0;
   }
 }
