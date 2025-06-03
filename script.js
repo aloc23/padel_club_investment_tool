@@ -22,7 +22,7 @@ function calculatePadel() {
   const courtCost = +document.getElementById("padelCourtCost").value;
   const ground = +document.getElementById("padelGround").value;
   const structure = +document.getElementById("padelStructure").value;
-   const structure = +document.getElementById("padelStructure").value;
+   const Amenities = +document.getElementById("padelAmenities").value;
 
   const peakHours = +document.getElementById("padelPeakHours").value;
   const peakRate = +document.getElementById("padelPeakRate").value;
@@ -55,7 +55,7 @@ function calculatePadel() {
     +document.getElementById("padelCoachPT").value * +document.getElementById("padelCoachPTSal").value +
     +document.getElementById("padelAddStaff").value * +document.getElementById("padelAddStaffSal").value;
 
-  const investment = ground + structure + courts * courtCost;
+  const investment = Amenities + ground + structure + courts * courtCost;
 
   financials.padelRevenue = utilTotal;
   financials.padelCost = opCosts + staffCosts;
