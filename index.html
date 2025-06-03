@@ -25,9 +25,9 @@
     <div class="input-group">
       <label>Groundworks (€): <input type="number" id="padelGround" value="250000" /></label>
       <label>Structure (€): <input type="number" id="padelStructure" value="500000" /></label>
-        <label>Amenities (€): <input type="number" id="padelAmen" value="50000" /></label>
       <label>Courts: <input type="number" id="padelCourts" value="4" min="1" /></label>
       <label>Per Court Cost (€): <input type="number" id="padelCourtCost" value="25000" /></label>
+      <label>Amenities (€): <input type="number" id="padelAmen" value="50000" /></label>
     </div>
     <h3>Utilisation</h3>
     <div class="input-group">
@@ -119,29 +119,24 @@
   </section>
 
   <!-- Profit & Loss Tab -->
-  <div id="pnl" class="tab-content" style="display:none;">
-  <h2>Profit & Loss</h2>
-  <label>
-    <input type="radio" name="pl_toggle" value="annual" checked onchange="updatePnL()"> Annual
-    <input type="radio" name="pl_toggle" value="monthly" onchange="updatePnL()"> Monthly
-  </label>
+  <section id="pnl" class="tab-content hidden">
+    <h2>Profit & Loss</h2>
+    <label>
+      <input type="radio" name="pl_toggle" value="annual" checked onchange="updatePnL()"> Annual
+      <input type="radio" name="pl_toggle" value="monthly" onchange="updatePnL()"> Monthly
+    </label>
 
-  <canvas id="pnlChart"></canvas>
-  <canvas id="profitTrendChart"></canvas>
-  <canvas id="costPieChart"></canvas>
-  <div class="summary" id="pnlSummary"></div>
-</div>
+    <canvas id="pnlChart" style="max-height: 300px;"></canvas>
+    <canvas id="profitTrendChart" style="max-height: 250px; margin-top: 2rem;"></canvas>
+    <canvas id="costPieChart" style="max-height: 250px; margin-top: 2rem;"></canvas>
+
+    <div id="pnlSummary" class="summary"></div>
 
     <details style="margin-top: 1rem;">
-      <summary>Monthly Breakdown Table</summary>
+      <summary>Monthly Breakdown</summary>
       <table id="monthlyBreakdown" class="breakdown-table">
         <thead>
-          <tr>
-            <th>Month</th>
-            <th>Revenue</th>
-            <th>Costs</th>
-            <th>Profit</th>
-          </tr>
+          <tr><th>Month</th><th>Revenue</th><th>Costs</th><th>Profit</th></tr>
         </thead>
         <tbody></tbody>
       </table>
@@ -152,27 +147,31 @@
   <section id="roi" class="tab-content hidden">
     <h2>Return on Investment</h2>
 
-    <div id="roiSummary" class="summary" style="margin-bottom: 1rem;"></div>
+    <label>Revenue Adjustment (%):
+      <input type="range" id="revAdjust" min="-50" max="50" value="0" oninput="updateROI()" />
+      <span id="revAdjustVal">0%</span>
+    </label>
+    <label>Cost Adjustment (%):
+      <input type="range" id="costAdjust" min="-50" max="50" value="0" oninput="updateROI()" />
+      <span id="costAdjustVal">0%</span>
+    </label>
 
-    <table id="paybackTable" class="payback-table" style="margin-bottom: 1rem;">
-      <thead>
-        <tr><th>Year</th><th>Cumulative Profit (€)</th><th>Cumulative Investment (€)</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div id="roiSummary" class="summary" style="margin-top:1rem;"></div>
 
-    <label for="revAdjust">Revenue Adjustment (%):</label>
-    <input type="range" id="revAdjust" min="-50" max="50" value="0" step="1" oninput="updateROI()" />
-    <span id="revAdjustVal">0%</span>
+    <details>
+      <summary>Payback Period Table</summary>
+      <table id="paybackTable" class="breakdown-table">
+        <thead>
+          <tr><th>Year</th><th>Cumulative Profit</th><th>Investment</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </details>
 
-    <label for="costAdjust">Cost Adjustment (%):</label>
-    <input type="range" id="costAdjust" min="-50" max="50" value="0" step="1" oninput="updateROI()" />
-    <span id="costAdjustVal">0%</span>
-
-    <canvas id="roiLineChart" style="max-height: 350px;"></canvas>
-    <canvas id="roiBarChart" style="max-height: 250px; margin-top: 1rem;"></canvas>
-    <canvas id="roiPieChart" style="max-height: 250px; margin-top: 1rem;"></canvas>
-    <canvas id="roiBreakEvenChart" style="max-height: 250px; margin-top: 1rem;"></canvas>
+    <canvas id="roiLineChart" style="max-height: 300px; margin-top: 2rem;"></canvas>
+    <canvas id="roiBarChart" style="max-height: 250px; margin-top: 2rem;"></canvas>
+    <canvas id="roiPieChart" style="max-height: 250px; margin-top: 2rem;"></canvas>
+    <canvas id="roiBreakEvenChart" style="max-height: 250px; margin-top: 2rem;"></canvas>
   </section>
 
   <script src="script.js"></script>
