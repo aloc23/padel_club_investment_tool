@@ -1,3 +1,0 @@
-let pnlChart, profitTrendChart, costPieChart;
-let roiLineChart, roiBarChart, roiPieChart, roiBreakEvenChart;
-...
