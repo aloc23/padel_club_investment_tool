@@ -1,1 +1,0 @@
-This is a placeholder. Real content needs to be regenerated.
