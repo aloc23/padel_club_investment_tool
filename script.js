@@ -191,13 +191,14 @@ function updatePnL() {
 
   const summaryDiv = document.getElementById('pnlSummary');
 summaryDiv.innerHTML = `
-  <p><b>Total Revenue:</b> €${totalRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
-  <p><b>Total Costs:</b> €${totalCosts.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
-  <p><b>EBITDA:</b> €${ebitda.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
-  <p><b>Net Profit:</b> €${totalProfit.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+  <p><b>Total Revenue:</b> €${Math.round(totalRevenue).toLocaleString('en-US')}</p>
+  <p><b>Total Costs:</b> €${Math.round(totalCosts).toLocaleString('en-US')}</p>
+  <p><b>EBITDA:</b> €${Math.round(ebitda).toLocaleString('en-US')}</p>
+  <p><b>Net Profit:</b> €${Math.round(totalProfit).toLocaleString('en-US')}</p>
   <p><b>Net Margin:</b> ${netMargin.toFixed(1)}%</p>
   <p><b>EBITDA Margin:</b> ${ebitdaMargin.toFixed(1)}%</p>
 `;
+  
   const tbody = document.querySelector('#monthlyBreakdown tbody');
   tbody.innerHTML = '';
 
