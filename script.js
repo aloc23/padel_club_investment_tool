@@ -70,12 +70,12 @@ function calculatePadel() {
 
   const summaryDiv = document.getElementById('padelSummary');
   summaryDiv.innerHTML = `
-    <h3>Summary</h3>
-    <p><b>Total Revenue:</b> €${totalRevenue.toFixed(2)}</p>
-    <p><b>Operational Costs:</b> €${totalOpCosts.toFixed(2)}</p>
-    <p><b>Staff Costs:</b> €${totalStaffCost.toFixed(2)}</p>
-    <p><b>Net Profit:</b> €${netProfit.toFixed(2)}</p>
-  `;
+  <h3>Summary</h3>
+  <p><b>Total Revenue:</b> €${totalRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+  <p><b>Operational Costs:</b> €${totalOpCosts.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+  <p><b>Staff Costs:</b> €${totalStaffCost.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+  <p><b>Net Profit:</b> €${netProfit.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+`;
 
   window.padelData = {
     revenue: totalRevenue,
@@ -148,13 +148,13 @@ function calculateGym() {
   const netProfit = adjustedAnnualRevenue - totalOpCosts - totalStaffCost;
 
   const summaryDiv = document.getElementById('gymSummary');
-  summaryDiv.innerHTML = `
-    <h3>Summary</h3>
-    <p><b>Annual Revenue:</b> €${adjustedAnnualRevenue.toFixed(2)}</p>
-    <p><b>Operational Costs:</b> €${totalOpCosts.toFixed(2)}</p>
-    <p><b>Staff Costs:</b> €${totalStaffCost.toFixed(2)}</p>
-    <p><b>Net Profit:</b> €${netProfit.toFixed(2)}</p>
-  `;
+ summaryDiv.innerHTML = `
+  <h3>Summary</h3>
+  <p><b>Annual Revenue:</b> €${adjustedAnnualRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+  <p><b>Operational Costs:</b> €${totalOpCosts.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+  <p><b>Staff Costs:</b> €${totalStaffCost.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+  <p><b>Net Profit:</b> €${netProfit.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
+`;
 
   window.gymData = {
     revenue: adjustedAnnualRevenue,
