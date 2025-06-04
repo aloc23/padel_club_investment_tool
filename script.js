@@ -417,6 +417,63 @@ function updateROI() {
     options: { responsive:true, maintainAspectRatio:false }
   });
 
+  // --- ROI Sensitivity Chart ---
+const sensitivityCtx = document.getElementById('roiSensitivityChart').getContext('2d');
+if (window.roiSensitivityChart) roiSensitivityChart.destroy();
+
+const revAdjustments = [0.9, 1.0, 1.1];
+const costAdjustments = [0.9, 1.0, 1.1];
+const sensitivityData = [];
+
+for (let i = 0; i < costAdjustments.length; i++) {
+  for (let j = 0; j < revAdjustments.length; j++) {
+    const adjProfit = ((padel.revenue + gym.revenue) * revAdjustments[j]) -
+                      ((padel.costs + gym.costs) * costAdjustments[i]);
+    const roi = (adjProfit / totalInvestment) * 100;
+    sensitivityData.push({
+      x: `${revAdjustments[j] * 100}%`,
+      y: `${costAdjustments[i] * 100}%`,
+      v: Math.max(roi, 0).toFixed(1)
+    });
+  }
+}
+
+roiSensitivityChart = new Chart(sensitivityCtx, {
+  type: 'bubble',
+  data: {
+    datasets: [{
+      label: 'ROI Sensitivity',
+      data: sensitivityData.map(cell => ({
+        x: cell.x,
+        y: cell.y,
+        r: 15,
+        v: cell.v
+      })),
+      backgroundColor: 'rgba(52, 152, 219, 0.6)',
+      borderColor: 'rgba(41, 128, 185, 1)',
+      parsing: {
+        xAxisKey: 'x',
+        yAxisKey: 'y'
+      }
+    })]
+  },
+  options: {
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: ctx => `ROI: ${ctx.raw.v}%`
+        }
+      }
+    },
+    scales: {
+      x: { title: { display: true, text: 'Revenue Adjustment' } },
+      y: { title: { display: true, text: 'Cost Adjustment' } }
+    },
+    responsive: true,
+    maintainAspectRatio: false
+  }
+});
+
   // Update ROI KPIs
   const roiKPIs = document.getElementById('roiKPIs');
   const roiPercentages = [
