@@ -30,11 +30,12 @@ function calculatePadel() {
 
   const days = +document.getElementById('padelDays').value;
   const weeks = +document.getElementById('padelWeeks').value;
+  const courts = +document.getElementById('padelCourts').value || 1;
 
-  const peakRevenue = peakHours * peakRate * peakUtil * days * weeks;
-  const offRevenue = offHours * offRate * offUtil * days * weeks;
-  const totalRevenue = peakRevenue + offRevenue * padelCourts;
+  const peakAnnualRevenue = peakHours * peakRate * days * weeks * courts * peakUtil;
+  const offAnnualRevenue = offHours * offRate * days * weeks * courts * offUtil;
 
+  const totalAnnualRevenue = peakAnnualRevenue + offAnnualRevenue;
   const utilCost = +document.getElementById('padelUtil').value;
   const insureCost = +document.getElementById('padelInsure').value;
   const maintCost = +document.getElementById('padelMaint').value;
