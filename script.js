@@ -190,7 +190,7 @@ function updatePnL() {
   const ebitdaMargin = totalRevenue ? (ebitda / totalRevenue) * 100 : 0;
 
   const summaryDiv = document.getElementById('pnlSummary');
-  summaryDiv.innerHTML = `
+summaryDiv.innerHTML = `
   <p><b>Total Revenue:</b> €${totalRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
   <p><b>Total Costs:</b> €${totalCosts.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
   <p><b>EBITDA:</b> €${ebitda.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p>
@@ -198,7 +198,6 @@ function updatePnL() {
   <p><b>Net Margin:</b> ${netMargin.toFixed(1)}%</p>
   <p><b>EBITDA Margin:</b> ${ebitdaMargin.toFixed(1)}%</p>
 `;
-
   const tbody = document.querySelector('#monthlyBreakdown tbody');
   tbody.innerHTML = '';
 
