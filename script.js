@@ -431,8 +431,8 @@ for (let i = 0; i < costAdjustments.length; i++) {
                       ((padel.costs + gym.costs) * costAdjustments[i]);
     const roi = (adjProfit / totalInvestment) * 100;
     sensitivityData.push({
-      x: `${revAdjustments[j] * 100}%`,
-      y: `${costAdjustments[i] * 100}%`,
+    x: revAdjustments[j] * 100,
+y: costAdjustments[i] * 100,
       v: Math.max(roi, 0).toFixed(1)
     });
   }
@@ -466,8 +466,17 @@ roiSensitivityChart = new Chart(sensitivityCtx, {
       }
     },
     scales: {
-      x: { title: { display: true, text: 'Revenue Adjustment' } },
-      y: { title: { display: true, text: 'Cost Adjustment' } }
+  x: {
+    type: 'linear',
+    title: { display: true, text: 'Revenue Adjustment (%)' },
+    ticks: { callback: v => v + '%' }
+  },
+  y: {
+    type: 'linear',
+    title: { display: true, text: 'Cost Adjustment (%)' },
+    ticks: { callback: v => v + '%' }
+  }
+}
     },
     responsive: true,
     maintainAspectRatio: false
