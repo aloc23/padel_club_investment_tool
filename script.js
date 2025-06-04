@@ -64,16 +64,13 @@ function calculatePadel() {
     ptCoach * ptCoachSal +
     addStaff * addStaffSal;
 
-  const netProfit = totalRevenue - totalOpCosts - totalStaffCost;
+ const totalRevenue = totalAnnualRevenue;
+const netProfit = totalRevenue - totalOpCosts - totalStaffCost;
 
-  const summaryDiv = document.getElementById('padelSummary');
-  summaryDiv.innerHTML = `
-    <h3>Summary</h3>
-    <p><b>Total Revenue:</b> €${totalRevenue.toFixed(2)}</p>
-    <p><b>Operational Costs:</b> €${totalOpCosts.toFixed(2)}</p>
-    <p><b>Staff Costs:</b> €${totalStaffCost.toFixed(2)}</p>
-    <p><b>Net Profit:</b> €${netProfit.toFixed(2)}</p>
-  `;
+const summaryDiv = document.getElementById('padelSummary');
+summaryDiv.innerHTML = `
+  <h3>Summary</h3>
+  <p><b>Total Revenue:</b> €${totalRevenue.toFixed(2)}</p>
 
   window.padelData = {
     revenue: totalRevenue,
@@ -166,7 +163,6 @@ function calculateGym() {
 
   updatePnL();
   updateROI();
-}
 }
 
 // -- Profit and Loss --
