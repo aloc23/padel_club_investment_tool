@@ -2,8 +2,6 @@ let pnlChart, profitTrendChart, costPieChart;
 let roiLineChart, roiBarChart, roiPieChart, roiBreakEvenChart;
 
 function calculatePadel() {
-  console.log('Calculating Padel');
-
   const peakHours = +document.getElementById('padelPeakHours').value || 0;
   const peakRate = +document.getElementById('padelPeakRate').value || 0;
   const peakUtil = (+document.getElementById('padelPeakUtil').value || 0) / 100;
@@ -74,8 +72,6 @@ function calculatePadel() {
 }
 
 function calculateGym() {
-  console.log('Calculating Gym');
-
   const weekMembers = +document.getElementById('gymWeekMembers').value || 0;
   const weekFee = +document.getElementById('gymWeekFee').value || 0;
   const monthMembers = +document.getElementById('gymMonthMembers').value || 0;
@@ -327,9 +323,7 @@ function updateROICharts(roiData, totalInvestment) {
 }
 
 function showTab(tabId) {
-  document.querySelectorAll('.tab-content').forEach(div => {
-    div.classList.add('hidden');
-  });
+  document.querySelectorAll('.tab-content').forEach(div => div.classList.add('hidden'));
   document.getElementById(tabId).classList.remove('hidden');
 }
 
