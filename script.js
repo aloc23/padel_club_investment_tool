@@ -36,6 +36,8 @@ function calculatePadel() {
   const offAnnualRevenue = offHours * offRate * days * weeks * courts * offUtil;
 
   const totalAnnualRevenue = peakAnnualRevenue + offAnnualRevenue;
+  const totalRevenue = totalAnnualRevenue;
+
   const utilCost = +document.getElementById('padelUtil').value;
   const insureCost = +document.getElementById('padelInsure').value;
   const maintCost = +document.getElementById('padelMaint').value;
@@ -64,13 +66,16 @@ function calculatePadel() {
     ptCoach * ptCoachSal +
     addStaff * addStaffSal;
 
- const totalRevenue = totalAnnualRevenue;
-const netProfit = totalRevenue - totalOpCosts - totalStaffCost;
+  const netProfit = totalRevenue - totalOpCosts - totalStaffCost;
 
-const summaryDiv = document.getElementById('padelSummary');
-summaryDiv.innerHTML = `
-  <h3>Summary</h3>
-  <p><b>Total Revenue:</b> €${totalRevenue.toFixed(2)}</p>
+  const summaryDiv = document.getElementById('padelSummary');
+  summaryDiv.innerHTML = `
+    <h3>Summary</h3>
+    <p><b>Total Revenue:</b> €${totalRevenue.toFixed(2)}</p>
+    <p><b>Operational Costs:</b> €${totalOpCosts.toFixed(2)}</p>
+    <p><b>Staff Costs:</b> €${totalStaffCost.toFixed(2)}</p>
+    <p><b>Net Profit:</b> €${netProfit.toFixed(2)}</p>
+  `;
 
   window.padelData = {
     revenue: totalRevenue,
@@ -84,7 +89,6 @@ summaryDiv.innerHTML = `
   updatePnL();
   updateROI();
 }
-
 // -- Gym Calculations --
 
 function calculateGym() {
