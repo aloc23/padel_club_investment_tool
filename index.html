@@ -177,6 +177,22 @@
       </details>
 
       <div id="roiKPIs" class="summary"></div>
+      <!-- Files Tab -->
+<section id="files" class="tab-content hidden">
+  <h2>Project Files</h2>
+  <div>
+    <label for="folderSelect">Select Folder:</label>
+    <select id="folderSelect" onchange="loadFiles()">
+      <option value="quotes">Quotes</option>
+      <option value="drawings">Drawings</option>
+      <option value="folios">Folios</option>
+      <option value="renders">Renders</option>
+      <option value="draft contracts">Draft Contracts</option>
+      <option value="contracts">Contracts</option>
+    </select>
+  </div>
+  <div id="fileList" class="section-group"></div>
+</section>
     </section>
   </main>
 
