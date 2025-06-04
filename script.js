@@ -444,4 +444,30 @@ window.onload = () => {
 
   // Set ROI adjustment labels
   updateROIAdjustmentLabel();
+  const files = {
+  "quotes": ["quote1.pdf", "quote2.pdf"],
+  "drawings": ["drawing1.png", "drawing2.jpg"],
+  "folios": ["folio1.pdf", "folio2.pdf"],
+  "renders": ["render1.jpg", "render2.png"],
+  "draft contracts": ["draft1.docx", "draft2.docx"],
+  "contracts": ["contract1.pdf", "contract2.pdf"]
+};
+
+function loadFiles() {
+  const folder = document.getElementById("folderSelect").value;
+  const fileList = document.getElementById("fileList");
+  fileList.innerHTML = "";
+
+  if (files[folder]) {
+    const ul = document.createElement("ul");
+    files[folder].forEach(file => {
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="files/${folder}/${file}" target="_blank">${file}</a>`;
+      ul.appendChild(li);
+    });
+    fileList.appendChild(ul);
+  } else {
+    fileList.textContent = "No files available.";
+  }
+}
 };
