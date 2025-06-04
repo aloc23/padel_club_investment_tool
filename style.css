@@ -24,6 +24,8 @@ header {
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
 }
 .tabs button:hover {
   background: #45a049;
@@ -40,6 +42,7 @@ header {
 label {
   display: block;
   margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 input[type="number"], input[type="range"] {
   width: 100px;
@@ -64,4 +67,15 @@ input[type="number"], input[type="range"] {
 }
 .breakdown-table th {
   background: #eee;
+}
+
+/* Ramp-up sliders */
+#rampUpSettings label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+#rampUpSettings input[type="range"] {
+  flex: 1;
 }
