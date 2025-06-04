@@ -1,8 +1,6 @@
-// Global chart variables to destroy and redraw
 let pnlChart, profitTrendChart, costPieChart;
 let roiLineChart, roiBarChart, roiPieChart, roiBreakEvenChart;
 
-// --- Padel calculation ---
 function calculatePadel() {
   console.log('Calculating Padel');
 
@@ -75,7 +73,6 @@ function calculatePadel() {
   updateROI();
 }
 
-// --- Gym calculation ---
 function calculateGym() {
   console.log('Calculating Gym');
 
@@ -92,7 +89,6 @@ function calculateGym() {
 
   let totalAnnualRevenue = weeklyRevenueAnnual + monthlyRevenueAnnual + annualRevenueAnnual;
 
-  // Ramp-up adjustment
   if (document.getElementById('gymRamp').checked) {
     const rampDuration = +document.getElementById('rampDuration').value;
     const rampEffect = +document.getElementById('rampEffect').value / 100;
@@ -104,7 +100,7 @@ function calculateGym() {
         rampedRevenue += totalAnnualRevenue;
       }
     }
-    totalAnnualRevenue = rampedRevenue / 12 * 12; // yearly average after ramp
+    totalAnnualRevenue = rampedRevenue / 12 * 12;
   }
 
   const utilCost = +document.getElementById('gymUtil').value || 0;
@@ -153,7 +149,6 @@ function calculateGym() {
   updateROI();
 }
 
-// --- Profit & Loss update ---
 function updatePnL() {
   const plType = document.querySelector('input[name="pl_toggle"]:checked')?.value || 'annual';
 
@@ -172,22 +167,20 @@ function updatePnL() {
     <p><b>Net Margin:</b> ${(totalProfit / totalRevenue * 100 || 0).toFixed(2)}%</p>
   `;
 
-  // Update charts
   updatePnLCharts(plType, totalRevenue, totalCosts, totalProfit);
 }
 
-// --- ROI update ---
 function updateROI() {
   const padel = window.padelData || { revenue: 0, costs: 0, profit: 0, monthlyRevenue: 0, monthlyCosts: 0, monthlyProfit: 0 };
   const gym = window.gymData || { revenue: 0, costs: 0, profit: 0, monthlyRevenue: 0, monthlyCosts: 0, monthlyProfit: 0 };
 
-  const investmentPadel = +document.getElementById('padelGround').value +
-                          +document.getElementById('padelStructure').value +
-                          +document.getElementById('padelCourts').value * +document.getElementById('padelCourtCost').value;
+  const investmentPadel = (+document.getElementById('padelGround').value || 0) +
+                          (+document.getElementById('padelStructure').value || 0) +
+                          (+document.getElementById('padelCourts').value || 0) * (+document.getElementById('padelCourtCost').value || 0);
 
-  const investmentGym = +document.getElementById('gymEquip').value +
-                        +document.getElementById('gymFloor').value +
-                        +document.getElementById('gymAmen').value;
+  const investmentGym = (+document.getElementById('gymEquip').value || 0) +
+                        (+document.getElementById('gymFloor').value || 0) +
+                        (+document.getElementById('gymAmen').value || 0);
 
   const totalInvestment = investmentPadel + investmentGym;
 
@@ -201,14 +194,13 @@ function updateROI() {
     roiData.push({ year, cumulativeProfit, roiPercent: (cumulativeProfit / totalInvestment) * 100 });
   }
 
-  // Update ROI summary text
-  const yearsToROI = roiData.find(d => d.cumulativeProfit >= totalInvestment)?.year || 'More than ' + years;
+  const yearsToROI = roiData.find(d => d.cumulativeProfit >= totalInvestment)?.year || `More than ${years}`;
+
   document.getElementById('yearsToROIText').innerText = `Estimated payback period: ${yearsToROI} year(s)`;
 
   updateROICharts(roiData, totalInvestment);
 }
 
-// --- Chart helpers ---
 function updatePnLCharts(plType, revenue, costs, profit) {
   const ctxPnl = document.getElementById('pnlChart').getContext('2d');
   const ctxProfitTrend = document.getElementById('profitTrendChart').getContext('2d');
@@ -223,7 +215,7 @@ function updatePnLCharts(plType, revenue, costs, profit) {
     data: {
       labels: ['Revenue', 'Costs', 'Profit'],
       datasets: [{
-        label: plType === 'annual' ? 'Annual Amount (€)' : 'Monthly Amount (€)',
+        label: plType === 'annual' ? 'Annual (€)' : 'Monthly (€)',
         data: [revenue, costs, profit],
         backgroundColor: ['#4caf50', '#f44336', '#2196f3'],
       }]
@@ -234,7 +226,7 @@ function updatePnLCharts(plType, revenue, costs, profit) {
   profitTrendChart = new Chart(ctxProfitTrend, {
     type: 'line',
     data: {
-      labels: Array.from({length: 12}, (_, i) => `Month ${i+1}`),
+      labels: Array.from({ length: 12 }, (_, i) => `Month ${i + 1}`),
       datasets: [{
         label: 'Profit Trend',
         data: Array(12).fill(profit / (plType === 'annual' ? 12 : 1)),
@@ -299,9 +291,9 @@ function updateROICharts(roiData, totalInvestment) {
   roiPieChart = new Chart(ctxPie, {
     type: 'pie',
     data: {
-      labels: ['Investment', 'Remaining'],
+      labels: ['Investment', 'Cumulative Profit over Investment'],
       datasets: [{
-        data: [totalInvestment, Math.max(0, roiData[roiData.length -1].cumulativeProfit - totalInvestment)],
+        data: [totalInvestment, Math.max(0, roiData[roiData.length - 1].cumulativeProfit - totalInvestment)],
         backgroundColor: ['#ff9800', '#9e9e9e']
       }]
     },
@@ -324,7 +316,7 @@ function updateROICharts(roiData, totalInvestment) {
       scales: {
         y: {
           ticks: {
-            callback: function(value) {
+            callback: function (value) {
               return value < 0 ? `-${Math.abs(value)}` : value;
             }
           }
@@ -334,7 +326,6 @@ function updateROICharts(roiData, totalInvestment) {
   });
 }
 
-// --- Tab switching ---
 function showTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(div => {
     div.classList.add('hidden');
@@ -342,7 +333,6 @@ function showTab(tabId) {
   document.getElementById(tabId).classList.remove('hidden');
 }
 
-// Initialize default tab
 document.addEventListener('DOMContentLoaded', () => {
   showTab('padel');
   document.querySelectorAll('input[name="pl_toggle"]').forEach(radio => {
