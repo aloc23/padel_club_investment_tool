@@ -1,4 +1,3 @@
-/${file}" target="_blank">${file}</a>`;
       ul.appendChild(li);
     });
     fileList.appendChild(ul);
@@ -65,4 +64,3 @@ window.onload = () => {
   updateROIAdjustmentLabel();
   loadFiles();
 };
-
