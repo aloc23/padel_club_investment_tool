@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Padel Club Investment Tool</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-teal-600 text-white p-4 text-center text-2xl font-bold">
+    Padel Club Investment Tool
+  </header>
+
+  <nav class="flex justify-center gap-4 bg-white py-4 shadow">
+    <button id="btnPadel" onclick="showTab('padel')" class="px-4 py-2 rounded">Padel</button>
+    <button id="btnGym" onclick="showTab('gym')" class="px-4 py-2 rounded">Gym</button>
+    <button id="btnPnl" onclick="showTab('pnl')" class="px-4 py-2 rounded">P&L</button>
+    <button id="btnRoi" onclick="showTab('roi')" class="px-4 py-2 rounded">ROI</button>
+    <button id="btnFiles" onclick="showTab('files')" class="px-4 py-2 rounded">Files</button>
+  </nav>
+
+  <main class="p-4 space-y-8">
+
+    <div id="padelTab" class="tab-content">
+      <h2 class="text-xl font-semibold mb-2">Padel Calculator</h2>
+      <input id="padelCourts" type="number" placeholder="Courts" />
+      <input id="padelPerCourtCost" type="number" placeholder="Cost Per Court" />
+      <input id="padelGroundworks" type="number" placeholder="Groundworks" />
+      <input id="padelStructure" type="number" placeholder="Structure" />
+      <input id="padelAmenities" type="number" placeholder="Amenities" />
+      <input id="padelPeakHours" type="number" placeholder="Peak Hours" />
+      <input id="padelPeakRate" type="number" placeholder="Peak Rate" />
+      <input id="padelPeakUtil" type="number" placeholder="Peak Utilization (%)" />
+      <input id="padelOffPeakHours" type="number" placeholder="Off-Peak Hours" />
+      <input id="padelOffPeakRate" type="number" placeholder="Off-Peak Rate" />
+      <input id="padelOffPeakUtil" type="number" placeholder="Off-Peak Utilization (%)" />
+      <input id="padelDaysWeek" type="number" placeholder="Days per Week" />
+      <input id="padelWeeksYear" type="number" placeholder="Weeks per Year" />
+      <button onclick="calculatePadel()">Calculate</button>
+      <p>Investment: <span id="padelInvestment"></span></p>
+      <p>Annual Revenue: <span id="padelRevenue"></span></p>
+    </div>
+
+    <div id="gymTab" class="tab-content hidden">
+      <h2 class="text-xl font-semibold mb-2">Gym Calculator</h2>
+      <input id="gymInvestment" type="number" placeholder="Total Investment" />
+      <input id="gymMembers" type="number" placeholder="Members" />
+      <input id="gymMonthlyFee" type="number" placeholder="Monthly Fee" />
+      <button onclick="calculateGym()">Calculate</button>
+      <p>Total Investment: <span id="gymTotalInvestment"></span></p>
+      <p>Annual Revenue: <span id="gymRevenue"></span></p>
+    </div>
+
+    <div id="pnlTab" class="tab-content hidden">
+      <h2 class="text-xl font-semibold mb-2">Profit & Loss</h2>
+      <p>Revenue: <span id="pnlRevenue"></span></p>
+      <p>Costs: <span id="pnlCosts"></span></p>
+      <p>Profit: <span id="pnlProfit"></span></p>
+      <canvas id="pnlChart" class="my-4 w-full max-w-md h-64"></canvas>
+    </div>
+
+    <div id="roiTab" class="tab-content hidden">
+      <h2 class="text-xl font-semibold mb-2">Return on Investment</h2>
+      <p>ROI: <span id="roiPercentage"></span></p>
+      <canvas id="roiChart" class="my-4 w-full max-w-md h-64"></canvas>
+    </div>
+
+    <div id="filesTab" class="tab-content hidden">
+      <h2 class="text-xl font-semibold mb-2">Files</h2>
+      <select id="folderSelect" class="mb-2 p-2 border rounded"></select>
+      <div id="fileList" class="space-y-1"></div>
+    </div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
